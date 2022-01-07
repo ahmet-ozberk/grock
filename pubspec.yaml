@@ -1,8 +1,8 @@
 name: grock
 description: A flutter extension project.
 version: 0.0.1
-author: Ahmet Ozberk
-# homepage:
+# author: Ahmet Özberk <ahmet.ozberk.mrs@gmail.com>
+homepage: https://github.com/ahmet-ozberk/grock
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
