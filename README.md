@@ -1,35 +1,98 @@
 <!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+A flutter package with "Context, Navigation, Snackbar, RandomImage, RandomNumber, RandomColor, SizeExtension, KeyboardClose and ScrollEffect disable"  features.
 
 ```dart
-const like = 'sample';
+  import 'package:grock/grock.dart';
+  ///////////////////////////////////////////////////////////////////////
+  Future delayed() async {
+    // TODO Future.delayed alternative ( millisecond )
+    await 3000.delay();
+  }
+  ///////////////////////////////////////////////////////////////////////
+  GrockKeyboardClose(
+      //TODO  click page, close keyboard
+      child: Scaffold(),
+  )
+  ///////////////////////////////////////////////////////////////////////
+  //TODO keyboard open or close
+  floatingActionButton: context.isKeyBoardOpen
+            ? null
+            : FloatingActionButton(
+                onPressed: () {
+                  context.next(page: NextPage());
+                },
+                child: const Icon(Icons.navigate_next),
+              ),
+    ///////////////////////////////////////////////////////////////////////
+    width: context.w * 0.3,
+    height: context.h * 0.1,
+    ///////////////////////////////////////////////////////////////////////
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      gradient: LinearGradient(
+                      colors: [
+                        //TODO random color
+                        context.randomColor,
+                        context.randomColor,
+                        context.randomColor,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+    ///////////////////////////////////////////////////////////////////////
+       Text(
+       //TODO  random number
+        5.randomNum.toString(),
+                      style: TextStyle(
+                        fontSize: context.w * 0.1,
+                        color: Colors.black,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.white,
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                    ),
+    ///////////////////////////////////////////////////////////////////////
+    //TODO  MediaQuery.of(context).padding.top parameter is used to
+    SizedBox(height: context.top / 3),
+    ///////////////////////////////////////////////////////////////////////
+    GrockScrollEffect(
+    //TODO glow effect disable
+      child: ListView(),
+    )
+    ///////////////////////////////////////////////////////////////////////
+    Image.network(
+    //TODO  random image
+    index.randomImage(),
+    width: context.w * 0.05,
+    height: context.w * 0.05,
+    );
+    ///////////////////////////////////////////////////////////////////////
+                TextButton(
+                  //TODO   back page
+                  child: const Text('Back Page'),
+                  onPressed: () => context.back(),
+                ),
+                TextButton(
+                  //TODO  next page
+                  child: const Text('Next Page and Show Snackbar'),
+                  onPressed: () => context.next(page: const NextPage()),
+                ),
+                TextButton(
+                  //TODO   next remove until page
+                  child: const Text('Next Remove Until Page'),
+                  onPressed: () => context.nextRemove(page: const NextPage()),
+                ),
+     ///////////////////////////////////////////////////////////////////////
+     GrockSnackbar(
+       grockSnackbarType: GrockSnackbarType.success,
+       message: 'İşlem başarılı.',
+     ).show(context);
 ```
 
 ## Additional information
