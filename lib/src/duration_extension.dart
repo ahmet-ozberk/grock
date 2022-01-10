@@ -1,8 +1,8 @@
 import 'dart:async';
 
-extension GetNumUtils on int {
+extension DurationExtension on int {
   Future delay([FutureOr callback()?]) async => Future.delayed(
-        Duration(milliseconds: (this * 1000).round()),
+        Duration(milliseconds: (this).round()),
         callback,
       );
   Duration get milliseconds => Duration(microseconds: (this * 1000).round());

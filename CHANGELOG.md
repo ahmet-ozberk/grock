@@ -1,3 +1,3 @@
-## 0.0.1 - 07-01-2022
+## 0.0.2 - 10-01-2022
 
-* Context, Size, Int extension first version added.
+* Snackbar create method a new version.
