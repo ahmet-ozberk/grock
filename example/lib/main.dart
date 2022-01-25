@@ -1,6 +1,7 @@
-import 'package:example/next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
+
+import 'next_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,6 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: Grock.navigationKey,
+      scaffoldMessengerKey: Grock.snackbarMessengerKey,
       title: 'Material App',
       //theme: ThemeData.dark(),
       home: Home(),
@@ -46,7 +49,7 @@ class _HomeState extends State<Home> {
             ? null
             : FloatingActionButton(
                 onPressed: () {
-                  context.next(page: NextPage());
+                  Grock.to(NextPage());
                 },
                 child: const Icon(Icons.navigate_next),
               ),
@@ -124,19 +127,14 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 TextButton(
-                  //TODO   back page
-                  child: const Text('Back Page'),
-                  onPressed: () => context.back(),
-                ),
-                TextButton(
                   //TODO  next page
                   child: const Text('Next Page and Show Snackbar'),
-                  onPressed: () => context.next(page: const NextPage()),
+                  onPressed: () => Grock.to(NextPage()),
                 ),
                 TextButton(
                   //TODO   next remove until page
                   child: const Text('Next Remove Until Page'),
-                  onPressed: () => context.nextRemove(page: const NextPage()),
+                  onPressed: () => Grock.toRemove(NextPage()),
                 ),
               ],
             ),

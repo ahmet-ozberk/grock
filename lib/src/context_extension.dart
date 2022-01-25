@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grock/src/int_extension.dart';
+import 'int_extension.dart';
 
 extension SizeExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);

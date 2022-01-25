@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grock/grock.dart';
+import '../../grock.dart';
 
 class GrockSnackbar {
   GrockSnackbarType grockSnackbarType;
@@ -9,15 +9,16 @@ class GrockSnackbar {
   Color textColor;
   IconData? iconData;
   Function? onTap;
-  GrockSnackbar({
-    required this.grockSnackbarType,
-    required this.message,
-    this.grockSnackbarShape = GrockSnackbarShape.mini,
-    this.grockSnackbarPosition = GrockSnackbarPosition.bottom,
-    this.textColor = Colors.black,
-    this.iconData,
-    this.onTap,
-  });
+  bool topBorder;
+  GrockSnackbar(
+      {required this.grockSnackbarType,
+      required this.message,
+      this.grockSnackbarShape = GrockSnackbarShape.mini,
+      this.grockSnackbarPosition = GrockSnackbarPosition.bottom,
+      this.textColor = Colors.black,
+      this.iconData,
+      this.onTap,
+      this.topBorder = false});
   show(BuildContext context) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(
@@ -53,6 +54,10 @@ class GrockSnackbar {
 
   Container backgroundWidget(BuildContext context) {
     return Container(
+      constraints: const BoxConstraints(
+        maxHeight: 60,
+        minHeight: 35,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: _borderRadius(),
@@ -66,12 +71,26 @@ class GrockSnackbar {
       width: context.w * 0.8,
       decoration: BoxDecoration(
         color: _color().withOpacity(0.5),
+        border: Border(
+          top: BorderSide(
+            color: _color(),
+            width: topBorder
+                ? message.length > 100
+                    ? 8
+                    : 5
+                : 0,
+          ),
+          left: BorderSide(
+            color: _color(),
+            width: message.length > 100 ? 8 : 5,
+          ),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          linearWidget(context),
           bodyWidget(),
         ],
       ),
@@ -93,16 +112,6 @@ class GrockSnackbar {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          width: 15,
-          height: 55,
-          decoration: BoxDecoration(
-            color: _color(),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
         messageWidget(),
         iconWidget(),
       ],
@@ -111,22 +120,25 @@ class GrockSnackbar {
 
   Expanded messageWidget() {
     return Expanded(
-      child: Text(
-        message,
-        style: TextStyle(
-          color: textColor.withOpacity(0.8),
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: textColor.withOpacity(0.8),
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
       ),
     );
   }
 
   Padding iconWidget() {
     return Padding(
-      padding: const EdgeInsets.only(right: 10, left: 10),
+      padding: const EdgeInsets.only(right: 10),
       child: Icon(
         _icon(),
         color: textColor.withOpacity(0.8),
@@ -138,7 +150,7 @@ class GrockSnackbar {
   EdgeInsetsGeometry _margin(BuildContext context) {
     switch (grockSnackbarPosition) {
       case GrockSnackbarPosition.top:
-        return EdgeInsets.only(bottom: context.h *0.82-(context.top));
+        return EdgeInsets.only(bottom: context.h * 0.82 - (context.top));
       case GrockSnackbarPosition.bottom:
         return const EdgeInsets.only(bottom: 10);
       default:
@@ -173,16 +185,20 @@ class GrockSnackbar {
   }
 
   IconData _icon() {
-    if (grockSnackbarType == GrockSnackbarType.success) {
-      return Icons.check_circle;
-    } else if (grockSnackbarType == GrockSnackbarType.error) {
-      return Icons.error;
-    } else if (grockSnackbarType == GrockSnackbarType.warning) {
-      return Icons.warning;
-    } else if (grockSnackbarType == GrockSnackbarType.info) {
-      return Icons.info;
+    if (iconData != null) {
+      return iconData!;
     } else {
-      return iconData ?? Icons.info;
+      if (grockSnackbarType == GrockSnackbarType.success) {
+        return Icons.check_circle;
+      } else if (grockSnackbarType == GrockSnackbarType.error) {
+        return Icons.error;
+      } else if (grockSnackbarType == GrockSnackbarType.warning) {
+        return Icons.warning;
+      } else if (grockSnackbarType == GrockSnackbarType.info) {
+        return Icons.info;
+      } else {
+        return Icons.info;
+      }
     }
   }
 }
