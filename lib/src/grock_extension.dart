@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:grock/src/enum/nav_type.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
 
@@ -28,8 +29,8 @@ extension Grock on ScaffoldMessengerModel {
   static double get deviceWidth => window.physicalSize.width;
   static double get deviceHeight => window.physicalSize.height;
 
-  // static double get height => ScaffoldMessengerModel.height;
-  // static double get width => ScaffoldMessengerModel.width;
+  static double get height => ScaffoldMessengerModel.height;
+  static double get width => ScaffoldMessengerModel.width;
   static Offset get topCenter => ScaffoldMessengerModel.topCenter;
   static Offset get bottomCenter => ScaffoldMessengerModel.bottomCenter;
   static Offset get center => ScaffoldMessengerModel.center;
@@ -42,9 +43,11 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Navigation]
 
-  static Future to(Widget page) => NavigationService.to(page);
-  static Future toRemove(Widget page) => NavigationService.toRemove(page);
-  static void back() => NavigationService.back();
+  static Future to(Widget page, {NavType? type}) =>
+      NavigationService.to(page, type: type);
+  static Future toRemove(Widget page, {NavType? type}) =>
+      NavigationService.toRemove(page, type: type);
+  static void back({Object? result}) => NavigationService.back(result: result);
 
   /// [Snackbar]
 

@@ -5,15 +5,18 @@ extension DurationExtension on int {
         Duration(milliseconds: (this).round()),
         callback,
       );
-  Duration get milliseconds => Duration(microseconds: (this * 1000).round());
+  Future<Duration> milliseconds() async =>
+      await Duration(microseconds: (this * 1000).round());
 
-  Duration get seconds => Duration(milliseconds: (this * 1000).round());
+  Future<Duration> seconds() async =>
+      await Duration(milliseconds: (this * 1000).round());
 
-  Duration get minutes =>
-      Duration(seconds: (this * Duration.secondsPerMinute).round());
+  Future<Duration> minutes() async =>
+      await Duration(seconds: (this * Duration.secondsPerMinute).round());
 
-  Duration get hours =>
-      Duration(minutes: (this * Duration.minutesPerHour).round());
+  Future<Duration> hours() async =>
+      await Duration(minutes: (this * Duration.minutesPerHour).round());
 
-  Duration get days => Duration(hours: (this * Duration.hoursPerDay).round());
+  Future<Duration> days() async =>
+      await Duration(hours: (this * Duration.hoursPerDay).round());
 }

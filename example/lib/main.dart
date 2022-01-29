@@ -54,20 +54,19 @@ class _HomeState extends State<Home> {
                 child: const Icon(Icons.navigate_next),
               ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.only(
-              top: context.top, left: context.w * 0.1, right: context.w * 0.1),
+          padding: 20.horizontalP,
           child: Center(
             child: Column(
               children: [
                 Container(
-                  width: context.w * 0.3,
-                  height: context.h * 0.1,
+                  margin: 30.verticalP,
+                  width: Grock.width * 0.3,
+                  height: Grock.height * 0.1,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: 15.allBR,
                     gradient: LinearGradient(
                       colors: [
                         //TODO random color
-                        context.randomColor,
                         context.randomColor,
                         context.randomColor,
                       ],
@@ -80,7 +79,7 @@ class _HomeState extends State<Home> {
                       //TODO  random number
                       5.randomNum.toString(),
                       style: TextStyle(
-                        fontSize: context.w * 0.1,
+                        fontSize: Grock.width * 0.1,
                         color: Colors.black,
                         shadows: const [
                           Shadow(
@@ -95,23 +94,23 @@ class _HomeState extends State<Home> {
                 //TODO  MediaQuery.of(context).padding.top parameter is used to
                 SizedBox(height: context.top / 3),
                 SizedBox(
-                  height: context.h * 0.2,
-                  width: context.w,
+                  height: Grock.height * 0.2,
+                  width: Grock.width,
                   child: GrockScrollEffect(
                     //TODO glow effect disable
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 5,
                           childAspectRatio: 1.0,
-                          crossAxisSpacing: context.w * 0.01,
-                          mainAxisSpacing: context.w * 0.01),
+                          crossAxisSpacing: Grock.width * 0.01,
+                          mainAxisSpacing: Grock.width * 0.01),
                       itemCount: 50,
                       itemBuilder: (BuildContext context, int index) {
                         return Image.network(
                           //TODO  random image
                           index.randomImage(),
-                          width: context.w * 0.05,
-                          height: context.w * 0.05,
+                          width: Grock.width * 0.05,
+                          height: Grock.width * 0.05,
                         );
                       },
                     ),
@@ -129,12 +128,26 @@ class _HomeState extends State<Home> {
                 TextButton(
                   //TODO  next page
                   child: const Text('Next Page and Show Snackbar'),
-                  onPressed: () => Grock.to(NextPage()),
+                  onPressed: () =>
+                      Grock.to(NextPage(), type: NavType.bottomToTop),
                 ),
                 TextButton(
                   //TODO   next remove until page
                   child: const Text('Next Remove Until Page'),
                   onPressed: () => Grock.toRemove(NextPage()),
+                ),
+
+                TextButton(
+                  child: const Text('Show Snackbar'),
+                  onPressed: () => Grock.snackBar(
+                    "Merhaba nasılsın?",
+                    type: SnackbarType.info,
+                    border: Border.all(color: Colors.white, width: 0.5),
+                    position: SnackbarPosition.bottom,
+                    padding: 15,
+                    borderRadius: 5,
+                    opacity: 0.5,
+                  ),
                 ),
               ],
             ),

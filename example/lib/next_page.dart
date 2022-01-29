@@ -14,6 +14,11 @@ class NextPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              color: context.randomColor,
+              height: Grock.width * 0.5,
+              width: Grock.width * 0.5,
+            ),
             TextButton(
               //TODO   back page
               child: const Text('Back Page'),
@@ -30,7 +35,6 @@ class NextPage extends StatelessWidget {
                 padding: 15,
                 borderRadius: 5,
                 opacity: 0.5,
-                
               ),
             ),
           ],
