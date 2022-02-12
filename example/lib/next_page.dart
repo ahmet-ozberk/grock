@@ -1,4 +1,3 @@
-import 'package:example/try_snackbar/try_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -39,45 +38,10 @@ class NextPage extends StatelessWidget {
                 opacity: 0.5,
               ),
             ),
-            TextButton(
-              //TODO   back page
-              child: const Text('Deneme'),
-              onPressed: () =>
-                  ScaffoldMessengerModel.showSnackbar("Merhaba nasılsın?",
-                      // description: "Fonksiyon başarılı bir seiklde çalıştı.",
-                      type: SnackbarType.success,
-                      border: Border.all(color: Colors.white, width: 0.5),
-                      backgroundColor: Colors.purple,
-                      borderRadius: 30,
-                      padding: 10,
-                      textPosition: TextAlign.center),
-            ),
-            GestureDetector(
-              onTap: () {
-                print(getVersion());
-              },
-              child: Container(
-                color: Colors.grey,
-                height: Grock.width * 0.4,
-                width: Grock.width,
-              ),
-            ),
+
           ],
         ),
       ),
     );
-  }
-
-  String getVersion() {
-    String version = "";
-    appVersion().then((value) {
-      version = value.toString();
-    });
-    return version;
-  }
-
-  static Future<String> appVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
   }
 }

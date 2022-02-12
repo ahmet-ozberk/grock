@@ -1,4 +1,3 @@
-import 'package:example/try_snackbar/try_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: Grock.navigationKey,
-      scaffoldMessengerKey: ScaffoldMessengerModel.scaffoldMessengerKey,
+      scaffoldMessengerKey: Grock.snackbarMessengerKey,
       title: 'Material App',
       //theme: ThemeData.dark(),
       home: Home(),
