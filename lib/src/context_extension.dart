@@ -9,6 +9,11 @@ extension SizeExtension on BuildContext {
   double get w => MediaQuery.of(this).size.width;
   double get h => MediaQuery.of(this).size.height;
   bool get isKeyBoardOpen => MediaQuery.of(this).viewInsets.bottom > 0;
+
+  TextStyle get body1 => Theme.of(this).textTheme.bodyText1!;
+  TextStyle get body2 => Theme.of(this).textTheme.bodyText2!;
+  TextStyle get headline1 => Theme.of(this).textTheme.headline1!;
+  TextStyle get headline2 => Theme.of(this).textTheme.headline2!;
 }
 
 extension ColorExtension on BuildContext {

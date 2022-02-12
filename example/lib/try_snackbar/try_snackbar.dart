@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../enum/snackbar_position.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:grock/grock.dart';
 
 class ScaffoldMessengerModel {
   static GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -42,10 +43,11 @@ class ScaffoldMessengerModel {
       Duration duration = const Duration(seconds: 4),
       TextAlign textPosition = TextAlign.center,
       BoxBorder? border}) {
-  var topHeight =
+    var topHeight =
         scaffoldMessengerKey.currentContext!.size!.topCenter(Offset.zero);
     var totalHeight = scaffoldMessengerKey.currentContext!.size!.height;
-
+    var topPosition = totalHeight -
+        (scaffoldMessengerKey.currentContext!.mediaQuery.padding.top * 3);
     var topWidth = scaffoldMessengerKey.currentContext!.size!.width;
     Color bgColor = Colors.grey;
 
@@ -65,7 +67,7 @@ class ScaffoldMessengerModel {
       }
     }
 
-       scaffoldMessengerKey.currentState?.showSnackBar(
+    scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadius),

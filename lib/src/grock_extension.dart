@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grock/src/enum/nav_type.dart';
+import 'package:grock/src/info_grock/info_grock.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
 
@@ -23,6 +24,12 @@ extension Grock on ScaffoldMessengerModel {
   static bool get isLinux => Platform.isLinux;
   static bool get isWindows => Platform.isWindows;
   static bool get isFuchsia => Platform.isFuchsia;
+  static Future<String>  get getVersion => InfoGrock.appVersion();
+  static bool  get isDebugMode => InfoGrock.isDebugMode();
+  static bool  get isReleaseMode => InfoGrock.isReleaseMode();
+  static bool  get isProfileMode => InfoGrock.isProfileMode();
+  
+
 
   /// [Device Screen Size]
 
@@ -52,18 +59,20 @@ extension Grock on ScaffoldMessengerModel {
   /// [Snackbar]
 
   static void snackBar(String message,
-          {SnackbarPosition position = SnackbarPosition.bottom,
+          {String? description,
+          SnackbarPosition position = SnackbarPosition.bottom,
           SnackbarType type = SnackbarType.none,
-          double padding = 16,
-          double opacity = 0.6,
-          double borderRadius = 10,
-          double fontSize = 14,
+          double padding = 12.5,
+          double opacity = 1.0,
+          double borderRadius = 12.5,
+          double fontSize = 16,
           Color textColor = Colors.white,
           FontWeight fontWeight = FontWeight.normal,
-          Duration duration = const Duration(seconds: 3),
+          Duration duration = const Duration(seconds: 4),
           TextAlign textPosition = TextAlign.center,
           BoxBorder? border}) =>
       ScaffoldMessengerModel.showSnackbar(message,
+          description: description,
           border: border,
           borderRadius: borderRadius,
           fontSize: fontSize,
@@ -73,6 +82,5 @@ extension Grock on ScaffoldMessengerModel {
           textPosition: textPosition,
           opacity: opacity,
           padding: padding,
-          position: position,
           type: type);
 }
