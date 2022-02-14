@@ -42,7 +42,7 @@ class ScaffoldMessengerModel {
       Duration duration = const Duration(seconds: 4),
       TextAlign textPosition = TextAlign.center,
       BoxBorder? border}) {
-  var topHeight =
+    var topHeight =
         scaffoldMessengerKey.currentContext!.size!.topCenter(Offset.zero);
     var totalHeight = scaffoldMessengerKey.currentContext!.size!.height;
 
@@ -65,7 +65,7 @@ class ScaffoldMessengerModel {
       }
     }
 
-       scaffoldMessengerKey.currentState?.showSnackBar(
+    scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadius),

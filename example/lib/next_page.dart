@@ -32,7 +32,6 @@ class NextPage extends StatelessWidget {
                 "Merhaba nasılsın?",
                 type: SnackbarType.info,
                 border: Border.all(color: Colors.white, width: 0.5),
-                position: SnackbarPosition.top,
                 padding: 15,
                 borderRadius: 5,
                 opacity: 0.5,

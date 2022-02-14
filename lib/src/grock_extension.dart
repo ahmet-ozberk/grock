@@ -24,12 +24,10 @@ extension Grock on ScaffoldMessengerModel {
   static bool get isLinux => Platform.isLinux;
   static bool get isWindows => Platform.isWindows;
   static bool get isFuchsia => Platform.isFuchsia;
-  static Future<String>  get getVersion => InfoGrock.appVersion();
-  static bool  get isDebugMode => InfoGrock.isDebugMode();
-  static bool  get isReleaseMode => InfoGrock.isReleaseMode();
-  static bool  get isProfileMode => InfoGrock.isProfileMode();
-  
-
+  static Future<String> get getVersion => InfoGrock.appVersion();
+  static bool get isDebugMode => InfoGrock.isDebugMode();
+  static bool get isReleaseMode => InfoGrock.isReleaseMode();
+  static bool get isProfileMode => InfoGrock.isProfileMode();
 
   /// [Device Screen Size]
 
@@ -60,7 +58,7 @@ extension Grock on ScaffoldMessengerModel {
 
   static void snackBar(String message,
           {String? description,
-          SnackbarPosition position = SnackbarPosition.bottom,
+          double? width,
           SnackbarType type = SnackbarType.none,
           double padding = 12.5,
           double opacity = 1.0,
@@ -73,6 +71,7 @@ extension Grock on ScaffoldMessengerModel {
           BoxBorder? border}) =>
       ScaffoldMessengerModel.showSnackbar(message,
           description: description,
+          width: width ?? Grock.width * 0.85,
           border: border,
           borderRadius: borderRadius,
           fontSize: fontSize,
