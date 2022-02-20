@@ -1,210 +1,270 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:grock/src/model/scaffoldMessenger.dart';
+import 'package:provider/provider.dart';
+
 import '../../grock.dart';
+import 'provider/grock_snackbar_provider.dart';
 
 class GrockSnackbar {
-  GrockSnackbarType grockSnackbarType;
-  String message;
-  GrockSnackbarShape grockSnackbarShape;
-  GrockSnackbarPosition grockSnackbarPosition;
-  Color textColor;
-  IconData? iconData;
-  Function? onTap;
-  bool topBorder;
-  GrockSnackbar(
-      {required this.grockSnackbarType,
-      required this.message,
-      this.grockSnackbarShape = GrockSnackbarShape.mini,
-      this.grockSnackbarPosition = GrockSnackbarPosition.bottom,
-      this.textColor = Colors.black,
-      this.iconData,
-      this.onTap,
-      this.topBorder = false});
-  show(BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(
-          content: __snackbar(context),
-          elevation: 0.0,
-          margin: _margin(context),
-          duration: const Duration(seconds: 3),
-          backgroundColor: Colors.transparent,
-          behavior: SnackBarBehavior.floating,
-        ))
-        .closed
-        .then((value) => ScaffoldMessenger.of(context).clearSnackBars());
-  }
-
-  _closeSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-  }
-
-  Widget __snackbar(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () => onTap == null ? _closeSnackbar(context) : onTap!(),
-      child: itemWidget(context),
-    );
-  }
-
-  ClipRRect itemWidget(BuildContext context) {
-    return ClipRRect(
-      borderRadius: _borderRadius(),
-      child: backgroundWidget(context),
-    );
-  }
-
-  Container backgroundWidget(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxHeight: 60,
-        minHeight: 35,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: _borderRadius(),
-      ),
-      child: containerWidget(context),
-    );
-  }
-
-  Container containerWidget(BuildContext context) {
-    return Container(
-      width: context.w * 0.8,
-      decoration: BoxDecoration(
-        color: _color().withOpacity(0.5),
-        border: Border(
-          top: BorderSide(
-            color: _color(),
-            width: topBorder
-                ? message.length > 100
-                    ? 8
-                    : 5
-                : 0,
-          ),
-          left: BorderSide(
-            color: _color(),
-            width: message.length > 100 ? 8 : 5,
+  static void showSnackbar(
+      {double? borderRadius,
+      double? blur,
+      double? opacity,
+      Color? bgColor,
+      double? width,
+      Color? progressColor,
+      Color? progressBgColor,
+      double? padding,
+      IconData? icon,
+      Color? iconColor,
+      double? iconSize,
+      required String title,
+      required String description,
+      Color? titleColor,
+      Color? descriptionColor,
+      double? titleSize,
+      double? descriptionSize,
+      TextStyle? titleStyle,
+      TextStyle? descriptionStyle}) {
+    ScaffoldMessengerModel.scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        padding: 10.horizontalP,
+        dismissDirection: DismissDirection.none,
+        duration: const Duration(seconds: 4),
+        content: ChangeNotifierProvider(
+          create: (context) => GrockSnackbarProvider(),
+          builder: (context, child) => _SnackbarBody(
+            onStart: (controller) => Provider.of<GrockSnackbarProvider>(context)
+                .startAnimate(controller),
+            borderRadius: borderRadius,
+            blur: blur,
+            opacity: opacity,
+            bgColor: bgColor,
+            width: width,
+            progressColor: progressColor,
+            progressBgColor: progressBgColor,
+            padding: padding,
+            icon: icon,
+            iconColor: iconColor,
+            iconSize: iconSize,
+            title: title,
+            titleColor: titleColor,
+            description: description,
+            descriptionColor: descriptionColor,
+            titleSize: titleSize,
+            descriptionSize: descriptionSize,
+            titleStyle: titleStyle,
+            descriptionStyle: descriptionStyle,
           ),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          bodyWidget(),
-        ],
-      ),
     );
-  }
-
-  Container linearWidget(BuildContext context) {
-    return Container(
-      height: 7,
-      width: context.w,
-      decoration: BoxDecoration(
-        color: _color(),
-      ),
-    );
-  }
-
-  Row bodyWidget() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        messageWidget(),
-        iconWidget(),
-      ],
-    );
-  }
-
-  Expanded messageWidget() {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-        child: Text(
-          message,
-          style: TextStyle(
-            color: textColor.withOpacity(0.8),
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-          ),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  }
-
-  Padding iconWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: Icon(
-        _icon(),
-        color: textColor.withOpacity(0.8),
-        size: 22,
-      ),
-    );
-  }
-
-  EdgeInsetsGeometry _margin(BuildContext context) {
-    switch (grockSnackbarPosition) {
-      case GrockSnackbarPosition.top:
-        return EdgeInsets.only(bottom: context.h * 0.82 - (context.top));
-      case GrockSnackbarPosition.bottom:
-        return const EdgeInsets.only(bottom: 10);
-      default:
-        return const EdgeInsets.only(top: 10);
-    }
-  }
-
-  BorderRadius _borderRadius() {
-    switch (grockSnackbarShape) {
-      case GrockSnackbarShape.normal:
-        return BorderRadius.circular(12.5);
-      case GrockSnackbarShape.maxi:
-        return BorderRadius.circular(18.5);
-      default:
-        return BorderRadius.circular(5.0);
-    }
-  }
-
-  Color _color() {
-    switch (grockSnackbarType) {
-      case GrockSnackbarType.success:
-        return Colors.green;
-      case GrockSnackbarType.error:
-        return Colors.red;
-      case GrockSnackbarType.warning:
-        return Colors.orange;
-      case GrockSnackbarType.info:
-        return Colors.blue;
-      default:
-        return Colors.blue;
-    }
-  }
-
-  IconData _icon() {
-    if (iconData != null) {
-      return iconData!;
-    } else {
-      if (grockSnackbarType == GrockSnackbarType.success) {
-        return Icons.check_circle;
-      } else if (grockSnackbarType == GrockSnackbarType.error) {
-        return Icons.error;
-      } else if (grockSnackbarType == GrockSnackbarType.warning) {
-        return Icons.warning;
-      } else if (grockSnackbarType == GrockSnackbarType.info) {
-        return Icons.info;
-      } else {
-        return Icons.info;
-      }
-    }
   }
 }
 
-enum GrockSnackbarType { success, error, info, warning }
+class _SnackbarBody extends StatefulWidget {
+  Function(AnimationController controller) onStart;
+  double? borderRadius;
+  double? blur;
+  double? opacity;
+  Color? bgColor;
+  double? width;
+  Color? progressColor;
+  Color? progressBgColor;
+  double? padding;
+  IconData? icon;
+  Color? iconColor;
+  double? iconSize;
+  String title;
+  String description;
+  Color? titleColor;
+  Color? descriptionColor;
+  double? titleSize;
+  double? descriptionSize;
+  TextStyle? titleStyle;
+  TextStyle? descriptionStyle;
+  _SnackbarBody(
+      {required this.onStart,
+      this.borderRadius,
+      this.blur,
+      this.opacity,
+      this.bgColor,
+      this.width,
+      this.progressColor,
+      this.progressBgColor,
+      this.padding,
+      this.icon,
+      this.iconColor,
+      this.iconSize,
+      required this.title,
+      required this.description,
+      this.titleColor,
+      this.descriptionColor,
+      this.titleSize,
+      this.descriptionSize,
+      this.titleStyle,
+      this.descriptionStyle});
 
-enum GrockSnackbarShape { mini, normal, maxi }
+  @override
+  _SnackbarBodyState createState() => _SnackbarBodyState();
+}
 
-enum GrockSnackbarPosition { top, bottom }
+class _SnackbarBodyState extends State<_SnackbarBody>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
+    provider.initTimer();
+    animationStarter();
+    widget.onStart(_controller);
+  }
+
+  void animationStarter() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _animation = Tween<double>(begin: -25, end: 0).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => GrockSnackbarProvider(),
+      child: Transform.translate(
+        offset: Offset(0, -_animation.value),
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: _GlassMorphism(
+            borderRadius: widget.borderRadius ?? 20,
+            blur: widget.blur ?? 50,
+            opacity: widget.opacity ?? 0.1,
+            color: widget.bgColor ?? Colors.transparent,
+            child: Container(
+              width: widget.width ?? Grock.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
+              ),
+              child: Padding(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LinearProgressIndicator(
+                      value:
+                          context.watch<GrockSnackbarProvider>().lineerProgress,
+                      backgroundColor:
+                          widget.progressBgColor ?? Colors.transparent,
+                      color: widget.progressColor ?? Colors.red,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(widget.padding ?? 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          widget.icon != null
+                              ? Icon(
+                                  widget.icon,
+                                  size: widget.iconSize ?? 36,
+                                  color: widget.iconColor ?? Colors.black87,
+                                )
+                              : Container(),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  widget.title,
+                                  style: widget.titleStyle ??
+                                      TextStyle(
+                                        color:
+                                            widget.titleColor ?? Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: widget.titleSize ?? 16,
+                                      ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  widget.description,
+                                  style: widget.descriptionStyle ??
+                                      TextStyle(
+                                        color: widget.descriptionColor ??
+                                            Colors.black,
+                                        fontSize: widget.descriptionSize ?? 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GlassMorphism extends StatelessWidget {
+  double blur;
+  double opacity;
+  Widget child;
+  Color color;
+  double borderRadius;
+  Color? borderColor;
+  _GlassMorphism(
+      {Key? key,
+      required this.blur,
+      required this.opacity,
+      required this.child,
+      required this.color,
+      required this.borderRadius,
+      this.borderColor})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: Container(
+          decoration: BoxDecoration(
+            color: color.withOpacity(opacity),
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: borderColor?.withOpacity(0.3) ?? color.withOpacity(0.1),
+              width: 1.5,
+            ),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}

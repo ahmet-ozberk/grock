@@ -2,8 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:grock/src/enum/nav_type.dart';
-import 'package:grock/src/info_grock/info_grock.dart';
+import 'package:grock/grock.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
 
@@ -56,30 +55,44 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Snackbar]
 
-  static void snackBar(String message,
-          {String? description,
+  static void snackBar(
+          {double? borderRadius,
+          double? blur,
+          double? opacity,
+          Color? bgColor,
           double? width,
-          SnackbarType type = SnackbarType.none,
-          double padding = 12.5,
-          double opacity = 1.0,
-          double borderRadius = 12.5,
-          double fontSize = 16,
-          Color textColor = Colors.white,
-          FontWeight fontWeight = FontWeight.normal,
-          Duration duration = const Duration(seconds: 4),
-          TextAlign textPosition = TextAlign.center,
-          BoxBorder? border}) =>
-      ScaffoldMessengerModel.showSnackbar(message,
+          Color? progressColor,
+          Color? progressBgColor,
+          double? padding,
+          IconData? icon,
+          Color? iconColor,
+          double? iconSize,
+          required String title,
+          required String description,
+          Color? titleColor,
+          Color? descriptionColor,
+          double? titleSize,
+          double? descriptionSize,
+          TextStyle? titleStyle,
+          TextStyle? descriptionStyle}) =>
+      GrockSnackbar.showSnackbar(
+          title: title,
           description: description,
-          width: width ?? Grock.width * 0.85,
-          border: border,
           borderRadius: borderRadius,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          duration: duration,
-          textColor: textColor,
-          textPosition: textPosition,
+          blur: blur,
           opacity: opacity,
+          bgColor: bgColor,
+          width: width,
+          progressColor: progressColor,
+          progressBgColor: progressBgColor,
           padding: padding,
-          type: type);
+          icon: icon,
+          iconColor: iconColor,
+          iconSize: iconSize,
+          titleColor: titleColor,
+          descriptionColor: descriptionColor,
+          titleSize: titleSize,
+          descriptionSize: descriptionSize,
+          titleStyle: titleStyle,
+          descriptionStyle: descriptionStyle);
 }

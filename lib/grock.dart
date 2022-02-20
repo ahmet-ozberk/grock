@@ -15,3 +15,5 @@ export 'src/padding_extension.dart';
 export 'src/borderradius_extension.dart';
 export 'src/widgets/grock_container.dart';
 export 'src/info_grock/info_grock.dart';
+export 'src/snackbar/provider/grock_snackbar_provider.dart';
+export 'src/snackbar/grock_snackbar.dart';
