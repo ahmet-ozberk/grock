@@ -6,8 +6,6 @@ import 'package:grock/grock.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
 
-import 'enum/snackbar_position.dart';
-
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
 
@@ -57,6 +55,7 @@ extension Grock on ScaffoldMessengerModel {
 
   static void snackBar(
           {double? borderRadius,
+          EdgeInsets? margin,
           double? blur,
           double? opacity,
           Color? bgColor,
@@ -79,6 +78,7 @@ extension Grock on ScaffoldMessengerModel {
           title: title,
           description: description,
           borderRadius: borderRadius,
+          margin: margin,
           blur: blur,
           opacity: opacity,
           bgColor: bgColor,

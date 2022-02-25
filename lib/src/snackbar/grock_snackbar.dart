@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -5,11 +6,11 @@ import 'package:grock/src/model/scaffoldMessenger.dart';
 import 'package:provider/provider.dart';
 
 import '../../grock.dart';
-import 'provider/grock_snackbar_provider.dart';
 
 class GrockSnackbar {
   static void showSnackbar(
       {double? borderRadius,
+      EdgeInsets? margin,
       double? blur,
       double? opacity,
       Color? bgColor,
@@ -32,6 +33,7 @@ class GrockSnackbar {
       SnackBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        margin: margin ?? EdgeInsets.symmetric(vertical: 15),
         padding: 10.horizontalP,
         dismissDirection: DismissDirection.none,
         duration: const Duration(seconds: 4),
@@ -68,6 +70,7 @@ class GrockSnackbar {
 
 class _SnackbarBody extends StatefulWidget {
   Function(AnimationController controller) onStart;
+  //GestureTapCallback? onTap;
   double? borderRadius;
   double? blur;
   double? opacity;
@@ -89,6 +92,7 @@ class _SnackbarBody extends StatefulWidget {
   TextStyle? descriptionStyle;
   _SnackbarBody(
       {required this.onStart,
+      // required this.onTap,
       this.borderRadius,
       this.blur,
       this.opacity,
@@ -117,12 +121,13 @@ class _SnackbarBodyState extends State<_SnackbarBody>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late Timer time;
 
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
-    provider.initTimer();
+    provider.initTimer(time, _controller);
     animationStarter();
     widget.onStart(_controller);
   }
@@ -130,9 +135,9 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void animationStarter() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 500),
     );
-    _animation = Tween<double>(begin: -25, end: 0).animate(_controller)
+    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
@@ -141,6 +146,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   @override
   void dispose() {
     _controller.dispose();
+    time.cancel();
     super.dispose();
   }
 
@@ -149,7 +155,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
     return ChangeNotifierProvider(
       create: (context) => GrockSnackbarProvider(),
       child: Transform.translate(
-        offset: Offset(0, -_animation.value),
+        offset: Offset(_animation.value, 0),
         child: Align(
           alignment: Alignment.bottomLeft,
           child: _GlassMorphism(
@@ -157,7 +163,13 @@ class _SnackbarBodyState extends State<_SnackbarBody>
             blur: widget.blur ?? 50,
             opacity: widget.opacity ?? 0.1,
             color: widget.bgColor ?? Colors.transparent,
-            child: Container(
+            child: GrockContainer(
+              onTap: () {
+                time.cancel();
+                ScaffoldMessengerModel.scaffoldMessengerKey.currentState
+                    ?.clearSnackBars();
+                //widget.onTap?.call();
+              },
               width: widget.width ?? Grock.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
