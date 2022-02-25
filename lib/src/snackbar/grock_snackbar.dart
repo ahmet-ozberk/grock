@@ -128,7 +128,14 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void initState() {
     super.initState();
     final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
-    provider.initTimer(time, _controller);
+    time = Timer.periodic(const Duration(milliseconds: 5), (timer) {
+      provider.setLineerProgress();
+      if (provider.lineerProgress <= 0) {
+        timer.cancel();
+        time.cancel();
+        _controller.reverse();
+      }
+    });
     animationStarter();
     widget.onStart(_controller);
   }
@@ -146,8 +153,8 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   @override
   void dispose() {
+     time.cancel();
     _controller.dispose();
-    time.cancel();
     super.dispose();
   }
 

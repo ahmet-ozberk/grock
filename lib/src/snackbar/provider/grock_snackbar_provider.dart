@@ -10,17 +10,6 @@ class GrockSnackbarProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initTimer(Timer time,AnimationController controller) {
-    time = Timer.periodic(const Duration(milliseconds: 5), (timer) {
-      setLineerProgress();
-      if (lineerProgress <= 0) {
-        timer.cancel();
-        time.cancel();
-        controller.reverse();
-      }
-    });
-  }
-
   startAnimate(AnimationController controller) {
     controller.forward();
   }
