@@ -35,6 +35,7 @@ class GrockSnackbar {
         elevation: 0,
         margin: margin ?? EdgeInsets.symmetric(vertical: 15),
         padding: 10.horizontalP,
+        behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.none,
         duration: const Duration(seconds: 4),
         content: ChangeNotifierProvider(
