@@ -164,83 +164,80 @@ class _SnackbarBodyState extends State<_SnackbarBody>
       create: (context) => GrockSnackbarProvider(),
       child: Transform.translate(
         offset: Offset(_animation.value, 0),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: _GlassMorphism(
-            borderRadius: widget.borderRadius ?? 20,
-            blur: widget.blur ?? 50,
-            opacity: widget.opacity ?? 0.1,
-            color: widget.bgColor ?? Colors.transparent,
-            child: GrockContainer(
-              onTap: () {
-                time.cancel();
-                ScaffoldMessengerModel.scaffoldMessengerKey.currentState
-                    ?.clearSnackBars();
-                //widget.onTap?.call();
-              },
-              width: widget.width ?? Grock.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
-              ),
-              child: Padding(
-                padding: EdgeInsets.zero,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    LinearProgressIndicator(
-                      value:
-                          context.watch<GrockSnackbarProvider>().lineerProgress,
-                      backgroundColor:
-                          widget.progressBgColor ?? Colors.transparent,
-                      color: widget.progressColor ?? Colors.red,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(widget.padding ?? 15),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          widget.icon != null
-                              ? Icon(
-                                  widget.icon,
-                                  size: widget.iconSize ?? 36,
-                                  color: widget.iconColor ?? Colors.black87,
-                                )
-                              : Container(),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  widget.title,
-                                  style: widget.titleStyle ??
-                                      TextStyle(
-                                        color:
-                                            widget.titleColor ?? Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: widget.titleSize ?? 16,
-                                      ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  widget.description,
-                                  style: widget.descriptionStyle ??
-                                      TextStyle(
-                                        color: widget.descriptionColor ??
-                                            Colors.black,
-                                        fontSize: widget.descriptionSize ?? 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                ),
-                              ],
-                            ),
+        child: _GlassMorphism(
+          borderRadius: widget.borderRadius ?? 20,
+          blur: widget.blur ?? 50,
+          opacity: widget.opacity ?? 0.1,
+          color: widget.bgColor ?? Colors.transparent,
+          child: GrockContainer(
+            onTap: () {
+              time.cancel();
+              ScaffoldMessengerModel.scaffoldMessengerKey.currentState
+                  ?.clearSnackBars();
+              //widget.onTap?.call();
+            },
+            width: widget.width ?? Grock.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.zero,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LinearProgressIndicator(
+                    value:
+                        context.watch<GrockSnackbarProvider>().lineerProgress,
+                    backgroundColor:
+                        widget.progressBgColor ?? Colors.transparent,
+                    color: widget.progressColor ?? Colors.red,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(widget.padding ?? 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        widget.icon != null
+                            ? Icon(
+                                widget.icon,
+                                size: widget.iconSize ?? 36,
+                                color: widget.iconColor ?? Colors.black87,
+                              )
+                            : Container(),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                widget.title,
+                                style: widget.titleStyle ??
+                                    TextStyle(
+                                      color:
+                                          widget.titleColor ?? Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: widget.titleSize ?? 16,
+                                    ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                widget.description,
+                                style: widget.descriptionStyle ??
+                                    TextStyle(
+                                      color: widget.descriptionColor ??
+                                          Colors.black,
+                                      fontSize: widget.descriptionSize ?? 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

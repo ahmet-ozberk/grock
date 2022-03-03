@@ -1,3 +1,3 @@
-## 0.0.2+9 - 25-02-2022
+## 0.0.2+10 - 03-03-2022
 
 * Readme.md updated documentation
