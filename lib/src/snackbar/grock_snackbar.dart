@@ -37,7 +37,7 @@ class GrockSnackbar {
         padding: 10.horizontalP,
         behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.none,
-        duration: const Duration(seconds: 4),
+        duration: const Duration(milliseconds: 3500),
         content: ChangeNotifierProvider(
           create: (context) => GrockSnackbarProvider(),
           builder: (context, child) => _SnackbarBody(
@@ -65,6 +65,27 @@ class GrockSnackbar {
           ),
         ),
       ),
+    );
+  }
+
+  static void dialog({
+    required Widget Function(BuildContext) builder,
+    bool barrierDismissible = true,
+    Color? barrierColor = Colors.black54,
+    String? barrierLabel,
+    bool useSafeArea = true,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+  }) {
+    showDialog(
+      context: Grock.navigationKey.currentContext,
+      builder: builder,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      useSafeArea: useSafeArea,
+      useRootNavigator: useRootNavigator,
+      routeSettings: routeSettings,
     );
   }
 }
@@ -128,7 +149,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void initState() {
     super.initState();
     final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
-    time = Timer.periodic(const Duration(milliseconds: 5), (timer) {
+    time = Timer.periodic(const Duration(milliseconds: 2), (timer) {
       provider.setLineerProgress();
       if (provider.lineerProgress <= 0) {
         timer.cancel();
@@ -153,7 +174,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   @override
   void dispose() {
-     time.cancel();
+    time.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -214,8 +235,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
                                 widget.title,
                                 style: widget.titleStyle ??
                                     TextStyle(
-                                      color:
-                                          widget.titleColor ?? Colors.black,
+                                      color: widget.titleColor ?? Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: widget.titleSize ?? 16,
                                     ),

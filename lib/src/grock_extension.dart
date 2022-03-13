@@ -95,4 +95,22 @@ extension Grock on ScaffoldMessengerModel {
           descriptionSize: descriptionSize,
           titleStyle: titleStyle,
           descriptionStyle: descriptionStyle);
+
+  static void dialog({
+    required Widget Function(BuildContext) builder,
+    bool barrierDismissible = true,
+    Color? barrierColor = Colors.black54,
+    String? barrierLabel,
+    bool useSafeArea = true,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+  }) =>
+      GrockSnackbar.dialog(
+          builder: builder,
+          barrierDismissible: barrierDismissible,
+          barrierColor: barrierColor,
+          barrierLabel: barrierLabel,
+          useSafeArea: useSafeArea,
+          useRootNavigator: useRootNavigator,
+          routeSettings: routeSettings);
 }

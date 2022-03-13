@@ -29,11 +29,10 @@ class NextPage extends StatelessWidget {
               //TODO   back page
               child: const Text('Show Snackbar'),
               onPressed: () => Grock.snackBar(
-                title: "Snackbar",
-                description: "Snackbar content",
-                borderRadius: 20,
-                padding: 15,
-              ),
+                  title: "Snackbar",
+                  description: "Snackbar content",
+                  padding: 15,
+                  borderRadius: 10),
             ),
           ],
         ),
