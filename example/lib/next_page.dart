@@ -21,18 +21,30 @@ class NextPage extends StatelessWidget {
               width: Grock.width * 0.5,
             ),
             TextButton(
-              //TODO   back page
-              child: const Text('Back Page'),
-              onPressed: () => Grock.back(),
+              child: const Text('No Context Dialog'),
+              onPressed: () {
+                Grock.dialog(builder: (context) {
+                  return const AlertDialog(
+                    title:  Text('Dialog'),
+                    content:  Text('Dialog content'),
+                  );
+                });
+              },
             ),
             TextButton(
               //TODO   back page
               child: const Text('Show Snackbar'),
               onPressed: () => Grock.snackBar(
-                  title: "Snackbar",
-                  description: "Snackbar content",
-                  padding: 15,
-                  borderRadius: 10),
+                title: "Snackbar",
+                description: "Snackbar content",
+                curve: Curves.elasticInOut,
+                padding: 15,
+                durationMillisecond: 2000,
+                borderRadius: 10,
+                blur: 20,
+                opacity: 0.2,
+                icon: Icons.error,
+              ),
             ),
           ],
         ),

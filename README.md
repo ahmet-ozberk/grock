@@ -1,164 +1,205 @@
-## Features
+## Grock
 
-A flutter package with "Context, Navigation, Snackbar, RandomImage, RandomNumber, RandomColor, SizeExtension, KeyboardClose and ScrollEffect disable"  features.
+![alt text](https://cdna.artstation.com/p/assets/images/images/016/151/746/original/ces-santor-grock-process.gif?1551108612)
 
-## main.dart file
+This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
+
+## Firstly 🤫
 ```dart
-import 'package:flutter/material.dart';
-import 'package:grock/grock.dart';
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    navigatorKey: Grock.navigationKey, // added line
+    scaffoldMessengerKey: Grock.snackbarMessengerKey, // added line
+    title: 'Material App',
+    home: Home(),
+  );
+```
 
-import 'next_page.dart';
+## NO CONTEXT NAVİGATİONS 😱
+### Grock.to || toRemove || back()
+```dart
+GrockContainer(
+  onTap: (){
+    // for Navigator.push(...)
+    Grock.to(Nextpage());
+    Grock.to(NextPage(), type: NavType.bottomToTop); // optional navigate animation
 
-void main() => runApp(MyApp());
+    // for Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
+    Grock.toRemove(NextPage());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: Grock.navigationKey, /// add materialapp
-      scaffoldMessengerKey: Grock.snackbarMessengerKey, /// add materialapp
-      title: 'Material App',
-      //theme: ThemeData.dark(),
-      home: Home(),
-    );
-  }
-}
+    // for Navigator.of(context).pop()
+    Grock.back();
+    Grock.back(result: "Return Object") // optional return object
 
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
+  },
+)
+```
 
-class _HomeState extends State<Home> {
+## Widgets 👊 🚀
 
-  @override
-  void initState() {
-    super.initState();
-    3000.delay(); /// 3000 millisecond
-  }
+### GrockContainer
+```dart
+GrockContainer(
+  onTap: ()=>print("tapped"),
+  child: Text("On Tap Container")
+)
+```
 
-  @override
-  Widget build(BuildContext context) {
-    return GrockKeyboardClose(
-      //TODO  click page, close keyboard
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        //TODO keyboard open or close
-        floatingActionButton: context.isKeyBoardOpen
-            ? null
-            : FloatingActionButton(
-                onPressed: () {
-                  Grock.to(NextPage());
-                },
-                child: const Icon(Icons.navigate_next),
-              ),
-        body: SingleChildScrollView(
-          padding: 20.horizontalP,
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: 30.verticalP,
-                  width: Grock.width * 0.3,
-                  height: Grock.height * 0.1,
-                  decoration: BoxDecoration(
-                    borderRadius: 15.allBR,
-                    gradient: LinearGradient(
-                      colors: [
-                        //TODO random color
-                        context.randomColor,
-                        context.randomColor,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      //TODO  random number
-                      5.randomNum.toString(),
-                      style: TextStyle(
-                        fontSize: Grock.width * 0.1,
-                        color: Colors.black,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.white,
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                //TODO  MediaQuery.of(context).padding.top parameter is used to
-                SizedBox(height: context.top / 3),
-                SizedBox(
-                  height: Grock.height * 0.2,
-                  width: Grock.width,
-                  child: GrockScrollEffect(
-                    //TODO glow effect disable
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                          childAspectRatio: 1.0,
-                          crossAxisSpacing: Grock.width * 0.01,
-                          mainAxisSpacing: Grock.width * 0.01),
-                      itemCount: 50,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.network(
-                          //TODO  random image
-                          index.randomImage(),
-                          width: Grock.width * 0.05,
-                          height: Grock.width * 0.05,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: context.isKeyBoardOpen
-                        ? 'Open Keyboard'
-                        : 'Close Keyboard',
-                  ),
-                ),
-                TextButton(
-                  //TODO  next page
-                  child: const Text('Next Page and Show Snackbar'),
-                  onPressed: () =>
-                      Grock.to(NextPage(), type: NavType.bottomToTop),
-                ),
-                TextButton(
-                  //TODO   next remove until page
-                  child: const Text('Next Remove Until Page'),
-                  onPressed: () => Grock.toRemove(NextPage()),
-                ),
+### GrockList
+```dart
+GrockList(
+  isExpanded: true,
+  itemSpace: const Divider(),
+  itemCount: 10,
+  itemBuilder: (context,index)=>Text("Custom ListView Builder"),
+)
+```
 
-                TextButton(
-                  child: const Text('Show Snackbar'),
-                  onPressed: () => Grock.snackBar(
-                    "Merhaba nasılsın?",
-                    type: SnackbarType.info,
-                    border: Border.all(color: Colors.white, width: 0.5),
-                    position: SnackbarPosition.bottom,
-                    padding: 15,
-                    borderRadius: 5,
-                    opacity: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+### GrockGlassmorphism
+```dart
+GrockGlassMorphism(
+  blur: 20,
+  opacity: 0.2,
+  child: Image(".../images.png") or Container(child: Icon(Icons.search)),
+  color: Colors.white,
+),
+```
 
+### GrockKeyboardClose
+```dart
+return GrockKeyboardClose(
+  child: Scaffold(
+    // Scaffold on tap and close keyboard
+    body: TextField(
 
+    ),
+  ),
+);
+```
+
+### GrockScrollEffect
+```dart
+return GrockScrollEffect(
+  child: Scaffold(
+    // drag and scroll effect disable
+    body: ListView.builder(
+      ....
+    ),
+  ),
+);
+```
+
+### GrockLoadingWidget
+```dart
+body: GrockLoadingWidget(
+  isLoading: isLoading, 
+  loadedChild: ListView.builder(
+    ...
+  ),),
+  loadingChild: Center(child: CircleProgressIndıcator()),
+  errorChild: Center(child: Text('error')),
+  showDialog: true,
+  loadingDialogWidget: Grock.dialog(
+    ... loading lottie or gif widgets
+  ),
+```
+
+## Snackbar and Dialog (BUT NO CONTEXT 😁)
+
+### Grock.snackBar
+```dart
+TextButton(
+  child: const Text('No Context Snackbar'),
+    Grock.snackBar(
+      title: "Snackbar",
+      description: "Snackbar content",
+      blur: 20,
+      opacity: 0.2,
+      icon: Icons.error,
+      curve: Curves.elasticInOut,
+      padding: 15,
+      durationMillisecond: 2000,
+      borderRadius: 10,
+      ... vs parameters
+    ),
+),
+```
+
+### Grock.dialog
+```dart
+TextButton(
+  child: const Text('No Context Dialog'),
+  onPressed: () {
+    Grock.dialog(builder: (context) {
+      return const AlertDialog(
+        title:  Text('Dialog'),
+        content:  Text('Dialog content'),
+      );
+    });
+  },
+),
+```
+
+## Widget Tools 🤩
+### context tools
+```dart
+context.bottom, // SafeArea Bottom
+context.top,    // SafeArea Top
+context.isKeyBoardOpen, // true or false
+context.mediaQuery,
+```
+
+### no CONTEXT tools
+```dart
+Grock.height,
+Grock.width,
+Grock.bottomCenter,
+Grock.bottomLeft,
+Grock.bottomRight,
+Grock.center,
+Grock.centerLeft,
+Grock.centerRight,
+Grock.topLeft,
+Grock.topRight,
+Grock.topCenter,
+Grock.deviceWidth,
+Grock.deviceHeight,
+Grock.getVersion(),
+Grock.isIOS,
+Grock.isAndroid,
+Grock.isMacOS,
+Grock.isWindows,
+Grock.isLinux,
+Grock.isFuchsia,
+Grock.isDebugMode,
+Grock.isReleaseMode,
+Grock.isProfileMode,
+```
+
+### Padding or Margin and BorderRadius
+```dart
+  GrockContainer(
+    margin: 10.verticalP,
+    // margin: 10.horizontalP,
+    // margin: 10.allP,
+    padding: [20,40].horizontalAndVerticalP,
+    // padding: [10,13,14,12].paddingLTRB
+    width: Grock.width * 0.3,
+    height: Grock.height * 0.1,
+    decoration: BoxDecoration(
+      borderRadius: 15.allBR,
+  ),
+),
+```
+
+### Random Online Image
+```dart
+GrockList(
+  isExpanded: true,
+  itemSpace: const Divider(),
+  itemCount: 10,
+  itemBuilder: (context,index)=>Image.network(
+    index.randomImage(), // width and height optional
+  ),
+)
 ```

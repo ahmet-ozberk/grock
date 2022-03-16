@@ -10,6 +10,8 @@ import '../../grock.dart';
 class GrockSnackbar {
   static void showSnackbar(
       {double? borderRadius,
+      int? durationMillisecond,
+      Curve? curve,
       EdgeInsets? margin,
       double? blur,
       double? opacity,
@@ -37,19 +39,21 @@ class GrockSnackbar {
         padding: 10.horizontalP,
         behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.none,
-        duration: const Duration(milliseconds: 3500),
+        duration: Duration(milliseconds: durationMillisecond ?? 2500),
         content: ChangeNotifierProvider(
           create: (context) => GrockSnackbarProvider(),
           builder: (context, child) => _SnackbarBody(
             onStart: (controller) => Provider.of<GrockSnackbarProvider>(context)
                 .startAnimate(controller),
             borderRadius: borderRadius,
+            durationMillisecond: durationMillisecond ?? 2500,
+            curve: curve ?? Curves.elasticInOut,
             blur: blur,
             opacity: opacity,
             bgColor: bgColor,
             width: width,
-            progressColor: progressColor,
-            progressBgColor: progressBgColor,
+            // progressColor: progressColor,
+            // progressBgColor: progressBgColor,
             padding: padding,
             icon: icon,
             iconColor: iconColor,
@@ -94,12 +98,14 @@ class _SnackbarBody extends StatefulWidget {
   Function(AnimationController controller) onStart;
   //GestureTapCallback? onTap;
   double? borderRadius;
+  int durationMillisecond;
+  Curve curve;
   double? blur;
   double? opacity;
   Color? bgColor;
   double? width;
-  Color? progressColor;
-  Color? progressBgColor;
+  // Color? progressColor;
+  // Color? progressBgColor;
   double? padding;
   IconData? icon;
   Color? iconColor;
@@ -116,12 +122,14 @@ class _SnackbarBody extends StatefulWidget {
       {required this.onStart,
       // required this.onTap,
       this.borderRadius,
+      required this.durationMillisecond,
+      required this.curve,
       this.blur,
       this.opacity,
       this.bgColor,
       this.width,
-      this.progressColor,
-      this.progressBgColor,
+      // this.progressColor,
+      // this.progressBgColor,
       this.padding,
       this.icon,
       this.iconColor,
@@ -144,14 +152,15 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   late AnimationController _controller;
   late Animation<double> _animation;
   late Timer time;
+  int i = 0;
 
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
     time = Timer.periodic(const Duration(milliseconds: 2), (timer) {
-      provider.setLineerProgress();
-      if (provider.lineerProgress <= 0) {
+      i += 2;
+      if (i > widget.durationMillisecond - 400) {
         timer.cancel();
         time.cancel();
         _controller.reverse();
@@ -164,9 +173,11 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void animationStarter() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 800),
     );
-    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(_controller)
+    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(
+        CurvedAnimation(
+            parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         setState(() {});
       });
@@ -174,7 +185,6 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   @override
   void dispose() {
-    time.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -192,7 +202,6 @@ class _SnackbarBodyState extends State<_SnackbarBody>
           color: widget.bgColor ?? Colors.transparent,
           child: GrockContainer(
             onTap: () {
-              time.cancel();
               ScaffoldMessengerModel.scaffoldMessengerKey.currentState
                   ?.clearSnackBars();
               //widget.onTap?.call();
@@ -206,13 +215,6 @@ class _SnackbarBodyState extends State<_SnackbarBody>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  LinearProgressIndicator(
-                    value:
-                        context.watch<GrockSnackbarProvider>().lineerProgress,
-                    backgroundColor:
-                        widget.progressBgColor ?? Colors.transparent,
-                    color: widget.progressColor ?? Colors.red,
-                  ),
                   Padding(
                     padding: EdgeInsets.all(widget.padding ?? 15),
                     child: Row(

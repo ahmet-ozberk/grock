@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       navigatorKey: Grock.navigationKey,
       scaffoldMessengerKey: Grock.snackbarMessengerKey,
       title: 'Material App',
-      //theme: ThemeData.dark(),
       home: Home(),
     );
   }
