@@ -4,6 +4,8 @@
 
 This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
 
+[pub.dev link](https://pub.dev/packages/grock)
+
 ## Firstly 🤫
 ```dart
   return MaterialApp(
