@@ -47,6 +47,35 @@ GrockContainer(
 )
 ```
 
+### GrockDropdownButton
+```dart
+GrockDropdownButton(
+  items: [
+    for (var item in items)
+      GrockDropdownMenuItem(
+        child: Text(item),
+        onPressed: (String? newValue) {
+          setState(() {
+            currentValue = newValue;
+          });
+          Grock.back();
+        },
+        decoration: BoxDecoration(
+          color: currentValue == item
+              ? Colors.grey.shade200
+              : Colors.white,
+          ),
+        trailingWidget: currentValue == item
+              ? const Icon(Icons.check, color: Colors.green)
+              : null,
+        ),
+      ],
+  value: currentValue,
+  hintText: "Lütfen bir item seçin",
+),
+```
+
+
 ### GrockList
 ```dart
 GrockList(

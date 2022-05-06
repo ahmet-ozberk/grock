@@ -1,3 +1,3 @@
-## 0.0.3+1 - 03-03-2022
+## 0.0.3+2 - 07-05-2022
 
-* Readme.md updated documentation and packages
+* Readme.md added widget
