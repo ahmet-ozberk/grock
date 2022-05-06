@@ -23,6 +23,7 @@ class GrockSnackbar {
       IconData? icon,
       Color? iconColor,
       double? iconSize,
+      BoxBorder? border,
       required String title,
       required String description,
       Color? titleColor,
@@ -50,6 +51,7 @@ class GrockSnackbar {
             curve: curve ?? Curves.elasticInOut,
             blur: blur,
             opacity: opacity,
+            border: border,
             bgColor: bgColor,
             width: width,
             // progressColor: progressColor,
@@ -118,6 +120,7 @@ class _SnackbarBody extends StatefulWidget {
   double? descriptionSize;
   TextStyle? titleStyle;
   TextStyle? descriptionStyle;
+  BoxBorder? border;
   _SnackbarBody(
       {required this.onStart,
       // required this.onTap,
@@ -128,6 +131,7 @@ class _SnackbarBody extends StatefulWidget {
       this.opacity,
       this.bgColor,
       this.width,
+      this.border,
       // this.progressColor,
       // this.progressBgColor,
       this.padding,
@@ -163,7 +167,9 @@ class _SnackbarBodyState extends State<_SnackbarBody>
       if (i > widget.durationMillisecond - 400) {
         timer.cancel();
         time.cancel();
-        _controller.reverse();
+        if (mounted) {
+          _controller.reverse();
+        }
       }
     });
     animationStarter();
@@ -200,6 +206,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
           blur: widget.blur ?? 50,
           opacity: widget.opacity ?? 0.1,
           color: widget.bgColor ?? Colors.transparent,
+          border: widget.border,
           child: GrockContainer(
             onTap: () {
               ScaffoldMessengerModel.scaffoldMessengerKey.currentState
@@ -275,7 +282,7 @@ class _GlassMorphism extends StatelessWidget {
   Widget child;
   Color color;
   double borderRadius;
-  Color? borderColor;
+  BoxBorder? border;
   _GlassMorphism(
       {Key? key,
       required this.blur,
@@ -283,7 +290,7 @@ class _GlassMorphism extends StatelessWidget {
       required this.child,
       required this.color,
       required this.borderRadius,
-      this.borderColor})
+      this.border})
       : super(key: key);
 
   @override
@@ -296,10 +303,11 @@ class _GlassMorphism extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withOpacity(opacity),
             borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(
-              color: borderColor?.withOpacity(0.3) ?? color.withOpacity(0.1),
-              width: 1.5,
-            ),
+            border: border ??
+                Border.all(
+                  color: color.withOpacity(0.1),
+                  width: 1.5,
+                ),
           ),
           child: child,
         ),
