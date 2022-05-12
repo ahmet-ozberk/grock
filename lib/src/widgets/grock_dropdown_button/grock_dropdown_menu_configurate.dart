@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart'
     show kMinFlingVelocity, kLongPressTimeout;
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
@@ -160,7 +159,7 @@ class _GrockCustomMenuState extends State<GrockCustomMenu>
         });
         _openContextMenu();
 
-        SchedulerBinding.instance!.addPostFrameCallback((Duration _) {
+        SchedulerBinding.instance.addPostFrameCallback((Duration _) {
           _lastOverlayEntry?.remove();
           _lastOverlayEntry = null;
           _openController.reset();
@@ -569,7 +568,7 @@ class _ContextMenuRoute<T> extends PopupRoute<T> {
     _internalOffstage = true;
     _setOffstageInternally();
 
-    SchedulerBinding.instance!.addPostFrameCallback((Duration _) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration _) {
       _updateTweenRects();
       _internalOffstage = false;
       _setOffstageInternally();

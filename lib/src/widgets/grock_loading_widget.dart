@@ -43,7 +43,7 @@ class _GrockLoadingWidgetState extends State<GrockLoadingWidget> {
           );
     } else if (widget.isLoading == null) {
       if (widget.showDialog == true) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           _LoadingPopup();
         });
         return Center(child: Container());
