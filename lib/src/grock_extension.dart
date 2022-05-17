@@ -21,10 +21,6 @@ extension Grock on ScaffoldMessengerModel {
   static bool get isLinux => Platform.isLinux;
   static bool get isWindows => Platform.isWindows;
   static bool get isFuchsia => Platform.isFuchsia;
-  static Future<String> get getVersion => InfoGrock.appVersion();
-  static bool get isDebugMode => InfoGrock.isDebugMode();
-  static bool get isReleaseMode => InfoGrock.isReleaseMode();
-  static bool get isProfileMode => InfoGrock.isProfileMode();
 
   /// [Device Screen Size]
 
