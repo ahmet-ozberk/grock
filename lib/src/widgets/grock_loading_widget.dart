@@ -60,7 +60,7 @@ class _GrockLoadingWidgetState extends State<GrockLoadingWidget> {
 
   void _LoadingPopup() {
     showDialog(
-      context: Grock.navigationKey.currentContext,
+      context: Grock.navigationKey.currentContext!,
       barrierDismissible: false,
       builder: (_) =>
           widget.loadingDialogWidget ??

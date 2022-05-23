@@ -1,84 +1,85 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:grock/src/model/scaffoldMessenger.dart';
-import 'package:provider/provider.dart';
-
+import 'package:grock/src/model/navigation_state.dart';
 import '../../grock.dart';
 
 class GrockSnackbar {
-  static void showSnackbar(
-      {double? borderRadius,
-      int? durationMillisecond,
-      Curve? curve,
-      EdgeInsets? margin,
-      double? blur,
-      double? opacity,
-      Color? bgColor,
-      double? width,
-      Color? progressColor,
-      Color? progressBgColor,
-      EdgeInsetsGeometry? padding,
-      EdgeInsetsGeometry? iconPadding,
-      EdgeInsetsGeometry? titlePadding,
-      EdgeInsetsGeometry? descriptionPadding,
-
-      IconData? icon,
-      Color? iconColor,
-      double? iconSize,
-      BoxBorder? border,
-      required String title,
-      required String description,
-      Color? titleColor,
-      Color? descriptionColor,
-      double? titleSize,
-      double? descriptionSize,
-      TextStyle? titleStyle,
-      TextStyle? descriptionStyle}) {
-    ScaffoldMessengerModel.scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        margin: margin ?? EdgeInsets.symmetric(vertical: 15),
-        padding: 10.horizontalP,
-        behavior: SnackBarBehavior.floating,
-        dismissDirection: DismissDirection.none,
-        duration: Duration(milliseconds: durationMillisecond ?? 2500),
-        content: ChangeNotifierProvider(
-          create: (context) => GrockSnackbarProvider(),
-          builder: (context, child) => _SnackbarBody(
-            onStart: (controller) => Provider.of<GrockSnackbarProvider>(context)
-                .startAnimate(controller),
-            borderRadius: borderRadius,
-            durationMillisecond: durationMillisecond ?? 2500,
-            curve: curve ?? Curves.elasticInOut,
-            blur: blur,
-            opacity: opacity,
-            border: border,
-            bgColor: bgColor,
-            width: width,
-            // progressColor: progressColor,
-            // progressBgColor: progressBgColor,
-            padding: padding,
-            iconPadding: iconPadding,
-            titlePadding: titlePadding,
-            descriptionPadding: descriptionPadding,
-            icon: icon,
-            iconColor: iconColor,
-            iconSize: iconSize,
-            title: title,
-            titleColor: titleColor,
-            description: description,
-            descriptionColor: descriptionColor,
-            titleSize: titleSize,
-            descriptionSize: descriptionSize,
-            titleStyle: titleStyle,
-            descriptionStyle: descriptionStyle,
-          ),
+  static Future<void> showSnackbar({
+    required String title,
+    required String description,
+    double? borderRadius,
+    required Duration duration,
+    required SnackbarPosition position,
+    required Curve curve,
+    double? blur,
+    required Duration openDuration,
+    double? opacity,
+    Color? color,
+    double? width,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? leadingPadding,
+    EdgeInsetsGeometry? trailingPadding,
+    EdgeInsetsGeometry? titlePadding,
+    EdgeInsetsGeometry? descriptionPadding,
+    Widget? leading,
+    Widget? trailing,
+    double? itemSpaceHeight,
+    Color? titleColor,
+    Color? descriptionColor,
+    double? titleSize,
+    double? descriptionSize,
+    TextStyle? titleStyle,
+    TextStyle? descriptionStyle,
+    BoxBorder? border,
+  }) async {
+    OverlayState overlayState = Grock.navigationKey.currentState!.overlay!;
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Material(
+        type: MaterialType.transparency,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(Grock.navigationKey.currentState!.overlay!.context).size.width,
+              child: _SnackbarBody(
+                overlayEntry: overlayEntry,
+                borderRadius: borderRadius,
+                duration: duration,
+                position: position,
+                curve: curve,
+                blur: blur,
+                openDuration: openDuration,
+                opacity: opacity,
+                color: color,
+                width: width,
+                padding: padding,
+                margin: margin,
+                leadingPadding: leadingPadding,
+                trailingPadding: trailingPadding,
+                leading: leading,
+                trailing: trailing,
+                itemSpaceHeight: itemSpaceHeight,
+                title: title,
+                description: description,
+                titleColor: titleColor,
+                descriptionColor: descriptionColor,
+                titleSize: titleSize,
+                descriptionSize: descriptionSize,
+                titleStyle: titleStyle,
+                descriptionStyle: descriptionStyle,
+                border: border,
+                descriptionPadding: descriptionPadding,
+                titlePadding: titlePadding,
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    });
+    overlayState.insert(overlayEntry);
   }
 
   static void dialog({
@@ -91,7 +92,7 @@ class GrockSnackbar {
     RouteSettings? routeSettings,
   }) {
     showDialog(
-      context: Grock.navigationKey.currentContext,
+      context: Grock.navigationKey.currentContext!,
       builder: builder,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
@@ -104,24 +105,25 @@ class GrockSnackbar {
 }
 
 class _SnackbarBody extends StatefulWidget {
-  Function(AnimationController controller) onStart;
-  //GestureTapCallback? onTap;
+  OverlayEntry overlayEntry;
   double? borderRadius;
-  int durationMillisecond;
+  Duration duration;
+  SnackbarPosition position;
   Curve curve;
   double? blur;
+  Duration openDuration;
   double? opacity;
-  Color? bgColor;
+  Color? color;
   double? width;
-  // Color? progressColor;
-  // Color? progressBgColor;
   EdgeInsetsGeometry? padding;
-  EdgeInsetsGeometry? iconPadding;
+  EdgeInsetsGeometry? margin;
+  EdgeInsetsGeometry? leadingPadding;
+  EdgeInsetsGeometry? trailingPadding;
   EdgeInsetsGeometry? titlePadding;
   EdgeInsetsGeometry? descriptionPadding;
-  IconData? icon;
-  Color? iconColor;
-  double? iconSize;
+  Widget? leading;
+  Widget? trailing;
+  double? itemSpaceHeight;
   String title;
   String description;
   Color? titleColor;
@@ -132,25 +134,26 @@ class _SnackbarBody extends StatefulWidget {
   TextStyle? descriptionStyle;
   BoxBorder? border;
   _SnackbarBody(
-      {required this.onStart,
-      // required this.onTap,
+      {required this.overlayEntry,
       this.borderRadius,
-      required this.durationMillisecond,
-      required this.curve,
+      this.duration = const Duration(seconds: 4),
+      this.curve = Curves.fastOutSlowIn,
+      this.openDuration = const Duration(milliseconds: 800),
+      this.position = SnackbarPosition.bottom,
       this.blur,
       this.opacity,
-      this.bgColor,
+      this.color,
       this.width,
       this.border,
-      // this.progressColor,
-      // this.progressBgColor,
-      this.padding,
-      this.iconPadding,
+      this.itemSpaceHeight,
+      this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      this.margin,
+      this.leadingPadding,
+      this.trailingPadding,
       this.titlePadding,
       this.descriptionPadding,
-      this.icon,
-      this.iconColor,
-      this.iconSize,
+      this.leading,
+      this.trailing,
       required this.title,
       required this.description,
       this.titleColor,
@@ -166,135 +169,172 @@ class _SnackbarBody extends StatefulWidget {
 
 class _SnackbarBodyState extends State<_SnackbarBody>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
+  AnimationController? _controller;
   late Animation<double> _animation;
-  late Timer time;
+  //late Timer time;
   int i = 0;
 
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<GrockSnackbarProvider>(context, listen: false);
-    time = Timer.periodic(const Duration(milliseconds: 2), (timer) {
-      i += 2;
-      if (i > widget.durationMillisecond - 400) {
-        timer.cancel();
-        time.cancel();
-        if (mounted) {
-          _controller.reverse();
-        }
-      }
-    });
     animationStarter();
-    widget.onStart(_controller);
+    _closeSnackbar();
+    _controller!.forward();
   }
 
   void animationStarter() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: widget.openDuration,
+      reverseDuration: widget.openDuration,
     );
     _animation = Tween<double>(begin: -Grock.width, end: 0).animate(
         CurvedAnimation(
-            parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
+            parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         setState(() {});
       });
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void _closeSnackbar() {
+    Future.delayed(widget.duration - widget.openDuration, () {
+      if (_controller != null) {
+        _controller!.reverse().then((value) {
+          widget.overlayEntry.remove();
+          _controller!.dispose();
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => GrockSnackbarProvider(),
-      child: Transform.translate(
-        offset: Offset(_animation.value, 0),
-        child: _GlassMorphism(
-          borderRadius: widget.borderRadius ?? 20,
-          blur: widget.blur ?? 50,
-          opacity: widget.opacity ?? 0.1,
-          color: widget.bgColor ?? Colors.transparent,
-          border: widget.border,
-          child: GrockContainer(
-            onTap: () {
-              ScaffoldMessengerModel.scaffoldMessengerKey.currentState
-                  ?.clearSnackBars();
-              //widget.onTap?.call();
-            },
-            width: widget.width ?? Grock.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
+    MediaQueryData _size = MediaQuery.of(context);
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: widget.position.getPosition,
+          children: [
+            Padding(
+              padding: widget.margin ?? widget.position.getPadding(),
+              child: _transformWidget(context),
             ),
-            child: Padding(
-              padding: EdgeInsets.zero,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: widget.padding ?? EdgeInsets.zero,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        widget.icon != null
-                            ? Padding(
-                                padding: widget.iconPadding ?? EdgeInsets.zero,
-                                child: Icon(
-                                  widget.icon,
-                                  size: widget.iconSize ?? 36,
-                                  color: widget.iconColor ?? Colors.black87,
-                                ),
-                              )
-                            : Container(),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: widget.titlePadding ?? EdgeInsets.zero,
-                                child: Text(
-                                  widget.title,
-                                  style: widget.titleStyle ??
-                                      TextStyle(
-                                        color: widget.titleColor ?? Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: widget.titleSize ?? 16,
-                                      ),
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Padding(
-                                padding: widget.descriptionPadding ?? EdgeInsets.zero,
-                                child: Text(
-                                  widget.description,
-                                  style: widget.descriptionStyle ??
-                                      TextStyle(
-                                        color: widget.descriptionColor ??
-                                            Colors.black,
-                                        fontSize: widget.descriptionSize ?? 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  Transform _transformWidget(BuildContext context) {
+    return Transform.translate(
+      offset: widget.position.getOffset(value: _animation.value),
+      child: _glassMorphism(context),
+    );
+  }
+
+  _GlassMorphism _glassMorphism(BuildContext context) {
+    return _GlassMorphism(
+      borderRadius: widget.borderRadius ?? 20,
+      blur: widget.blur ?? 15,
+      opacity: widget.opacity ?? 0.2,
+      color: widget.color ?? Colors.white,
+      border: widget.border,
+      child: GrockContainer(
+        padding: widget.padding,
+        width: widget.width ?? Grock.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            widget.leading != null ? _leadingWidget() : Container(),
+            SizedBox(width: widget.leading == null ? 0 : 5),
+            _bodyWidgets(context),
+            const SizedBox(
+              width: 10,
+            ),
+            widget.trailing != null ? _trailingWidget() : Container(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _leadingWidget() {
+    return Padding(
+        padding: widget.leadingPadding ?? EdgeInsets.zero,
+        child: widget.leading);
+  }
+
+  Expanded _bodyWidgets(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _titleWidget(context),
+          SizedBox(height: widget.itemSpaceHeight ?? 2),
+          _descriptionWidget(context),
+        ],
+      ),
+    );
+  }
+
+  Padding _trailingWidget() {
+    return Padding(
+        padding: widget.trailingPadding ?? EdgeInsets.zero,
+        child: widget.trailing);
+  }
+
+  Padding _descriptionWidget(BuildContext context) {
+    return Padding(
+      padding: widget.descriptionPadding ?? EdgeInsets.zero,
+      child: Text(
+        widget.description,
+        style: widget.descriptionStyle ?? Theme.of(context).textTheme.bodyLarge,
+      ),
+    );
+  }
+
+  Padding _titleWidget(BuildContext context) {
+    return Padding(
+      padding: widget.titlePadding ?? EdgeInsets.zero,
+      child: Text(
+        widget.title,
+        style: widget.titleStyle ??
+            Theme.of(context).textTheme.subtitle2!.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+      ),
+    );
+  }
+}
+
+enum SnackbarPosition {
+  top(MainAxisAlignment.start),
+  bottom(MainAxisAlignment.end);
+
+  final MainAxisAlignment position;
+  const SnackbarPosition(this.position);
+
+  MainAxisAlignment get getPosition => position;
+
+  EdgeInsetsGeometry getPadding() {
+    if (position == MainAxisAlignment.start) {
+      return const EdgeInsets.only(top: 20, left: 20, right: 20);
+    } else {
+      return const EdgeInsets.only(bottom: 20, left: 20, right: 20);
+    }
+  }
+
+  Offset getOffset({required double value}) {
+    if (position == MainAxisAlignment.start) {
+      return Offset(0, value);
+    } else {
+      return Offset(0, -value);
+    }
   }
 }
 
@@ -323,14 +363,9 @@ class _GlassMorphism extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
           decoration: BoxDecoration(
-            color: color.withOpacity(opacity),
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: border ??
-                Border.all(
-                  color: color.withOpacity(0.1),
-                  width: 1.5,
-                ),
-          ),
+              color: color.withOpacity(opacity),
+              borderRadius: BorderRadius.circular(borderRadius),
+              border: border),
           child: child,
         ),
       ),

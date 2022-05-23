@@ -9,9 +9,9 @@ import 'model/scaffoldMessenger.dart';
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
 
-  static get snackbarMessengerKey =>
+  static get scaffoldMessengerKey =>
       ScaffoldMessengerModel.scaffoldMessengerKey;
-  static get navigationKey => NavigationService.navigationKey;
+  static GlobalKey<NavigatorState> get navigationKey => NavigationService.navigationKey;
 
   /// [Device Information]
 
@@ -49,58 +49,64 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Snackbar]
 
-  static void snackBar(
-          {double? borderRadius,
-          int? durationMillisecond,
-          Curve? curve,
-          EdgeInsets? margin,
-          double? blur,
-          double? opacity,
-          Color? bgColor,
-          double? width,
-          BoxBorder? border,
-          // Color? progressColor,
-          // Color? progressBgColor,
-          EdgeInsetsGeometry? padding,
-          EdgeInsetsGeometry? iconPadding,
-          EdgeInsetsGeometry? titlePadding,
-          EdgeInsetsGeometry? descriptionPadding,
-          IconData? icon,
-          Color? iconColor,
-          double? iconSize,
-          required String title,
-          required String description,
-          Color? titleColor,
-          Color? descriptionColor,
-          double? titleSize,
-          double? descriptionSize,
-          TextStyle? titleStyle,
-          TextStyle? descriptionStyle}) =>
+  static void snackBar({
+    required String title,
+    required String description,
+    Color? color,
+    SnackbarPosition position = SnackbarPosition.bottom,
+    Duration duration = const Duration(seconds: 3),
+    Curve curve = Curves.fastLinearToSlowEaseIn,
+    double? borderRadius,
+    double? blur,
+    Duration openDuration = const Duration(milliseconds: 800),
+    double? opacity,
+    double? width,
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(horizontal: 15,vertical: 12.5),
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? leadingPadding,
+    EdgeInsetsGeometry? trailingPadding,
+    EdgeInsetsGeometry? titlePadding,
+    EdgeInsetsGeometry? descriptionPadding,
+    Widget? leading,
+    Widget? trailing,
+    double? itemSpaceHeight,
+    Color? titleColor,
+    Color? descriptionColor,
+    double? titleSize,
+    double? descriptionSize,
+    TextStyle? titleStyle,
+    TextStyle? descriptionStyle,
+    BoxBorder? border,
+  }) =>
       GrockSnackbar.showSnackbar(
-          title: title,
-          description: description,
-          borderRadius: borderRadius,
-          curve: curve,
-          border: border,
-          durationMillisecond: durationMillisecond,
-          margin: margin,
-          blur: blur,
-          opacity: opacity,
-          bgColor: bgColor,
-          width: width,
-          padding: padding,
-          iconPadding: iconPadding,
-          titlePadding: titlePadding,
-          descriptionPadding: descriptionPadding,
-          icon: icon,
-          iconColor: iconColor,
-          iconSize: iconSize,
-          titleColor: titleColor,
-          descriptionColor: descriptionColor,
-          titleSize: titleSize,
-          descriptionSize: descriptionSize,
-          titleStyle: titleStyle,
-          descriptionStyle: descriptionStyle);
+        borderRadius: borderRadius,
+        duration: duration,
+        position: position,
+        curve: curve,
+        blur: blur,
+        openDuration: openDuration,
+        opacity: opacity,
+        color: color,
+        width: width,
+        padding: padding,
+        margin: margin,
+        leadingPadding: leadingPadding,
+        trailingPadding: trailingPadding,
+        leading: leading,
+        trailing: trailing,
+        itemSpaceHeight: itemSpaceHeight,
+        title: title,
+        description: description,
+        titleColor: titleColor,
+        descriptionColor: descriptionColor,
+        titleSize: titleSize,
+        descriptionSize: descriptionSize,
+        titleStyle: titleStyle,
+        descriptionStyle: descriptionStyle,
+        border: border,
+        descriptionPadding: descriptionPadding,
+        titlePadding: titlePadding,
+      );
 
   static void dialog({
     required Widget Function(BuildContext) builder,

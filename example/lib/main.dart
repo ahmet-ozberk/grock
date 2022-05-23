@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: Grock.navigationKey,
-      scaffoldMessengerKey: Grock.snackbarMessengerKey,
+      scaffoldMessengerKey: Grock.scaffoldMessengerKey,
       title: 'Material App',
       home: Home(),
     );
@@ -136,8 +136,13 @@ class _HomeState extends State<Home> {
                   TextButton(
                     //TODO  next page
                     child: const Text('Next Page and Show Snackbar'),
-                    onPressed: () =>
-                        Grock.to(NextPage(), type: NavType.bottomToTop),
+                    onPressed: () {
+                      Grock.snackBar(
+                          title: "Title Desc",
+                          description: "DESCRİPTİON DESC",
+                          position: SnackbarPosition.top);
+                      Grock.to(NextPage(), type: NavType.bottomToTop);
+                    },
                   ),
                   TextButton(
                     //TODO   next remove until page
@@ -204,20 +209,16 @@ class _NextPageState extends State<NextPage> {
               },
             ),
             TextButton(
-              //TODO   back page
-              child: const Text('Show Snackbar'),
-              onPressed: () => Grock.snackBar(
-                  title: "Snackbar",
-                  description: "Snackbar content",
-                  curve: Curves.elasticInOut,
-                  durationMillisecond: 2000,
-                  borderRadius: 10,
-                  blur: 20,
-                  opacity: 0.1,
-                  bgColor: Colors.white,
-                  icon: Icons.error,
-                  border: Border.all(color: Colors.red, width: 0.5)),
-            ),
+                //TODO   back page
+                child: const Text('Show Snackbar'),
+                onPressed: () {
+                  Grock.snackBar(
+                    title: "Title",
+                    description: "Description",
+                    position: SnackbarPosition.bottom,
+                    color: Colors.black,
+                  );
+                }),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GrockDropdownButton(

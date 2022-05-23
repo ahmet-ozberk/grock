@@ -1,3 +1,3 @@
-## 0.0.4+2 - 23-05-2022
+## 0.0.5 - 24-05-2022
 
-* Readme.md Updated
+* Readme.md Updated Snackbar
