@@ -3,17 +3,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class GrockGlassMorphism extends StatelessWidget {
-  double blur;
-  double opacity;
+  double? blur;
+  double? opacity;
   Widget child;
-  Color color;
+  Color? color;
   double? borderRadius;
+  BoxBorder? border;
   GrockGlassMorphism(
       {Key? key,
-      required this.blur,
-      required this.opacity,
       required this.child,
-      required this.color,
+      this.blur,
+      this.opacity,
+      this.color,
       this.borderRadius})
       : super(key: key);
 
@@ -22,15 +23,16 @@ class GrockGlassMorphism extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius ?? 10),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        filter: ImageFilter.blur(sigmaX: blur ?? 10, sigmaY: blur ?? 10),
         child: Container(
           decoration: BoxDecoration(
-            color: color.withOpacity(opacity),
+            color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
             borderRadius: BorderRadius.circular(borderRadius ?? 10),
-            border: Border.all(
-              color: color.withOpacity(0.1),
-              width: 1.5,
-            ),
+            border: border ??
+                Border.all(
+                  color: (color ?? Colors.white).withOpacity(0.1),
+                  width: 1.5,
+                ),
           ),
           child: child,
         ),

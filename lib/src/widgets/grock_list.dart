@@ -12,9 +12,8 @@ class GrockList extends StatelessWidget {
   ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
       ScrollViewKeyboardDismissBehavior.manual;
   Widget? itemSpace;
-  bool isExpanded = false;
   GrockList({
-    required this.itemCount,
+    this.itemCount = 100,
     required this.itemBuilder,
     this.scrollEffect,
     this.controller,
@@ -23,28 +22,11 @@ class GrockList extends StatelessWidget {
     this.shrinkWrap = false,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.itemSpace,
-    this.isExpanded = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return isExpanded
-        ? Expanded(
-            child: ListView.separated(
-              itemCount: itemCount,
-              controller: controller,
-              physics: scrollEffect ?? const BouncingScrollPhysics(),
-              scrollDirection: scrollDirection,
-              padding: padding ?? [8,8,8,context.bottom].paddingLTRB,
-              keyboardDismissBehavior: keyboardDismissBehavior,
-              shrinkWrap: shrinkWrap,
-              itemBuilder: (context, index) => itemBuilder(context, index),
-              separatorBuilder: (context, index) {
-                return itemSpace ?? const SizedBox(height: 8);
-              },
-            ),
-          )
-        : ListView.separated(
+    return ListView.separated(
             itemCount: itemCount,
             controller: controller,
             physics: scrollEffect ?? const BouncingScrollPhysics(),

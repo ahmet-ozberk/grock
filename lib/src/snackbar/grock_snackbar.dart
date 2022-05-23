@@ -19,7 +19,11 @@ class GrockSnackbar {
       double? width,
       Color? progressColor,
       Color? progressBgColor,
-      double? padding,
+      EdgeInsetsGeometry? padding,
+      EdgeInsetsGeometry? iconPadding,
+      EdgeInsetsGeometry? titlePadding,
+      EdgeInsetsGeometry? descriptionPadding,
+
       IconData? icon,
       Color? iconColor,
       double? iconSize,
@@ -57,6 +61,9 @@ class GrockSnackbar {
             // progressColor: progressColor,
             // progressBgColor: progressBgColor,
             padding: padding,
+            iconPadding: iconPadding,
+            titlePadding: titlePadding,
+            descriptionPadding: descriptionPadding,
             icon: icon,
             iconColor: iconColor,
             iconSize: iconSize,
@@ -108,7 +115,10 @@ class _SnackbarBody extends StatefulWidget {
   double? width;
   // Color? progressColor;
   // Color? progressBgColor;
-  double? padding;
+  EdgeInsetsGeometry? padding;
+  EdgeInsetsGeometry? iconPadding;
+  EdgeInsetsGeometry? titlePadding;
+  EdgeInsetsGeometry? descriptionPadding;
   IconData? icon;
   Color? iconColor;
   double? iconSize;
@@ -135,6 +145,9 @@ class _SnackbarBody extends StatefulWidget {
       // this.progressColor,
       // this.progressBgColor,
       this.padding,
+      this.iconPadding,
+      this.titlePadding,
+      this.descriptionPadding,
       this.icon,
       this.iconColor,
       this.iconSize,
@@ -223,15 +236,18 @@ class _SnackbarBodyState extends State<_SnackbarBody>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(widget.padding ?? 15),
+                    padding: widget.padding ?? EdgeInsets.zero,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         widget.icon != null
-                            ? Icon(
-                                widget.icon,
-                                size: widget.iconSize ?? 36,
-                                color: widget.iconColor ?? Colors.black87,
+                            ? Padding(
+                                padding: widget.iconPadding ?? EdgeInsets.zero,
+                                child: Icon(
+                                  widget.icon,
+                                  size: widget.iconSize ?? 36,
+                                  color: widget.iconColor ?? Colors.black87,
+                                ),
                               )
                             : Container(),
                         const SizedBox(width: 5),
@@ -240,25 +256,31 @@ class _SnackbarBodyState extends State<_SnackbarBody>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                widget.title,
-                                style: widget.titleStyle ??
-                                    TextStyle(
-                                      color: widget.titleColor ?? Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: widget.titleSize ?? 16,
-                                    ),
+                              Padding(
+                                padding: widget.titlePadding ?? EdgeInsets.zero,
+                                child: Text(
+                                  widget.title,
+                                  style: widget.titleStyle ??
+                                      TextStyle(
+                                        color: widget.titleColor ?? Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: widget.titleSize ?? 16,
+                                      ),
+                                ),
                               ),
                               SizedBox(height: 4),
-                              Text(
-                                widget.description,
-                                style: widget.descriptionStyle ??
-                                    TextStyle(
-                                      color: widget.descriptionColor ??
-                                          Colors.black,
-                                      fontSize: widget.descriptionSize ?? 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                              Padding(
+                                padding: widget.descriptionPadding ?? EdgeInsets.zero,
+                                child: Text(
+                                  widget.description,
+                                  style: widget.descriptionStyle ??
+                                      TextStyle(
+                                        color: widget.descriptionColor ??
+                                            Colors.black,
+                                        fontSize: widget.descriptionSize ?? 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
                               ),
                             ],
                           ),

@@ -210,7 +210,6 @@ class _NextPageState extends State<NextPage> {
                   title: "Snackbar",
                   description: "Snackbar content",
                   curve: Curves.elasticInOut,
-                  padding: 15,
                   durationMillisecond: 2000,
                   borderRadius: 10,
                   blur: 20,

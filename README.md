@@ -1,6 +1,6 @@
 ## Grock
 
-![alt text](https://cdna.artstation.com/p/assets/images/images/016/151/746/original/ces-santor-grock-process.gif?1551108612)
+![alt text](https://wallpaperaccess.com/full/2764317.jpg)
 
 This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
 
@@ -75,6 +75,15 @@ GrockDropdownButton(
 ),
 ```
 
+### GrockFadeAnimation
+```dart
+GrockFadeAnimation(
+  initialPosition: InitialPosition.bottom,
+  duration: Duration(seconds: 2),
+  curve: Curves.bounceOut,
+  child: child(),
+)
+```
 
 ### GrockList
 ```dart
@@ -148,10 +157,9 @@ TextButton(
       opacity: 0.2,
       icon: Icons.error,
       curve: Curves.elasticInOut,
-      padding: 15,
       durationMillisecond: 2000,
       borderRadius: 10,
-      ... vs parameters
+      // ... vs parameters
     ),
 ),
 ```
@@ -161,7 +169,7 @@ TextButton(
 TextButton(
   child: const Text('No Context Dialog'),
   onPressed: () {
-    Grock.dialog(builder: (context) {
+    Grock.dialog(builder: (_) {
       return const AlertDialog(
         title:  Text('Dialog'),
         content:  Text('Dialog content'),
@@ -172,12 +180,66 @@ TextButton(
 ```
 
 ## Widget Tools 🤩
+### Widget Extensions
+```dart
+Container().visible(val),
+Container().disable(disable),
+Container().disableOpacity(disable and opacity: 0.2),
+Container().expanded(),
+Container().sized(width,height),
+Container().margin(l,t,r,b),
+Container().rotate(),
+Container().alignment(alignment),
+Container().tooltip(msg),
+Container().onTap((){}),
+Container().bgBlur(10),
+Container().borderRadius(10),
+Container().decoration(BoxDecoration),
+Container().colored(Color),
+```
+
+### Int Extension
+```dart
+50.randomNum(), // 0-50 random number
+index.randomImage(),
+30.lorem(), // lorem ipsum text
+20.height(), // SizedBox(height: 20)
+20.width(), // SizedBox(width: 20)
+20.heightWidth(), // SizedBox(height: 20,width: 20)
+```
+
+
 ### context tools
 ```dart
 context.bottom, // SafeArea Bottom
 context.top,    // SafeArea Top
 context.isKeyBoardOpen, // true or false
 context.mediaQuery,
+context.textTheme, // TextTheme extension
+context.orientation,
+context.isLandscape,
+context.isPortrait,
+context.platformBrightness,
+context.isPhone, // device size < 600
+context.isSmallTablet,
+context.isLargeTablet,
+context.platform,
+context.openDrawer,
+context.openEndDrawer,
+context.hideCurrentSnackBar,
+context.removeCurrentSnackBar,
+context.showSnackBar,
+context.isTablet,
+context.showBottomSheet,
+context.hasFocus,
+context.isFirstFocus,
+context.nextFocus,
+context.unfocus,
+context.consumeKeyboardToken,
+context.validate,
+context.reset,
+context.save,
+context.closeKeyboard,
 ```
 
 ### no CONTEXT tools
@@ -195,7 +257,6 @@ Grock.topRight,
 Grock.topCenter,
 Grock.deviceWidth,
 Grock.deviceHeight,
-Grock.getVersion(),
 Grock.isIOS,
 Grock.isAndroid,
 Grock.isMacOS,
