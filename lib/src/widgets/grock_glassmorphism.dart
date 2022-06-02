@@ -15,7 +15,7 @@ class GrockGlassMorphism extends StatelessWidget {
       this.blur,
       this.opacity,
       this.color,
-      this.borderRadius})
+      this.borderRadius,this.border})
       : super(key: key);
 
   @override
