@@ -48,7 +48,7 @@ extension WidgetExtension on Widget {
 
   Widget get inChildrenWidth => IntrinsicWidth(child: this);
 
-    Widget tooltip(String msg,
+  Widget tooltip(String msg,
           {Decoration? decoration,
           double? height,
           bool? preferBelow,
@@ -67,8 +67,6 @@ extension WidgetExtension on Widget {
         margin: margin,
         child: this,
       );
-
-  
 
   Widget onTap(void Function() onTap,
           {bool isShowSplash = false, double? borderRadius}) =>
@@ -130,9 +128,4 @@ extension WidgetExtension on Widget {
   Widget get inChildrenHeightAndWidth => IntrinsicHeight(
         child: IntrinsicWidth(child: this),
       );
-
-
-
-
-
 }

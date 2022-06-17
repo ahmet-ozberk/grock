@@ -3,15 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
+import 'enum/toast_enum.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
+import 'widgets/grock_toast.dart';
 
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
 
   static get scaffoldMessengerKey =>
       ScaffoldMessengerModel.scaffoldMessengerKey;
-  static GlobalKey<NavigatorState> get navigationKey => NavigationService.navigationKey;
+  static GlobalKey<NavigatorState> get navigationKey =>
+      NavigationService.navigationKey;
 
   /// [Device Information]
 
@@ -61,7 +64,8 @@ extension Grock on ScaffoldMessengerModel {
     Duration openDuration = const Duration(milliseconds: 800),
     double? opacity,
     double? width,
-    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(horizontal: 15,vertical: 12.5),
+    EdgeInsetsGeometry padding =
+        const EdgeInsets.symmetric(horizontal: 15, vertical: 12.5),
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? leadingPadding,
     EdgeInsetsGeometry? trailingPadding,
@@ -125,4 +129,49 @@ extension Grock on ScaffoldMessengerModel {
           useSafeArea: useSafeArea,
           useRootNavigator: useRootNavigator,
           routeSettings: routeSettings);
+
+  static void toast({
+    String? text,
+    Widget? child,
+    AlignmentGeometry alignment = Alignment.bottomCenter,
+    Curve curve = Curves.easeInOutCubicEmphasized,
+    Duration? duration,
+    BorderRadiusGeometry? borderRadius,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    ToastTheme? theme,
+    Color? backgroundColor,
+    Color? textColor,
+    List<BoxShadow>? boxShadow,
+    TextStyle? textStyle,
+    BoxBorder? border,
+    double? width,
+  }) {
+    OverlayState overlayState = Grock.navigationKey.currentState!.overlay!;
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) {
+        return GrockToastWidget(
+          overlayEntry: overlayEntry,
+          text: text,
+          borderRadius: borderRadius,
+          padding: padding,
+          margin: margin,
+          theme: theme,
+          backgroundColor: backgroundColor,
+          textColor: textColor,
+          boxShadow: boxShadow,
+          textStyle: textStyle,
+          alignment: alignment,
+          width: width,
+          curve: curve,
+          duration: duration,
+          border: border,
+          child: child,
+        );
+      },
+    );
+
+    overlayState.insert(overlayEntry);
+  }
 }

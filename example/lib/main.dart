@@ -22,15 +22,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Future delayed() async {
-    // TODO Future.delayed alternative ( millisecond )
-    await 3000.delay();
-  }
 
   @override
   void initState() {
     super.initState();
-    delayed();
   }
 
   @override
