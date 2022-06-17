@@ -11,7 +11,7 @@ This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯�
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     navigatorKey: Grock.navigationKey, // added line
-    scaffoldMessengerKey: Grock.snackbarMessengerKey, // added line
+    scaffoldMessengerKey: Grock.scaffoldMessengerKey, // added line
     title: 'Material App',
     home: Home(),
   );
@@ -129,22 +129,7 @@ return GrockScrollEffect(
 );
 ```
 
-### GrockLoadingWidget
-```dart
-body: GrockLoadingWidget(
-  isLoading: isLoading, 
-  loadedChild: ListView.builder(
-    ...
-  ),),
-  loadingChild: Center(child: CircleProgressIndıcator()),
-  errorChild: Center(child: Text('error')),
-  showDialog: true,
-  loadingDialogWidget: Grock.dialog(
-    ... loading lottie or gif widgets
-  ),
-```
-
-## Snackbar and Dialog (BUT NO CONTEXT 😁)
+## Snackbar, Dialog and Toast (BUT NO CONTEXT 😁)
 
 ### Grock.snackBar
 ```dart
@@ -175,6 +160,16 @@ TextButton(
         content:  Text('Dialog content'),
       );
     });
+  },
+),
+```
+
+### Grock.toast
+```dart
+TextButton(
+  child: const Text('Grock Toast'),
+  onPressed: () {
+    Grock.toast(text: "Grock Toast Message");
   },
 ),
 ```
