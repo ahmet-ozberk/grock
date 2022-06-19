@@ -1,3 +1,3 @@
-## 0.0.5+2 - 17-06-2022
+## 0.0.6 - 17-06-2022
 
-* Readme.md Added new widget, Grock.toast()
+* Readme.md Added new widgets, GrockMenu and GrockButton

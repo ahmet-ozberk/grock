@@ -47,7 +47,53 @@ GrockContainer(
 )
 ```
 
-### GrockDropdownButton
+### GrockButton
+```dart
+GrockButton(
+  child: const Text("GrockButton"),
+  onTap: (){},
+),
+```
+
+### GrockMenu [IOS Style]
+```dart
+GrockMenu(
+  items: [
+    GrockMenuItem(
+      text: 'Copy',
+      trailing: const Icon(Icons.copy,size: 20,),
+      onTap: (){
+        // Item Tap
+        GrockMenu.close(); // close menu
+      }
+    ),
+    GrockMenuItem(
+      text: 'Share',
+      trailing: const Icon(Icons.ios_share_rounded,size: 20,),
+    ),
+  ],
+  child: const Icon(CupertinoIcons.ellipsis_circle_fill,color: Colors.blue,),
+  onTapClose: true, // Close menu when tapping GrockMenuItem, [true by default]
+  onTap: (value){
+   switch (value) {
+    case 0:
+      print("Tap Copy");
+      break;
+    case 1:
+      print("Tap Share");
+      break;
+    default:
+      print("Tap Default");
+      break;
+   }
+  },
+  dividerBuilder: (context,index)=>index == 1 ? 
+  const Divider(height: 0,color: Colors.red,thickness: 2,) : 
+  const Divider(color: CupertinoColors.separator,thickness: 1,height: 0,),
+)
+```
+
+### GrockDropdownButton [IOS Style]
 ```dart
 GrockDropdownButton(
   items: [
@@ -71,7 +117,7 @@ GrockDropdownButton(
         ),
       ],
   value: currentValue,
-  hintText: "Lütfen bir item seçin",
+  hintText: "Selection",
 ),
 ```
 
@@ -95,7 +141,7 @@ GrockList(
 )
 ```
 
-### GrockGlassmorphism
+### GrockGlassmorphism [IOS Style]
 ```dart
 GrockGlassMorphism(
   blur: 20,
@@ -129,9 +175,9 @@ return GrockScrollEffect(
 );
 ```
 
-## Snackbar, Dialog and Toast (BUT NO CONTEXT 😁)
+## Snackbar and Dialog (BUT NO CONTEXT 😁)
 
-### Grock.snackBar
+### Grock.snackBar [IOS Style]
 ```dart
 TextButton(
   child: const Text('No Context Snackbar'),
@@ -140,16 +186,14 @@ TextButton(
       description: "Snackbar content",
       blur: 20,
       opacity: 0.2,
-      icon: Icons.error,
+      leading: Icon(Icons.error),
       curve: Curves.elasticInOut,
-      durationMillisecond: 2000,
-      borderRadius: 10,
       // ... vs parameters
     ),
 ),
 ```
 
-### Grock.dialog
+### Grock.dialog 
 ```dart
 TextButton(
   child: const Text('No Context Dialog'),
@@ -160,16 +204,6 @@ TextButton(
         content:  Text('Dialog content'),
       );
     });
-  },
-),
-```
-
-### Grock.toast
-```dart
-TextButton(
-  child: const Text('Grock Toast'),
-  onPressed: () {
-    Grock.toast(text: "Grock Toast Message");
   },
 ),
 ```
@@ -193,7 +227,7 @@ Container().decoration(BoxDecoration),
 Container().colored(Color),
 ```
 
-### Int Extension
+### int Extension
 ```dart
 50.randomNum(), // 0-50 random number
 index.randomImage(),
@@ -204,7 +238,7 @@ index.randomImage(),
 ```
 
 
-### context tools
+### BuildContext extension
 ```dart
 context.bottom, // SafeArea Bottom
 context.top,    // SafeArea Top
@@ -237,7 +271,7 @@ context.save,
 context.closeKeyboard,
 ```
 
-### no CONTEXT tools
+### Grock extension [No BuildContext]
 ```dart
 Grock.height,
 Grock.width,
