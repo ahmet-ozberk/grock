@@ -1,8 +1,10 @@
-## Grock
+# Grock
 
 ![alt text](https://wallpaperaccess.com/full/2764317.jpg)
 
 This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
+## Grock UI Tools Demo
+![grock_ui_tools_demo](https://user-images.githubusercontent.com/83654764/174483340-22b539a0-9d9b-442b-8011-3829f029d8bd.gif)
 
 [pub.dev link](https://pub.dev/packages/grock)
 
@@ -175,7 +177,7 @@ return GrockScrollEffect(
 );
 ```
 
-## Snackbar and Dialog (BUT NO CONTEXT 😁)
+## Snackbar and Dialog and Toast (BUT NO CONTEXT 😁)
 
 ### Grock.snackBar [IOS Style]
 ```dart
@@ -205,6 +207,19 @@ TextButton(
       );
     });
   },
+),
+```
+
+### Grock.toast
+```dart
+GrockButton(
+  color: Colors.white,
+  child: const Text(
+     "Show Toast",
+  ),
+  onTap: () => Grock.toast(
+  text: "This is a toast",
+  ),
 ),
 ```
 
