@@ -99,6 +99,7 @@ class _GrockButtonState extends State<GrockButton>
                     onTap: widget.onTap,
                     onDoubleTap: widget.onDoubleTap,
                     onLongPress: widget.onLongPress,
+                    onTapCancel: ()=>_controller.reverse(),
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: widget.gradient,
