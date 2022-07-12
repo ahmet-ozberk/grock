@@ -519,6 +519,7 @@ class _GrockMenuContainer extends StatelessWidget {
               Expanded(
                 child: Text(
                   _items[index].item.text ?? "",
+                  style: _items[index].item.textStyle,
                 ),
               ),
               _items[index].item.trailing ?? const SizedBox(),

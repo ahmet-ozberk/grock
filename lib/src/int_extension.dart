@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -19,4 +20,8 @@ extension SizeBoxExtension on int{
   Widget get height => SizedBox(height: this.toDouble());
   Widget get width => SizedBox(width: this.toDouble());
   Widget get heightWidth => SizedBox(height: this.toDouble(), width: this.toDouble());
+}
+
+extension WaitExtension on int{
+  Future<void>  wait([FutureOr<void> Function()? func]) => Future.delayed(Duration(seconds: this), () => func?.call());
 }

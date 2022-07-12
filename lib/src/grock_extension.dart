@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -15,6 +16,11 @@ extension Grock on ScaffoldMessengerModel {
       ScaffoldMessengerModel.scaffoldMessengerKey;
   static GlobalKey<NavigatorState> get navigationKey =>
       NavigationService.navigationKey;
+
+  /// [Context]
+
+  static BuildContext get context =>
+      NavigationService.navigationKey.currentContext!;
 
   /// [Device Information]
 
@@ -44,11 +50,20 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Navigation]
 
-  static Future to(Widget page, {NavType? type}) =>
-      NavigationService.to(page, type: type);
-  static Future toRemove(Widget page, {NavType? type}) =>
-      NavigationService.toRemove(page, type: type);
-  static void back({Object? result}) => NavigationService.back(result: result);
+  static Future to(Widget page, {NavType? type}) {
+    log("Navigation to $page", name: "Grock");
+    return NavigationService.to(page, type: type);
+  }
+
+  static Future toRemove(Widget page, {NavType? type}) {
+    log("Navigation toRemove $page", name: "Grock");
+    return NavigationService.toRemove(page, type: type);
+  }
+
+  static void back({Object? result}) {
+    log("Navigation back", name: "Grock");
+    NavigationService.back(result: result);
+  }
 
   /// [Snackbar]
 
@@ -171,7 +186,44 @@ extension Grock on ScaffoldMessengerModel {
         );
       },
     );
-
     overlayState.insert(overlayEntry);
+  }
+
+  /// [Empty Widget]
+
+  static Widget get empty => SizedBox.shrink();
+
+  /// [Internet Check]
+
+  static void checkInternet({
+    Function()? onConnect,
+    Function()? onDisconnect,
+    Color? connectBackgroundColor,
+    Color? connectIconColor,
+    Icon? connectIcon,
+    Widget? connectWidget,
+    Duration connectWidgetDuration = const Duration(seconds: 2),
+    Widget? disconnectWidget,
+    Color? disconnectBackgroundColor,
+    Color? disconnectIconColor,
+    Icon? disconnectIcon,
+    AlignmentGeometry? alignment,
+    BoxShape? shape,
+  }) {
+    GrockInternetChecker.internetCheckFunction(
+      onConnect: onConnect,
+      onDisconnect: onDisconnect,
+      connectBackgroundColor: connectBackgroundColor,
+      connectIconColor: connectIconColor,
+      connectIcon: connectIcon,
+      connectWidget: connectWidget,
+      connectWidgetDuration: connectWidgetDuration,
+      disconnectWidget: disconnectWidget,
+      disconnectBackgroundColor: disconnectBackgroundColor,
+      disconnectIconColor: disconnectIconColor,
+      disconnectIcon: disconnectIcon,
+      alignment: alignment,
+      shape: shape,
+    );
   }
 }

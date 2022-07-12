@@ -137,6 +137,7 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                       CupertinoColors.secondarySystemFill,
                   borderRadius: widget.borderRadius ??
                       const BorderRadius.all(Radius.circular(15)),
+                  border: widget.border,
                   boxShadow: widget.boxShadow ??
                       [
                         BoxShadow(
@@ -155,5 +156,3 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
     );
   }
 }
-
-

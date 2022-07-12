@@ -21,3 +21,5 @@ export 'src/snackbar/grock_snackbar.dart';
 export 'src/enum/toast_enum.dart';
 export 'src/widgets/grock_button.dart';
 export 'src/widgets/grock_menu.dart';
+export 'src/string_extension.dart';
+export 'src/widgets/grock_internet_checker.dart';
