@@ -22,6 +22,7 @@ class GrockToastWidget extends StatefulWidget {
   BoxBorder? border;
   TextAlign textAlign;
   TextOverflow overflow;
+  int? maxLines;
   GrockToastWidget({
     Key? key,
     required this.overlayEntry,
@@ -41,7 +42,8 @@ class GrockToastWidget extends StatefulWidget {
     this.textStyle,
     this.width,
     this.textAlign = TextAlign.center,
-    this.overflow = TextOverflow.ellipsis,
+    this.overflow = TextOverflow.clip,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
   late Animation<double> _animation;
 
   final kDuration = const Duration(seconds: 2);
-  final kAnimateDuration = const Duration(milliseconds: 400);
+  final kAnimateDuration = const Duration(milliseconds: 200);
 
   _animateStart() {
     _controller = AnimationController(
@@ -131,8 +133,9 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                         Colors.white,
                     fontSize: 16,
                   ),
-                  textAlign: widget.textAlign,
-                  overflow: widget.overflow,
+              textAlign: widget.textAlign,
+              overflow: widget.overflow,
+              maxLines: widget.maxLines,
               child: Container(
                 width: widget.width,
                 padding: widget.padding ??
@@ -153,7 +156,13 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                         ),
                       ],
                 ),
-                child: widget.child ?? Text(widget.text ?? "",textAlign: widget.textAlign,),
+                child: widget.child ??
+                    Text(
+                      widget.text ?? "",
+                      textAlign: widget.textAlign,
+                      overflow: widget.overflow,
+                      maxLines: widget.maxLines,
+                    ),
               ),
             ),
           ),
