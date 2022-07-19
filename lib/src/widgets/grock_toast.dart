@@ -20,6 +20,8 @@ class GrockToastWidget extends StatefulWidget {
   Curve curve;
   Duration? duration;
   BoxBorder? border;
+  TextAlign textAlign;
+  TextOverflow overflow;
   GrockToastWidget({
     Key? key,
     required this.overlayEntry,
@@ -38,6 +40,8 @@ class GrockToastWidget extends StatefulWidget {
     this.border,
     this.textStyle,
     this.width,
+    this.textAlign = TextAlign.center,
+    this.overflow = TextOverflow.ellipsis,
   }) : super(key: key);
 
   @override
@@ -124,9 +128,11 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                   TextStyle(
                     color: widget.textColor ??
                         widget.theme?.textColor ??
-                        Colors.black,
+                        Colors.white,
                     fontSize: 16,
                   ),
+                  textAlign: widget.textAlign,
+                  overflow: widget.overflow,
               child: Container(
                 width: widget.width,
                 padding: widget.padding ??
@@ -134,9 +140,9 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                 decoration: BoxDecoration(
                   color: widget.backgroundColor ??
                       widget.theme?.backgroundColor ??
-                      CupertinoColors.secondarySystemFill,
+                      Colors.black.withOpacity(0.6),
                   borderRadius: widget.borderRadius ??
-                      const BorderRadius.all(Radius.circular(15)),
+                      const BorderRadius.all(Radius.circular(8)),
                   border: widget.border,
                   boxShadow: widget.boxShadow ??
                       [
@@ -147,7 +153,7 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                         ),
                       ],
                 ),
-                child: widget.child ?? Text(widget.text ?? ""),
+                child: widget.child ?? Text(widget.text ?? "",textAlign: widget.textAlign,),
               ),
             ),
           ),

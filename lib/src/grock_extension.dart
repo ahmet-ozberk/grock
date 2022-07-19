@@ -161,6 +161,8 @@ extension Grock on ScaffoldMessengerModel {
     TextStyle? textStyle,
     BoxBorder? border,
     double? width,
+    TextAlign textAlign = TextAlign.center,
+    TextOverflow overflow = TextOverflow.ellipsis,
   }) {
     OverlayState overlayState = Grock.navigationKey.currentState!.overlay!;
     late OverlayEntry overlayEntry;
@@ -183,6 +185,8 @@ extension Grock on ScaffoldMessengerModel {
           duration: duration,
           border: border,
           child: child,
+          textAlign: textAlign,
+          overflow: overflow,
         );
       },
     );
