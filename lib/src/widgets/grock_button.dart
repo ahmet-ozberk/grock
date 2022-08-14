@@ -1,7 +1,4 @@
-
 import 'package:flutter/material.dart';
-
-import '../../grock.dart';
 
 class GrockButton extends StatefulWidget {
   BorderRadius? borderRadius;
@@ -11,7 +8,6 @@ class GrockButton extends StatefulWidget {
   double elevation;
   EdgeInsetsGeometry padding;
   Widget? child;
-  ButtonAnimationEffect? animationEffect;
   void Function()? onTap;
   void Function()? onDoubleTap;
   void Function()? onLongPress;
@@ -30,7 +26,6 @@ class GrockButton extends StatefulWidget {
     this.elevation = 8.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     this.elevationColor = Colors.black26,
-    this.animationEffect = ButtonAnimationEffect.shrink,
     this.height,
     this.width,
   }) : super(key: key);
@@ -39,93 +34,62 @@ class GrockButton extends StatefulWidget {
   _GrockButtonState createState() => _GrockButtonState();
 }
 
-class _GrockButtonState extends State<GrockButton>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _GrockButtonState extends State<GrockButton> {
   final _kBorderRadius = const BorderRadius.all(Radius.elliptical(30, 30));
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 100),
-      vsync: this,
-    );
-    _animation = widget.animationEffect!.getTween(_controller);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.width ?? Grock.width * 0.6,
+      width: widget.width,
       height: widget.height,
-      child: ScaleTransition(
-        scale: _animation,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Material(
-              key: widget.key,
-              elevation: widget.elevation,
-              shadowColor: widget.elevationColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Material(
+            key: widget.key,
+            elevation: widget.elevation,
+            shadowColor: widget.elevationColor,
+            shape: _SquircleBorder(
+              radius: widget.borderRadius ?? _kBorderRadius,
+            ),
+            child: ClipPath.shape(
               shape: _SquircleBorder(
                 radius: widget.borderRadius ?? _kBorderRadius,
               ),
-              child: ClipPath.shape(
+              child: Material(
+                key: widget.key,
+                elevation: widget.elevation,
+                shadowColor: widget.elevationColor,
                 shape: _SquircleBorder(
                   radius: widget.borderRadius ?? _kBorderRadius,
                 ),
-                child: Material(
-                  key: widget.key,
-                  elevation: widget.elevation,
-                  shadowColor: widget.elevationColor,
-                  shape: _SquircleBorder(
-                    radius: widget.borderRadius ?? _kBorderRadius,
-                  ),
-                  child: InkWell(
-                    onTapDown: (details) {
-                      _controller.forward();
-                    },
-                    onTapUp: (details) {
-                      _controller.reverse();
-                    },
-                    onTap: widget.onTap,
-                    onDoubleTap: widget.onDoubleTap,
-                    onLongPress: widget.onLongPress,
-                    onTapCancel: ()=>_controller.reverse(),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        gradient: widget.gradient,
-                        color: widget.color ?? Theme.of(context).primaryColor,
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: widget.padding,
-                          child: widget.child ??
-                              const Text(
-                                "Grock Button",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                              ),
-                        ),
+                child: InkWell(
+                  onTap: widget.onTap,
+                  onDoubleTap: widget.onDoubleTap,
+                  onLongPress: widget.onLongPress,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: widget.gradient,
+                      color: widget.color ?? Theme.of(context).primaryColor,
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: widget.padding,
+                        child: widget.child ??
+                            Text(
+                              "Grock Button",
+                              style: Theme.of(context).textTheme.button,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                            ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
