@@ -19,7 +19,7 @@ extension WidgetExtension on Widget {
 
   Widget expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
 
-  Widget sized({double? height, double? width}) => SizedBox(
+  Widget size({double? height, double? width}) => SizedBox(
         height: height,
         width: width,
         child: this,
@@ -88,7 +88,7 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget borderRadius({double? radius}) => ClipRRect(
+  Widget borderRadius(double? radius) => ClipRRect(
         borderRadius: BorderRadius.circular(radius ?? 0),
         child: this,
       );
@@ -128,4 +128,112 @@ extension WidgetExtension on Widget {
   Widget get inChildrenHeightAndWidth => IntrinsicHeight(
         child: IntrinsicWidth(child: this),
       );
+
+  Widget red() => ColoredBox(color: Colors.red, child: this);
+
+  Widget green() => ColoredBox(color: Colors.green, child: this);
+
+  Widget blue() => ColoredBox(color: Colors.blue, child: this);
+
+  Widget yellow() => ColoredBox(color: Colors.yellow, child: this);
+
+  Widget orange() => ColoredBox(color: Colors.orange, child: this);
+
+  Widget purple() => ColoredBox(color: Colors.purple, child: this);
+
+  Widget shadow({Color? color, double? blurRadius, double? spreadRadius}) =>
+      Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: color ?? Colors.black,
+              blurRadius: blurRadius ?? 10,
+              spreadRadius: spreadRadius ?? 0,
+            ),
+          ],
+        ),
+        child: this,
+      );
+
+  Widget blur({double? x, double? y}) => ImageFiltered(
+        imageFilter: ImageFilter.blur(sigmaX: x ?? 3, sigmaY: y ?? 3),
+        child: this,
+      );
+
+  /// Start and End values ​​must be between 0 and 1. The Start value cannot be greater than the End value.
+  Widget animatedRotation({
+    double start = 0,
+    double end = 1,
+    Curve? curve,
+    Duration? duration,
+  }) =>
+      GrockRotationAnimation(
+        child: this,
+        to: end,
+        from: start,
+        duration: duration,
+        curve: curve,
+      );
+}
+
+// ignore: must_be_immutable
+class GrockRotationAnimation extends StatefulWidget {
+  final Widget child;
+  Curve? curve;
+  Duration? duration;
+  double from;
+  double to;
+  GrockRotationAnimation({
+    Key? key,
+    required this.child,
+    this.curve,
+    this.duration,
+    this.from = 0,
+    this.to = 1,
+  }) : super(key: key);
+
+  @override
+  State<GrockRotationAnimation> createState() => _GrockRotationAnimationState();
+}
+
+class _GrockRotationAnimationState extends State<GrockRotationAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration ?? Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = Tween(begin: widget.from, end: widget.to).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          widget.from < 0 ? 0 : widget.from,
+          widget.to,
+          curve: widget.curve ?? Curves.fastOutSlowIn,
+        ),
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: _animation,
+      child: widget.child,
+    );
+  }
 }

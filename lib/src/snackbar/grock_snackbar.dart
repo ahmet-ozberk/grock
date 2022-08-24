@@ -237,7 +237,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
     return _GlassMorphism(
       borderRadius: widget.borderRadius ?? 20,
       blur: widget.blur ?? 15,
-      opacity: widget.opacity ?? 0.2,
+      opacity: widget.opacity ?? 0.6,
       color: widget.color ?? Colors.white,
       border: widget.border,
       child: GrockContainer(

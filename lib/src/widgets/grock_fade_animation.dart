@@ -4,7 +4,7 @@ class GrockFadeAnimation extends StatefulWidget {
   Widget child;
   Duration duration;
   Duration opacityDuration;
-  InitialLocation initialLocation;
+  Position position;
   Curve curve;
   double value;
   GrockFadeAnimation({
@@ -12,7 +12,7 @@ class GrockFadeAnimation extends StatefulWidget {
     required this.child,
     this.duration = const Duration(milliseconds: 500),
     this.opacityDuration = const Duration(milliseconds: 400),
-    this.initialLocation = InitialLocation.top,
+    this.position = Position.top,
     this.curve = Curves.easeInOut,
     this.value = 100,
   }) : super(key: key);
@@ -28,11 +28,11 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
 
   bool _isOpacity = false;
 
-  Tween<double> _tween(InitialLocation location) {
-    if (location == InitialLocation.top || location == InitialLocation.bottom) {
+  Tween<double> _tween(Position location) {
+    if (location == Position.top || location == Position.bottom) {
       return Tween<double>(begin: widget.value, end: 0.0);
-    } else if (location == InitialLocation.left ||
-        location == InitialLocation.right) {
+    } else if (location == Position.left ||
+        location == Position.right) {
       return Tween<double>(begin: widget.value, end: 0.0);
     } else {
       return Tween<double>(begin: 0.0, end: -widget.value);
@@ -40,13 +40,13 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   }
 
   Offset _offset() {
-    if (widget.initialLocation == InitialLocation.top) {
+    if (widget.position == Position.top) {
       return Offset(0.0, -_animation.value);
-    } else if (widget.initialLocation == InitialLocation.left) {
+    } else if (widget.position == Position.left) {
       return Offset(-_animation.value, 0.0);
-    } else if (widget.initialLocation == InitialLocation.right) {
+    } else if (widget.position == Position.right) {
       return Offset(_animation.value, 0.0);
-    } else if (widget.initialLocation == InitialLocation.bottom) {
+    } else if (widget.position == Position.bottom) {
       return Offset(0.0, _animation.value);
     } else {
       return Offset(0.0, -_animation.value);
@@ -60,7 +60,7 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
       vsync: this,
       duration: widget.duration,
     );
-    _animation = _tween(widget.initialLocation).animate(CurvedAnimation(
+    _animation = _tween(widget.position).animate(CurvedAnimation(
         parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         _isOpacity = true;
@@ -87,7 +87,7 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   }
 }
 
-enum InitialLocation {
+enum Position {
   top,
   left,
   right,

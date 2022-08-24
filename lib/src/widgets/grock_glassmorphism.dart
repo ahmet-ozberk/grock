@@ -31,7 +31,7 @@ class GrockGlassMorphism extends StatelessWidget {
             border: border ??
                 Border.all(
                   color: (color ?? Colors.white).withOpacity(0.1),
-                  width: 1.5,
+                  width: 0.5,
                 ),
           ),
           child: child,

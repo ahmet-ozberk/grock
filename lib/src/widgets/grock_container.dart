@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GrockContainer extends StatelessWidget {
@@ -13,7 +14,9 @@ class GrockContainer extends StatelessWidget {
   final Decoration? decoration;
   final Decoration? foregroundDecoration;
   final BoxConstraints? constraints;
-  const GrockContainer({
+  bool isTapAnimation = true;
+  double pressedOpacity = 0.4;
+  GrockContainer({
     Key? key,
     this.onTap,
     this.onLongPress,
@@ -27,10 +30,33 @@ class GrockContainer extends StatelessWidget {
     this.decoration,
     this.foregroundDecoration,
     this.constraints,
+    this.isTapAnimation = true,
+    this.pressedOpacity = 0.4,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (isTapAnimation) {
+      return CupertinoButton(
+        padding: EdgeInsets.zero,
+        onPressed: () => onTap?.call(),
+        color: color,
+        pressedOpacity: pressedOpacity,
+        child: Container(
+          key: key,
+          color: color,
+          width: width,
+          height: height,
+          alignment: alignment,
+          padding: padding,
+          margin: margin,
+          decoration: decoration,
+          foregroundDecoration: foregroundDecoration,
+          constraints: constraints,
+          child: child,
+        ),
+      );
+    }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => onTap?.call(),

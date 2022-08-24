@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
-import 'enum/toast_enum.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
 import 'widgets/grock_toast.dart';
@@ -71,8 +70,8 @@ extension Grock on ScaffoldMessengerModel {
     required String title,
     required String description,
     Color? color,
-    SnackbarPosition position = SnackbarPosition.bottom,
-    Duration duration = const Duration(seconds: 3),
+    SnackbarPosition position = SnackbarPosition.top,
+    Duration duration = const Duration(seconds: 4),
     Curve curve = Curves.fastLinearToSlowEaseIn,
     double? borderRadius,
     double? blur,

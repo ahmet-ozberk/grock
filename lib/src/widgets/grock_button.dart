@@ -70,7 +70,7 @@ class _GrockButtonState extends State<GrockButton> {
                   child: Ink(
                     decoration: BoxDecoration(
                       gradient: widget.gradient,
-                      color: widget.color ?? Theme.of(context).primaryColor,
+                      color: widget.color ?? Colors.white,
                     ),
                     child: Center(
                       child: Padding(

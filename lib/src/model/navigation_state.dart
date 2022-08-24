@@ -23,6 +23,10 @@ class NavigationService {
     return navigationKey.currentState!.pop(result);
   }
 
+  
+
+
+
   static PageTransitionType _type(NavType type) {
     switch (type) {
       case NavType.fade:

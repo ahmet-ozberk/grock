@@ -90,16 +90,20 @@ extension SizeExtension on BuildContext {
 
   void openEndDrawer() => Scaffold.of(this).openEndDrawer();
 
-  void showBottomSheet(WidgetBuilder builder,
-          {Color? backgroundColor,
-          double? elevation,
-          ShapeBorder? shape,
-          Clip? clipBehaviour}) =>
-      Scaffold.of(this).showBottomSheet(builder,
-          backgroundColor: backgroundColor,
-          elevation: elevation,
-          shape: shape,
-          clipBehavior: clipBehaviour);
+  void showBottomSheet(
+    WidgetBuilder builder, {
+    Color? backgroundColor,
+    double? elevation,
+    ShapeBorder? shape,
+    Clip? clipBehaviour,
+  }) =>
+      Scaffold.of(this).showBottomSheet(
+        builder,
+        backgroundColor: backgroundColor,
+        elevation: elevation,
+        shape: shape,
+        clipBehavior: clipBehaviour,
+      );
 }
 
 extension ColorExtension on BuildContext {

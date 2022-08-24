@@ -25,3 +25,7 @@ extension SizeBoxExtension on int{
 extension WaitExtension on int{
   Future<void>  wait([FutureOr<void> Function()? func]) => Future.delayed(Duration(seconds: this), () => func?.call());
 }
+
+extension BorderRadiusIntExtension on int{
+  BorderRadius get borderRadius => BorderRadius.circular(this.toDouble());
+}
