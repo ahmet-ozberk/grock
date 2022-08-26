@@ -37,23 +37,35 @@ class GrockContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isTapAnimation) {
-      return CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: () => onTap?.call(),
-        color: color,
-        pressedOpacity: pressedOpacity,
-        child: Container(
-          key: key,
+      return CupertinoTheme(
+        data: CupertinoThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
+          primaryContrastingColor: Colors.black,
+          textTheme: CupertinoTextThemeData(
+            textStyle: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+        child: CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () => onTap?.call(),
           color: color,
-          width: width,
-          height: height,
-          alignment: alignment,
-          padding: padding,
-          margin: margin,
-          decoration: decoration,
-          foregroundDecoration: foregroundDecoration,
-          constraints: constraints,
-          child: child,
+          pressedOpacity: pressedOpacity,
+          child: Container(
+            key: key,
+            color: color,
+            width: width,
+            height: height,
+            alignment: alignment,
+            padding: padding,
+            margin: margin,
+            decoration: decoration,
+            foregroundDecoration: foregroundDecoration,
+            constraints: constraints,
+            child: child,
+          ),
         ),
       );
     }
