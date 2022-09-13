@@ -42,13 +42,10 @@ class GrockContainer extends StatelessWidget {
           brightness: Brightness.light,
           primaryColor: Colors.white,
           primaryContrastingColor: Colors.black,
-          textTheme: CupertinoTextThemeData(
-            textStyle: TextStyle(
-              color: Colors.black,
-            ),
-          ),
+          textTheme: CupertinoTextThemeData(),
         ),
         child: CupertinoButton(
+          key: key,
           padding: EdgeInsets.zero,
           onPressed: () => onTap?.call(),
           color: color,
@@ -70,11 +67,11 @@ class GrockContainer extends StatelessWidget {
       );
     }
     return GestureDetector(
+      key: key,
       behavior: HitTestBehavior.translucent,
       onTap: () => onTap?.call(),
       onLongPress: () => onLongPress?.call(),
       child: Container(
-        key: key,
         color: color,
         width: width,
         height: height,

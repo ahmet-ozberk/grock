@@ -13,19 +13,33 @@ extension RandomImageExtension on int {
       "https://picsum.photos/$width/$height?random=$this";
   String rndImg({int? w, int? h, String? keywords}) =>
       "https://source.unsplash.com/random/${w ?? 500}×${h ?? 500}/?${keywords ?? ""}?fruit";
-  String lorem({int paragraphs = 3})=> loremIpsum(paragraphs: paragraphs, words: this);
+  String lorem({int paragraphs = 3}) =>
+      loremIpsum(paragraphs: paragraphs, words: this);
 }
 
-extension SizeBoxExtension on int{
+extension SizeBoxExtension on int {
   Widget get height => SizedBox(height: this.toDouble());
   Widget get width => SizedBox(width: this.toDouble());
-  Widget get heightWidth => SizedBox(height: this.toDouble(), width: this.toDouble());
+  Widget get heightWidth =>
+      SizedBox(height: this.toDouble(), width: this.toDouble());
 }
 
-extension WaitExtension on int{
-  Future<void>  wait([FutureOr<void> Function()? func]) => Future.delayed(Duration(seconds: this), () => func?.call());
+extension WaitExtension on int {
+  Future<void> wait([FutureOr<void> Function()? func]) =>
+      Future.delayed(Duration(seconds: this), () => func?.call());
 }
 
-extension BorderRadiusIntExtension on int{
+extension BorderRadiusIntExtension on int {
   BorderRadius get borderRadius => BorderRadius.circular(this.toDouble());
+}
+
+extension RandomStringExtension on int {
+  static Random random = Random();
+  static const charactersModel =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length,
+      (_) =>
+          charactersModel.codeUnitAt(random.nextInt(charactersModel.length))));
 }

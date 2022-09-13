@@ -54,6 +54,8 @@ extension Grock on ScaffoldMessengerModel {
     return NavigationService.to(page, type: type);
   }
 
+  static void hideKeyboard()=>FocusScope.of(context).requestFocus(FocusNode());
+
   static Future toRemove(Widget page, {NavType? type}) {
     log("Navigation toRemove $page", name: "Grock");
     return NavigationService.toRemove(page, type: type);
@@ -63,6 +65,9 @@ extension Grock on ScaffoldMessengerModel {
     log("Navigation back", name: "Grock");
     NavigationService.back(result: result);
   }
+
+
+
 
   /// [Snackbar]
 

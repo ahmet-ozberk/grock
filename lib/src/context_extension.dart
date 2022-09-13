@@ -85,6 +85,8 @@ extension SizeExtension on BuildContext {
   void hideCurrentSnackBar(
           {SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
       ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
+      
+  void hideKeyboard() => FocusScope.of(this).unfocus();
 
   void openDrawer() => Scaffold.of(this).openDrawer();
 

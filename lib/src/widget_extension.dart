@@ -176,6 +176,14 @@ extension WidgetExtension on Widget {
       );
 }
 
+extension ExpansionTileExtension on ExpansionTile {
+  Widget removeDivider() => Builder(builder: (context) {
+        return Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: this);
+      });
+}
+
 // ignore: must_be_immutable
 class GrockRotationAnimation extends StatefulWidget {
   final Widget child;
