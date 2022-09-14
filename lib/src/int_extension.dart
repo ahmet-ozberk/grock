@@ -11,7 +11,7 @@ extension IntExtension on int {
 extension RandomImageExtension on int {
   String randomImage({int width = 200, int height = 200}) =>
       "https://picsum.photos/$width/$height?random=$this";
-  String randomImg(int width, int height) =>
+  String randomImg([int width = 320, int height= 240]) =>
       "https://loremflickr.com/$width/$height?random=$this";
   String lorem({int paragraphs = 3}) =>
       loremIpsum(paragraphs: paragraphs, words: this);
