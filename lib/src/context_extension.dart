@@ -42,7 +42,7 @@ extension SizeExtension on BuildContext {
 
   EdgeInsets get mediaQueryPadding => MediaQuery.of(this).padding;
 
-  EdgeInsets get mediaQueryViewPadding => MediaQuery.of(this).viewPadding;
+  EdgeInsets get keyboardPadding => MediaQuery.of(this).viewPadding;
 
   EdgeInsets get mediaQueryViewInsets => MediaQuery.of(this).viewInsets;
 

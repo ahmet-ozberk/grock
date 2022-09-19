@@ -49,16 +49,58 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Navigation]
 
-  static Future to(Widget page, {NavType? type}) {
+  static Future to(
+    Widget page, {
+    NavType? type,
+    Widget? childCurrent = null,
+    BuildContext? ctx,
+    bool inheritTheme = false,
+    Curve curve = Curves.linear,
+    Alignment? alignment,
+    Duration duration = const Duration(milliseconds: 300),
+    Duration reverseDuration = const Duration(milliseconds: 300),
+    bool fullscreenDialog = false,
+    bool opaque = false,
+  }) {
     log("Navigation to $page", name: "Grock");
-    return NavigationService.to(page, type: type);
+    return NavigationService.to(page,
+        type: type,
+        childCurrent: childCurrent,
+        ctx: ctx,
+        inheritTheme: inheritTheme,
+        curve: curve,
+        alignment: alignment,
+        duration: duration,
+        reverseDuration: reverseDuration,
+        fullscreenDialog: fullscreenDialog,
+        opaque: opaque);
   }
 
-  static void hideKeyboard()=>FocusScope.of(context).requestFocus(FocusNode());
-
-  static Future toRemove(Widget page, {NavType? type}) {
+  static Future toRemove(
+    Widget page, {
+    NavType? type,
+    Widget? childCurrent = null,
+    BuildContext? ctx,
+    bool inheritTheme = false,
+    Curve curve = Curves.linear,
+    Alignment? alignment,
+    Duration duration = const Duration(milliseconds: 300),
+    Duration reverseDuration = const Duration(milliseconds: 300),
+    bool fullscreenDialog = false,
+    bool opaque = false,
+  }) {
     log("Navigation toRemove $page", name: "Grock");
-    return NavigationService.toRemove(page, type: type);
+    return NavigationService.toRemove(page,
+        type: type,
+        childCurrent: childCurrent,
+        ctx: ctx,
+        inheritTheme: inheritTheme,
+        curve: curve,
+        alignment: alignment,
+        duration: duration,
+        reverseDuration: reverseDuration,
+        fullscreenDialog: fullscreenDialog,
+        opaque: opaque);
   }
 
   static void back({Object? result}) {
@@ -66,8 +108,8 @@ extension Grock on ScaffoldMessengerModel {
     NavigationService.back(result: result);
   }
 
-
-
+  static void hideKeyboard() =>
+      FocusScope.of(context).requestFocus(FocusNode());
 
   /// [Snackbar]
 
@@ -78,13 +120,13 @@ extension Grock on ScaffoldMessengerModel {
     SnackbarPosition position = SnackbarPosition.top,
     Duration duration = const Duration(seconds: 4),
     Curve curve = Curves.fastLinearToSlowEaseIn,
-    double? borderRadius,
+    BorderRadiusGeometry? borderRadius,
     double? blur,
-    Duration openDuration = const Duration(milliseconds: 800),
+    Duration openDuration = const Duration(milliseconds: 600),
     double? opacity,
     double? width,
     EdgeInsetsGeometry padding =
-        const EdgeInsets.symmetric(horizontal: 15, vertical: 12.5),
+        const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? leadingPadding,
     EdgeInsetsGeometry? trailingPadding,
@@ -236,4 +278,13 @@ extension Grock on ScaffoldMessengerModel {
       shape: shape,
     );
   }
+
+  static Widget loadingPopup(
+          {Color? backgroundColor,
+          Color? color,
+          BorderRadiusGeometry? borderRadius}) =>
+      CustomLoadingWidget(
+          backgroundColor: backgroundColor,
+          color: color,
+          borderRadius: borderRadius);
 }

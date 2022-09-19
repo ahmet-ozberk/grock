@@ -11,9 +11,9 @@ extension IntExtension on int {
 extension RandomImageExtension on int {
   String randomImage({int width = 200, int height = 200}) =>
       "https://picsum.photos/$width/$height?random=$this";
-  String randomImg([int width = 320, int height= 240]) =>
+  String randomImg([int width = 320, int height = 240]) =>
       "https://loremflickr.com/$width/$height?random=$this";
-  String lorem({int paragraphs = 3}) =>
+  String lorem({int paragraphs = 1}) =>
       loremIpsum(paragraphs: paragraphs, words: this);
 }
 
@@ -31,6 +31,44 @@ extension WaitExtension on int {
 
 extension BorderRadiusIntExtension on int {
   BorderRadius get borderRadius => BorderRadius.circular(this.toDouble());
+  BorderRadius get borderRadiusOnlyTopLeft =>
+      BorderRadius.only(topLeft: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyTopRight =>
+      BorderRadius.only(topRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyBottomLeft =>
+      BorderRadius.only(bottomLeft: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyBottomRight =>
+      BorderRadius.only(bottomRight: Radius.circular(this.toDouble()));
+
+  BorderRadius get borderRadiusOnlyTop => BorderRadius.only(
+      topLeft: Radius.circular(this.toDouble()),
+      topRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyBottom => BorderRadius.only(
+      bottomLeft: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyLeft => BorderRadius.only(
+      topLeft: Radius.circular(this.toDouble()),
+      bottomLeft: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyRight => BorderRadius.only(
+      topRight: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
+
+  BorderRadius get borderRadiusOnlyTopLeftRight => BorderRadius.only(
+      topLeft: Radius.circular(this.toDouble()),
+      topRight: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyTopLeftBottom => BorderRadius.only(
+      topLeft: Radius.circular(this.toDouble()),
+      bottomLeft: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyTopRightBottom => BorderRadius.only(
+      topRight: Radius.circular(this.toDouble()),
+      bottomLeft: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
+  BorderRadius get borderRadiusOnlyBottomLeftRight => BorderRadius.only(
+      topLeft: Radius.circular(this.toDouble()),
+      bottomLeft: Radius.circular(this.toDouble()),
+      bottomRight: Radius.circular(this.toDouble()));
 }
 
 extension RandomStringExtension on int {

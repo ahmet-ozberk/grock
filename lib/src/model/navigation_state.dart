@@ -5,16 +5,64 @@ import 'package:page_transition/page_transition.dart';
 class NavigationService {
   static GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 
-  static Future to(Widget page, {NavType? type}) {
+  static Future to(
+    Widget page, {
+    NavType? type,
+    Widget? childCurrent = null,
+    BuildContext? ctx,
+    bool inheritTheme = false,
+    Curve curve = Curves.linear,
+    Alignment? alignment,
+    Duration duration = const Duration(milliseconds: 300),
+    Duration reverseDuration = const Duration(milliseconds: 300),
+    bool fullscreenDialog = false,
+    bool opaque = false,
+  }) {
     return navigationKey.currentState!.push(type != null
-        ? PageTransition(type: _type(type), child: page)
+        ? PageTransition(
+            type: _type(type),
+            child: page,
+            childCurrent: childCurrent,
+            ctx: ctx,
+            inheritTheme: inheritTheme,
+            curve: curve,
+            alignment: alignment,
+            duration: duration,
+            reverseDuration: reverseDuration,
+            fullscreenDialog: fullscreenDialog,
+            opaque: opaque,
+          )
         : MaterialPageRoute(builder: (context) => page));
   }
 
-  static Future toRemove(Widget page, {NavType? type}) {
+  static Future toRemove(
+    Widget page, {
+    NavType? type,
+    Widget? childCurrent = null,
+    BuildContext? ctx,
+    bool inheritTheme = false,
+    Curve curve = Curves.linear,
+    Alignment? alignment,
+    Duration duration = const Duration(milliseconds: 300),
+    Duration reverseDuration = const Duration(milliseconds: 300),
+    bool fullscreenDialog = false,
+    bool opaque = false,
+  }) {
     return navigationKey.currentState!.pushAndRemoveUntil(
         type != null
-            ? PageTransition(type: _type(type), child: page)
+            ? PageTransition(
+                type: _type(type),
+                child: page,
+                childCurrent: childCurrent,
+                ctx: ctx,
+                inheritTheme: inheritTheme,
+                curve: curve,
+                alignment: alignment,
+                duration: duration,
+                reverseDuration: reverseDuration,
+                fullscreenDialog: fullscreenDialog,
+                opaque: opaque,
+              )
             : MaterialPageRoute(builder: (context) => page),
         (route) => false);
   }
@@ -22,10 +70,6 @@ class NavigationService {
   static void back({Object? result}) {
     return navigationKey.currentState!.pop(result);
   }
-
-  
-
-
 
   static PageTransitionType _type(NavType type) {
     switch (type) {

@@ -14,6 +14,7 @@ class GrockContainer extends StatelessWidget {
   final Decoration? decoration;
   final Decoration? foregroundDecoration;
   final BoxConstraints? constraints;
+  final bool isKeyboardDismiss;
   bool isTapAnimation = true;
   double pressedOpacity = 0.4;
   GrockContainer({
@@ -32,6 +33,7 @@ class GrockContainer extends StatelessWidget {
     this.constraints,
     this.isTapAnimation = true,
     this.pressedOpacity = 0.4,
+    this.isKeyboardDismiss = true,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,12 @@ class GrockContainer extends StatelessWidget {
         child: CupertinoButton(
           key: key,
           padding: EdgeInsets.zero,
-          onPressed: () => onTap?.call(),
+          onPressed: () {
+            onTap?.call();
+            if (isKeyboardDismiss) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            }
+          },
           color: color,
           pressedOpacity: pressedOpacity,
           child: Container(
@@ -69,7 +76,12 @@ class GrockContainer extends StatelessWidget {
     return GestureDetector(
       key: key,
       behavior: HitTestBehavior.translucent,
-      onTap: () => onTap?.call(),
+      onTap: () {
+        onTap?.call();
+        if (isKeyboardDismiss) {
+          FocusScope.of(context).requestFocus(FocusNode());
+        }
+      },
       onLongPress: () => onLongPress?.call(),
       child: Container(
         color: color,

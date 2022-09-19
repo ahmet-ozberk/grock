@@ -25,3 +25,5 @@ export 'src/widgets/grock_internet_checker.dart';
 export 'src/list_extension.dart';
 export 'src/widgets/grock_info_widget.dart';
 export 'src/widgets/grock_horizontal_list.dart';
+export 'src/model/loading_widget.dart';
+export 'src/widgets/grock_widget_size.dart';

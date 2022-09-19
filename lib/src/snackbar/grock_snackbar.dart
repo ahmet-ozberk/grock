@@ -8,7 +8,7 @@ class GrockSnackbar {
   static Future<void> showSnackbar({
     required String title,
     required String description,
-    double? borderRadius,
+    BorderRadiusGeometry? borderRadius,
     required Duration duration,
     required SnackbarPosition position,
     required Curve curve,
@@ -43,7 +43,10 @@ class GrockSnackbar {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: MediaQuery.of(Grock.navigationKey.currentState!.overlay!.context).size.width,
+              width: MediaQuery.of(
+                      Grock.navigationKey.currentState!.overlay!.context)
+                  .size
+                  .width,
               child: _SnackbarBody(
                 overlayEntry: overlayEntry,
                 borderRadius: borderRadius,
@@ -106,7 +109,7 @@ class GrockSnackbar {
 
 class _SnackbarBody extends StatefulWidget {
   OverlayEntry overlayEntry;
-  double? borderRadius;
+  BorderRadiusGeometry? borderRadius;
   Duration duration;
   SnackbarPosition position;
   Curve curve;
@@ -146,7 +149,7 @@ class _SnackbarBody extends StatefulWidget {
       this.width,
       this.border,
       this.itemSpaceHeight,
-      this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       this.margin,
       this.leadingPadding,
       this.trailingPadding,
@@ -174,12 +177,16 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   //late Timer time;
   int i = 0;
 
+  bool _isClosed = true;
+
   @override
   void initState() {
     super.initState();
     animationStarter();
-    _closeSnackbar();
     _controller!.forward();
+    if (_isClosed) {
+      _closeSnackbar();
+    }
   }
 
   void animationStarter() {
@@ -198,7 +205,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   void _closeSnackbar() {
     Future.delayed(widget.duration - widget.openDuration, () {
-      if (_controller != null) {
+      if (_controller != null && _isClosed) {
         _controller!.reverse().then((value) {
           widget.overlayEntry.remove();
           _controller!.dispose();
@@ -209,18 +216,28 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData _size = MediaQuery.of(context);
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: widget.position.getPosition,
-          children: [
-            Padding(
-              padding: widget.margin ?? widget.position.getPadding(),
-              child: _transformWidget(context),
-            ),
-          ],
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+        setState(() {
+          _isClosed = false;
+        });
+        _controller!.reverse().then((value) {
+          widget.overlayEntry.remove();
+          _controller!.dispose();
+        });
+      },
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: widget.position.getPosition,
+            children: [
+              Padding(
+                padding: widget.margin ?? widget.position.getPadding(),
+                child: _transformWidget(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -235,16 +252,16 @@ class _SnackbarBodyState extends State<_SnackbarBody>
 
   _GlassMorphism _glassMorphism(BuildContext context) {
     return _GlassMorphism(
-      borderRadius: widget.borderRadius ?? 20,
+      borderRadius: widget.borderRadius ?? BorderRadius.circular(15),
       blur: widget.blur ?? 15,
       opacity: widget.opacity ?? 0.6,
       color: widget.color ?? Colors.white,
       border: widget.border,
-      child: GrockContainer(
+      child: Container(
         padding: widget.padding,
         width: widget.width ?? Grock.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(15),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -343,7 +360,7 @@ class _GlassMorphism extends StatelessWidget {
   double opacity;
   Widget child;
   Color color;
-  double borderRadius;
+  BorderRadiusGeometry borderRadius;
   BoxBorder? border;
   _GlassMorphism(
       {Key? key,
@@ -358,13 +375,13 @@ class _GlassMorphism extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
+      borderRadius: borderRadius,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
           decoration: BoxDecoration(
               color: color.withOpacity(opacity),
-              borderRadius: BorderRadius.circular(borderRadius),
+              borderRadius: borderRadius,
               border: border),
           child: child,
         ),

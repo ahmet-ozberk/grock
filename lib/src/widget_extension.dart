@@ -1,14 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:grock/grock.dart';
 
 extension WidgetExtension on Widget {
-  Widget visible(bool val, {double? height}) => val
-      ? this
-      : Visibility(
-          child: this,
-          visible: val,
-        );
+  Widget visible(bool val) => Visibility(
+        child: this,
+        visible: val,
+      );
 
   Widget disabled([bool? disable]) =>
       IgnorePointer(ignoring: disable ?? true, child: this);
@@ -174,6 +173,14 @@ extension WidgetExtension on Widget {
         duration: duration,
         curve: curve,
       );
+  
+  void getSize(Function(Size size) callback) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final RenderBox renderBox = Grock.context.findRenderObject() as RenderBox;
+      final size = renderBox.size;
+      callback(size);
+    });
+  }
 }
 
 extension ExpansionTileExtension on ExpansionTile {
@@ -182,6 +189,23 @@ extension ExpansionTileExtension on ExpansionTile {
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: this);
       });
+}
+
+extension TextExtension on Text {
+  Widget gradient(
+          {required List<Color> colors,
+          TileMode tileMode = TileMode.clamp,
+          AlignmentGeometry begin = Alignment.centerLeft,
+          AlignmentGeometry end = Alignment.centerRight}) =>
+      ShaderMask(
+        shaderCallback: (bounds) => LinearGradient(
+          colors: colors,
+          tileMode: tileMode,
+          begin: begin,
+          end: end,
+        ).createShader(bounds),
+        child: this,
+      );
 }
 
 // ignore: must_be_immutable
