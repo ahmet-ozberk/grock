@@ -22,7 +22,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
@@ -46,106 +45,25 @@ class _HomeState extends State<Home> {
                   },
                   child: const Icon(Icons.navigate_next),
                 ),
-          body: SingleChildScrollView(
-            padding: 20.horizontalP,
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    margin: 10.verticalP,
-                    width: Grock.width * 0.3,
-                    height: Grock.height * 0.1,
-                    decoration: BoxDecoration(
-                      borderRadius: 15.allBR,
-                      gradient: LinearGradient(
-                        colors: [
-                          //TODO random color
-                          context.randomColor,
-                          context.randomColor,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        //TODO  random number
-                        5.randomNum.toString(),
-                        style: TextStyle(
-                          fontSize: Grock.width * 0.1,
-                          color: Colors.black,
-                          shadows: const [
-                            Shadow(
-                              color: Colors.white,
-                              blurRadius: 5,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  //TODO  MediaQuery.of(context).padding.top parameter is used to
-                  GrockContainer(
-                    onTap: () => print("onTapped"),
-                    margin: 10.allP,
-                    width: 30,
-                    height: 30,
-                    onLongPress: () => print("onLongPressed"),
-                    decoration: BoxDecoration(
-                      color: context.randomColor,
-                      borderRadius: 5.allBR,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Grock.height * 0.2,
-                    width: Grock.width,
-                    child: GrockScrollEffect(
-                      //TODO glow effect disable
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5,
-                            childAspectRatio: 1.0,
-                            crossAxisSpacing: Grock.width * 0.01,
-                            mainAxisSpacing: Grock.width * 0.01),
-                        itemCount: 50,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Image.network(
-                            //TODO  random image
-                            index.randomImage(),
-                            width: Grock.width * 0.05,
-                            height: Grock.width * 0.05,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: context.isKeyBoardOpen
-                          ? 'Open Keyboard'
-                          : 'Close Keyboard',
-                    ),
-                  ),
-                  TextButton(
-                    //TODO  next page
-                    child: const Text('Next Page and Show Snackbar'),
-                    onPressed: () {
-                      Grock.snackBar(
-                          title: "Title Desc",
-                          description: "DESCRİPTİON DESC",
-                          position: SnackbarPosition.top);
-                      Grock.to(NextPage(), type: NavType.bottomToTop);
-                    },
-                  ),
-                  TextButton(
-                    //TODO   next remove until page
-                    child: const Text('Next Remove Until Page'),
-                    onPressed: () => Grock.toRemove(NextPage()),
-                  ),
-                ],
-              ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GrockButton(
+                  onTap: () {
+                    Grock.toast(
+                        text: "Text Toast Message",
+                        alignment: Alignment.center,
+                        curve: Curves.fastLinearToSlowEaseIn);
+                  },
+                ),
+                GrockInfoWidget(
+                  child: const Icon(Icons.info),
+                  message: "This is a message",
+                  margin: EdgeInsets.all(2),
+                ),
+            
+              ],
             ),
           ),
         ),

@@ -28,7 +28,7 @@ class GrockToastWidget extends StatefulWidget {
     required this.overlayEntry,
     this.text,
     this.child,
-    this.curve = Curves.fastLinearToSlowEaseIn,
+    this.curve = Curves.bounceOut,
     this.duration,
     this.theme,
     this.backgroundColor,
@@ -101,7 +101,7 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
 
   @override
   void didChangeDependencies() {
-    _setTheme();
+    //_setTheme();
     super.didChangeDependencies();
   }
 
@@ -131,7 +131,7 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                     color: widget.textColor ??
                         widget.theme?.textColor ??
                         Colors.white,
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
               textAlign: widget.textAlign,
               overflow: widget.overflow,
@@ -143,9 +143,9 @@ class _GrockToastWidgetState extends State<GrockToastWidget>
                 decoration: BoxDecoration(
                   color: widget.backgroundColor ??
                       widget.theme?.backgroundColor ??
-                      Colors.black.withOpacity(0.8),
+                      Colors.black.withOpacity(0.6),
                   borderRadius: widget.borderRadius ??
-                      const BorderRadius.all(Radius.circular(8)),
+                      const BorderRadius.all(Radius.circular(12)),
                   border: widget.border,
                   boxShadow: widget.boxShadow ??
                       [
