@@ -36,6 +36,7 @@ class GrockMenu extends StatefulWidget {
   final BoxBorder? border;
   double? elevation;
   Color? shadowColor;
+  Color spaceColor;
 
   GrockMenu({
     Key? key,
@@ -56,6 +57,7 @@ class GrockMenu extends StatefulWidget {
     this.textOverflow,
     this.padding,
     this.onTapClose = true,
+    this.spaceColor = Colors.transparent,
   }) : super(key: key);
 
   static void close() => GrockMenuExtension.close();
@@ -94,6 +96,7 @@ class _GrockMenuState extends State<GrockMenu> {
               border: widget.border,
               elevation: widget.elevation,
               shadowColor: widget.shadowColor,
+              spaceColor: widget.spaceColor,
             );
           },
         );
@@ -122,6 +125,7 @@ class _GrockMenuCore extends StatefulWidget {
   Function(int value)? onTap;
   Widget Function(BuildContext, int)? dividerBuilder;
   bool onTapClose;
+  Color spaceColor;
 
   _GrockMenuCore({
     Key? key,
@@ -143,6 +147,7 @@ class _GrockMenuCore extends StatefulWidget {
     this.textOverflow,
     this.padding,
     this.onTapClose = true,
+    required this.spaceColor,
   }) : super(key: key);
 
   @override
@@ -234,7 +239,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
         Future.delayed(kAnimateDuration, () => widget.overlayEntry.remove());
       },
       child: ColoredBox(
-        color: Colors.transparent,
+        color: widget.spaceColor,
         child: Stack(
           children: [
             Positioned(
