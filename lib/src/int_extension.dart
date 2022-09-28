@@ -13,8 +13,8 @@ extension RandomImageExtension on int {
       "https://picsum.photos/$width/$height?random=$this";
   String randomImg([int width = 320, int height = 240]) =>
       "https://loremflickr.com/$width/$height?random=$this";
-  String lorem({int paragraphs = 1}) =>
-      loremIpsum(paragraphs: paragraphs, words: this);
+  String lorem() =>
+      loremIpsum(words: this);
 }
 
 extension SizeBoxExtension on int {

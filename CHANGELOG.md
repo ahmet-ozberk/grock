@@ -1,3 +1,3 @@
-## 0.0.7+6 - 20-09-2022
+## 0.0.7+7 - 20-09-2022
 
-* Readme.md update package
+* Readme.md update lorem text bug
