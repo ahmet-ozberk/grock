@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-extension PaddingExtension on int {
+extension PaddingExtension on num {
   EdgeInsetsGeometry get allP => EdgeInsets.all(this.toDouble());
   EdgeInsetsGeometry get onlyLeftP => EdgeInsets.only(left: this.toDouble());
   EdgeInsetsGeometry get onlyRightP => EdgeInsets.only(right: this.toDouble());

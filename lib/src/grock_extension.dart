@@ -109,6 +109,8 @@ extension Grock on ScaffoldMessengerModel {
     NavigationService.back(result: result);
   }
 
+  
+
   static void hideKeyboard() =>
       FocusScope.of(context).requestFocus(FocusNode());
 
