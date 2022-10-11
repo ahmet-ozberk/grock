@@ -14,8 +14,8 @@ class GrockMenu extends StatefulWidget {
   /// Screenheight *0.4
   final int? maxHeight;
 
-  /// Screenwidth *0.4
-  final int? minWidth;
+  /// Screenwidth *0.55
+  final double? width;
 
   /// Colors.grey.shade100
   final Color? backgroundColor;
@@ -54,7 +54,7 @@ class GrockMenu extends StatefulWidget {
     this.onTap,
     this.physics,
     this.maxHeight,
-    this.minWidth,
+    this.width,
     this.borderRadius,
     this.dividerColor,
     this.dividerHeight = 1.0,
@@ -64,7 +64,7 @@ class GrockMenu extends StatefulWidget {
     this.pressColor = Colors.white,
     this.maxLines,
     this.textAlign,
-    this.textOverflow,
+    this.textOverflow = TextOverflow.ellipsis,
     this.padding,
     this.onTapClose = true,
     this.spaceColor = Colors.black26,
@@ -73,55 +73,59 @@ class GrockMenu extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GrockMenu> createState() => _GrockMenuTryState();
+  State<GrockMenu> createState() => _GrockMenuState();
 }
 
-class _GrockMenuTryState extends State<GrockMenu> {
+class _GrockMenuState extends State<GrockMenu> {
   Offset _tapPosition = Offset.zero;
+  final key = GlobalKey();
+  void getOffset() {
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    _tapPosition = position;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GrockWidgetSize(
-      callback: (size, offset) {
-        setState(() {
-          _tapPosition = offset;
-        });
+    return InkWell(
+      key: key,
+      onTap: () {
+        getOffset();
+        OverlayState overlayState = Overlay.of(context)!;
+        late OverlayEntry _menuOverlayEntry;
+        _menuOverlayEntry = OverlayEntry(
+          builder: (context) {
+            return _GrockMenuCore(
+              overlayEntry: _menuOverlayEntry,
+              offset: _tapPosition,
+              physics: widget.physics,
+              items: widget.items,
+              onTap: widget.onTap,
+              maxHeight: widget.maxHeight,
+              minWidth:
+                  widget.width ?? MediaQuery.of(context).size.width * 0.55,
+              dividerColor: widget.dividerColor,
+              dividerHeight: widget.dividerHeight,
+              borderRadius: widget.borderRadius,
+              textStyle: widget.textStyle,
+              backgroundColor: widget.backgroundColor,
+              pressColor: widget.pressColor,
+              maxLines: widget.maxLines,
+              textAlign: widget.textAlign,
+              textOverflow: widget.textOverflow,
+              padding: widget.padding,
+              onTapClose: widget.onTapClose,
+              border: widget.border,
+              spaceColor: widget.spaceColor,
+              openAnimationDuration: widget.openAnimationDuration,
+              openAnimation: widget.openAnimation,
+            );
+          },
+        );
+        overlayState.insert(_menuOverlayEntry);
       },
-      child: GestureDetector(
-        onTap: () {
-          OverlayState overlayState = Overlay.of(context)!;
-          late OverlayEntry _menuOverlayEntry;
-          _menuOverlayEntry = OverlayEntry(
-            builder: (context) {
-              return _GrockMenuCore(
-                overlayEntry: _menuOverlayEntry,
-                offset: _tapPosition,
-                physics: widget.physics,
-                items: widget.items,
-                onTap: widget.onTap,
-                maxHeight: widget.maxHeight,
-                minWidth: widget.minWidth,
-                dividerColor: widget.dividerColor,
-                dividerHeight: widget.dividerHeight,
-                borderRadius: widget.borderRadius,
-                textStyle: widget.textStyle,
-                backgroundColor: widget.backgroundColor,
-                pressColor: widget.pressColor,
-                maxLines: widget.maxLines,
-                textAlign: widget.textAlign,
-                textOverflow: widget.textOverflow,
-                padding: widget.padding,
-                onTapClose: widget.onTapClose,
-                border: widget.border,
-                spaceColor: widget.spaceColor,
-                openAnimationDuration: widget.openAnimationDuration,
-                openAnimation: widget.openAnimation,
-              );
-            },
-          );
-          overlayState.insert(_menuOverlayEntry);
-        },
-        child: widget.child,
-      ),
+      child: widget.child,
     );
   }
 }
@@ -133,7 +137,7 @@ class _GrockMenuCore extends StatefulWidget {
   Widget? title;
   Widget? bottomWidget;
   ScrollPhysics? physics;
-  int? minWidth;
+  double minWidth;
   double? borderRadius;
   Color? backgroundColor;
   Color? pressColor;
@@ -162,7 +166,7 @@ class _GrockMenuCore extends StatefulWidget {
     this.bottomWidget,
     this.physics,
     this.maxHeight,
-    this.minWidth,
+    required this.minWidth,
     this.borderRadius,
     this.backgroundColor,
     this.dividerColor,
@@ -198,23 +202,34 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
 
   double topSpace() {
     late double result;
-    if (widget.offset.dy > widgetSize.height) {
+    if (widget.offset.dy >
+        MediaQuery.of(context).size.height - widgetSize.height) {
       result = widget.offset.dy - widgetSize.height;
     } else {
-      result = widget.offset.dy;
+      if (widget.offset.dy < MediaQuery.of(context).size.height / 2) {
+        result = widget.offset.dy + MediaQuery.of(context).padding.top;
+      } else {
+        result = widget.offset.dy - MediaQuery.of(context).padding.bottom;
+      }
     }
     return result;
   }
 
   double leftSpace() {
     late double result;
-    if (widget.offset.dx > widgetSize.width) {
+    if (widget.offset.dx >
+        (widget.minWidth - context.mediaQuery.size.width * 0.01)) {
       result = widget.offset.dx - widgetSize.width;
     } else {
-      if (widget.offset.dx > (context.mediaQuery.size.width - 30) / 2) {
-        result = widget.offset.dx - 10;
+      if (widget.offset.dx >
+          widget.minWidth - context.mediaQuery.size.width * 0.1) {
+        result = context.mediaQuery.size.width - widgetSize.width - 20;
       } else {
-        result = widget.offset.dx;
+        if (widget.offset.dx < context.mediaQuery.size.width*0.2) {
+          result = context.mediaQuery.size.width * 0.05;
+        } else {
+          result = context.mediaQuery.size.width - widgetSize.width - 20;
+        }
       }
     }
     return result;
@@ -246,7 +261,6 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Stack(
-        clipBehavior: Clip.hardEdge,
         children: [
           GestureDetector(
             onTap: () {
@@ -290,10 +304,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                           constraints: BoxConstraints(
                             maxHeight: widget.maxHeight?.toDouble() ??
                                 MediaQuery.of(context).size.height * 0.35,
-                            minWidth: widget.minWidth?.toDouble() ??
-                                MediaQuery.of(context).size.width * 0.5,
-                            maxWidth: widget.minWidth?.toDouble() ??
-                                MediaQuery.of(context).size.width * 0.5,
+                            minWidth: widget.minWidth,
+                            maxWidth: widget.minWidth,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
@@ -309,17 +321,15 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                               physics: widget.physics,
                               child: Column(
                                   mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children:
-                                      widget.items.mapIndexed((e, i) {
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: widget.items.mapIndexed((e, i) {
                                     return GestureDetector(
-                                      onTapDown: (_) => setState(
-                                          () => e.isTapped = true),
-                                      onTapUp: (_) => setState(
-                                          () => e.isTapped = false),
-                                      onTapCancel: () => setState(
-                                          () => e.isTapped = false),
+                                      onTapDown: (_) =>
+                                          setState(() => e.isTapped = true),
+                                      onTapUp: (_) =>
+                                          setState(() => e.isTapped = false),
+                                      onTapCancel: () =>
+                                          setState(() => e.isTapped = false),
                                       onTap: () {
                                         if (widget.onTapClose) {
                                           widget.overlayEntry.remove();
@@ -331,8 +341,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                         width: double.maxFinite,
                                         padding: widget.padding ??
                                             const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 14),
+                                                horizontal: 12, vertical: 14),
                                         decoration: BoxDecoration(
                                           color: e.isTapped
                                               ? widget.pressColor
@@ -345,11 +354,10 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                                             .dividerColor ??
                                                         CupertinoColors
                                                             .separator
-                                                            .withOpacity(
-                                                                0.2),
-                                                    width: widget
-                                                            .dividerHeight ??
-                                                        1.0,
+                                                            .withOpacity(0.2),
+                                                    width:
+                                                        widget.dividerHeight ??
+                                                            1.0,
                                                   ),
                                           ),
                                         ),
@@ -358,25 +366,27 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                               children: [
                                                 if (e.leading != null)
                                                   e.leading!,
-                                                e.body ??
-                                                    Text(
-                                                      e.text ?? "",
-                                                      style: e.textStyle ??
-                                                          const TextStyle(
-                                                            color: Colors
-                                                                .black,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                          ),
-                                                      textAlign: widget
-                                                          .textAlign,
-                                                      maxLines:
-                                                          widget.maxLines,
-                                                      overflow: widget
-                                                          .textOverflow,
-                                                    ),
+                                                Expanded(
+                                                  child: e.body ??
+                                                      Text(
+                                                        e.text ?? "",
+                                                        style: e.textStyle ??
+                                                            const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                        textAlign:
+                                                            widget.textAlign,
+                                                        maxLines:
+                                                            widget.maxLines,
+                                                        overflow:
+                                                            widget.textOverflow,
+                                                      ),
+                                                ),
                                                 if (e.trailing != null)
                                                   const Spacer(),
                                                 if (e.trailing != null)
