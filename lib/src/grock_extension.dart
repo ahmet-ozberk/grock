@@ -109,8 +109,6 @@ extension Grock on ScaffoldMessengerModel {
     NavigationService.back(result: result);
   }
 
-  
-
   static void hideKeyboard() =>
       FocusScope.of(context).requestFocus(FocusNode());
 
@@ -286,7 +284,7 @@ extension Grock on ScaffoldMessengerModel {
           {Color? backgroundColor,
           Color? color,
           BorderRadiusGeometry? borderRadius}) =>
-      CustomLoadingWidget(
+      GrockCustomLoadingWidget(
           backgroundColor: backgroundColor,
           color: color,
           borderRadius: borderRadius);

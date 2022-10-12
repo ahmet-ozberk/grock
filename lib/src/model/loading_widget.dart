@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-class CustomLoadingWidget extends StatefulWidget {
+class GrockCustomLoadingWidget extends StatefulWidget {
   Color? backgroundColor;
   Color? color;
   BorderRadiusGeometry? borderRadius;
-  CustomLoadingWidget({Key? key, this.backgroundColor, this.color, this.borderRadius})
+  GrockCustomLoadingWidget(
+      {Key? key, this.backgroundColor, this.color, this.borderRadius})
       : super(key: key);
 
   @override
-  _CustomLoadingWidgetState createState() => _CustomLoadingWidgetState();
+  _GrockCustomLoadingWidgetState createState() =>
+      _GrockCustomLoadingWidgetState();
 }
 
-class _CustomLoadingWidgetState extends State<CustomLoadingWidget>
+class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;

@@ -44,6 +44,8 @@ GrockContainer(
 ### GrockContainer
 ```dart
 GrockContainer(
+  isKeyboardDismiss: true // default true, optional keyboard dismiss
+  isTapAnimation: true //default true, optional tap animation
   onTap: ()=>print("tapped"),
   child: Text("On Tap Container")
 )
@@ -126,20 +128,10 @@ GrockDropdownButton(
 ### GrockFadeAnimation
 ```dart
 GrockFadeAnimation(
-  initialPosition: InitialPosition.bottom,
+  position: PositionF.bottom,
   duration: Duration(seconds: 2),
   curve: Curves.bounceOut,
   child: child(),
-)
-```
-
-### GrockList
-```dart
-GrockList(
-  isExpanded: true,
-  itemSpace: const Divider(),
-  itemCount: 10,
-  itemBuilder: (context,index)=>Text("Custom ListView Builder"),
 )
 ```
 
@@ -148,6 +140,7 @@ GrockList(
 GrockGlassMorphism(
   blur: 20,
   opacity: 0.2,
+  borderRadius: BorderRadius.circular(12),
   child: Image(".../images.png") or Container(child: Icon(Icons.search)),
   color: Colors.white,
 ),
@@ -169,13 +162,80 @@ return GrockKeyboardClose(
 ```dart
 return GrockScrollEffect(
   child: Scaffold(
-    // drag and scroll effect disable
+    //android drag and scroll effect disable
     body: ListView.builder(
       ....
     ),
   ),
 );
 ```
+
+### GrockHList
+```dart
+return GrockHList(
+  itemCount: 10,
+  itemHeight: 55,
+  itemWidth: 55,
+  listHeight: 80,
+  itemBuilder: (context, index) {
+    return Container();
+  },
+);
+```
+
+### GrockInfoWidget
+```dart
+return GrockInfoWidget(
+  msg: "Grock Info Popup Tooltip"
+);
+```
+
+### GrockWidgetSize
+```dart
+return GrockWidgetSize(
+  callback: (Size size, Offset offset){
+    print("Size: $size");
+    print("Offset: $offset");
+  },
+  child: Container(),
+);
+```
+
+### GrockWidgetSize
+```dart
+return GrockWidgetSize(
+  callback: (Size size, Offset offset){
+    print("Size: $size");
+    print("Offset: $offset");
+  },
+  child: Container(),
+);
+```
+
+### GrockCustomLoadingWidget or Grock.loadingPopup()
+```dart
+Grock.loadingPopup(
+  backgroundColor: Colors.black.withOpacity(0.5),
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(12)
+);
+return GrockCustomLoadingWidget(
+  backgroundColor: Colors.black.withOpacity(0.5),
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(12)
+);
+```
+
+### Grock Internet Check Function
+```dart
+  //Splash Screen initState
+  @override
+  void initState() {
+    super.initState();
+    Grock.checkInternet();
+  }
+```
+
 
 ## Snackbar and Dialog and Toast (BUT NO CONTEXT 😁)
 
@@ -218,9 +278,54 @@ GrockButton(
      "Show Toast",
   ),
   onTap: () => Grock.toast(
-  text: "This is a toast",
+    text: "This is a toast",
   ),
 ),
+```
+
+### List Extension
+```dart
+['data','data1'].mapIndexed((value, index){})
+['data','data1'].forLoop((value, index){})
+['data','data1'].mapIndexedWhere((value, index))
+['data','data1'].mapFiltered((value){})
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+['data','data1'].
+```
+
+### String Extension
+```dart
+String.capitalize
+String.capitalizeEach
+String.capitalizeEachFirst
+String.capitalizeEachFirstLower
+String.capitalizeEachLower
+String.capitalizeEachLowerFirst
+String.toDate
+String.filter
+String.filterNumber
+String.forEach
+String.forEachFirst
+String.forEachFirstLower
+String.isPhoneNumber
+String.isPhoneNumberWithCountryCode
+String.isPhoneNumberWithCountryCodeAndSpace
+String.isTurkeyPhoneNumber
+String.isTurkeyPhoneNumberWithCountryCode
+String.isTurkeyPhoneNumberWithCountryCodeAndSpace
+String.isEmail
+String.isUrl
+String.isUrlWithSpace
+String.isEmpty
+String.dateTime
+String.isDateTimeFormat
 ```
 
 ## Widget Tools 🤩
@@ -230,7 +335,7 @@ Container().visible(val),
 Container().disable(disable),
 Container().disableOpacity(disable and opacity: 0.2),
 Container().expanded(),
-Container().sized(width,height),
+Container().size(width,height),
 Container().margin(l,t,r,b),
 Container().rotate(),
 Container().alignment(alignment),
@@ -240,16 +345,35 @@ Container().bgBlur(10),
 Container().borderRadius(10),
 Container().decoration(BoxDecoration),
 Container().colored(Color),
+Container().shadow(),  
+Container().animatedRotation(),
+Container().upRotation,
+Container().rightRotation,
+Container().leftRotation,
+Container().bottomRotation,
 ```
 
 ### int Extension
 ```dart
 50.randomNum(), // 0-50 random number
 index.randomImage(),
+index.randomImg()
 30.lorem(), // lorem ipsum text
 20.height(), // SizedBox(height: 20)
 20.width(), // SizedBox(width: 20)
 20.heightWidth(), // SizedBox(height: 20,width: 20)
+20.borderRadius,
+20.borderRadiusOnlyTopLeft,
+20.borderRadiusOnlyTopRight,
+20.borderRadiusOnlyBottomLeft,
+20.borderRadiusOnlyBottomRight,
+20.borderRadiusOnlyTop,
+20.borderRadiusOnlyBottom,
+20.padding,
+20.paddingOnlyTop,
+20.paddingOnlyBottomRight,
+20.paddingOnlyLeftRight,
+20.getRandomString(15), // 15 length random string
 ```
 
 
@@ -310,6 +434,7 @@ Grock.isFuchsia,
 Grock.isDebugMode,
 Grock.isReleaseMode,
 Grock.isProfileMode,
+Grock.hideKeyboard,
 ```
 
 ### Padding or Margin and BorderRadius
@@ -335,7 +460,7 @@ GrockList(
   itemSpace: const Divider(),
   itemCount: 10,
   itemBuilder: (context,index)=>Image.network(
-    index.randomImage(), // width and height optional
+    index.randomImg(), // width and height optional
   ),
 )
 ```

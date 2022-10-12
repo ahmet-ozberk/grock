@@ -4,7 +4,7 @@ class GrockFadeAnimation extends StatefulWidget {
   Widget child;
   Duration duration;
   Duration opacityDuration;
-  Position position;
+  PositionF position;
   Curve curve;
   double value;
   GrockFadeAnimation({
@@ -12,7 +12,7 @@ class GrockFadeAnimation extends StatefulWidget {
     required this.child,
     this.duration = const Duration(milliseconds: 500),
     this.opacityDuration = const Duration(milliseconds: 400),
-    this.position = Position.top,
+    this.position = PositionF.top,
     this.curve = Curves.easeInOut,
     this.value = 100,
   }) : super(key: key);
@@ -28,11 +28,11 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
 
   bool _isOpacity = false;
 
-  Tween<double> _tween(Position location) {
-    if (location == Position.top || location == Position.bottom) {
+  Tween<double> _tween(PositionF location) {
+    if (location == PositionF.top || location == PositionF.bottom) {
       return Tween<double>(begin: widget.value, end: 0.0);
-    } else if (location == Position.left ||
-        location == Position.right) {
+    } else if (location == PositionF.left ||
+        location == PositionF.right) {
       return Tween<double>(begin: widget.value, end: 0.0);
     } else {
       return Tween<double>(begin: 0.0, end: -widget.value);
@@ -40,13 +40,13 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   }
 
   Offset _offset() {
-    if (widget.position == Position.top) {
+    if (widget.position == PositionF.top) {
       return Offset(0.0, -_animation.value);
-    } else if (widget.position == Position.left) {
+    } else if (widget.position == PositionF.left) {
       return Offset(-_animation.value, 0.0);
-    } else if (widget.position == Position.right) {
+    } else if (widget.position == PositionF.right) {
       return Offset(_animation.value, 0.0);
-    } else if (widget.position == Position.bottom) {
+    } else if (widget.position == PositionF.bottom) {
       return Offset(0.0, _animation.value);
     } else {
       return Offset(0.0, -_animation.value);
@@ -87,7 +87,7 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   }
 }
 
-enum Position {
+enum PositionF {
   top,
   left,
   right,
