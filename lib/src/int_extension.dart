@@ -8,6 +8,8 @@ extension IntExtension on int {
   int get randomNum => Random().nextInt(this);
 }
 
+Random random = Random();
+
 extension RandomImageExtension on int {
   String randomImage({int width = 200, int height = 200}) =>
       "https://picsum.photos/$width/$height?random=$this";
@@ -24,7 +26,7 @@ extension SizeBoxExtension on num {
 }
 
 extension WaitExtension on int {
-  Future<void> wait([FutureOr<void> Function()? func]) =>
+  Future<void> waitSec([FutureOr<void> Function()? func]) =>
       Future.delayed(Duration(seconds: this), () => func?.call());
 
   Future<void> waitMilli([FutureOr<void> Function()? func]) =>

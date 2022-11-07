@@ -12,15 +12,12 @@ import 'widgets/grock_toast.dart';
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
 
-  static get scaffoldMessengerKey =>
-      ScaffoldMessengerModel.scaffoldMessengerKey;
-  static GlobalKey<NavigatorState> get navigationKey =>
-      NavigationService.navigationKey;
+  static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey => ScaffoldMessengerModel.scaffoldMessengerKey;
+  static GlobalKey<NavigatorState> get navigationKey => NavigationService.navigationKey;
 
   /// [Context]
 
-  static BuildContext get context =>
-      NavigationService.navigationKey.currentContext!;
+  static BuildContext get context => NavigationService.navigationKey.currentContext!;
 
   /// [Device Information]
 
@@ -109,8 +106,7 @@ extension Grock on ScaffoldMessengerModel {
     NavigationService.back(result: result);
   }
 
-  static void hideKeyboard() =>
-      FocusScope.of(context).requestFocus(FocusNode());
+  static void hideKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
 
   /// [Snackbar]
 
@@ -126,8 +122,7 @@ extension Grock on ScaffoldMessengerModel {
     Duration openDuration = const Duration(milliseconds: 600),
     double? opacity,
     double? width,
-    EdgeInsetsGeometry padding =
-        const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? leadingPadding,
     EdgeInsetsGeometry? trailingPadding,
@@ -247,6 +242,8 @@ extension Grock on ScaffoldMessengerModel {
   static Widget get empty => SizedBox.shrink();
 
   /// [Internet Check]
+  static Color rndColor() => Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  static Color randomColor() => Colors.primaries[17.randomNum];
 
   static void checkInternet({
     Function()? onConnect,
@@ -280,12 +277,6 @@ extension Grock on ScaffoldMessengerModel {
     );
   }
 
-  static Widget loadingPopup(
-          {Color? backgroundColor,
-          Color? color,
-          BorderRadiusGeometry? borderRadius}) =>
-      GrockCustomLoadingWidget(
-          backgroundColor: backgroundColor,
-          color: color,
-          borderRadius: borderRadius);
+  static Widget loadingPopup({Color? backgroundColor, Color? color, BorderRadiusGeometry? borderRadius}) =>
+      GrockCustomLoadingWidget(backgroundColor: backgroundColor, color: color, borderRadius: borderRadius);
 }

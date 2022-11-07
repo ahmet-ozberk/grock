@@ -59,6 +59,16 @@ GrockButton(
 ),
 ```
 
+### GrockTimer
+```dart
+/// final timerController = GrockTimerController();
+GrockTimer(
+  controller: timerController,
+  startTime: const Duration(seconds: 10),
+  endTime: const Duration(seconds: 0),
+),
+```
+
 ### GrockMenu [IOS Style]
 ```dart
 GrockMenu(

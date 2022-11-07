@@ -4,6 +4,10 @@ import 'int_extension.dart';
 extension SizeExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
   Size get size => MediaQuery.of(this).size;
+  double get width => MediaQuery.of(this).size.width;
+  double get height => MediaQuery.of(this).size.height;
+  double get heightRatio => MediaQuery.of(this).size.height / 100;
+  double get widthRatio => MediaQuery.of(this).size.width / 100;
   double get top => MediaQuery.of(this).padding.top;
   double get bottom => MediaQuery.of(this).padding.bottom;
   bool get isKeyBoardOpen => MediaQuery.of(this).viewInsets.bottom > 0;
