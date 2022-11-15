@@ -40,14 +40,14 @@ class GrockMenu extends StatefulWidget {
   final TextOverflow? textOverflow;
   final EdgeInsetsGeometry? padding;
   final Function(int value)? onTap;
-  bool onTapClose;
+  final bool onTapClose;
   final BoxBorder? border;
-  Color spaceColor;
-  Duration openAnimationDuration;
-  Curve openAnimation;
-  TextStyle? textStyle;
+  final Color spaceColor;
+  final Duration openAnimationDuration;
+  final Curve openAnimation;
+  final TextStyle? textStyle;
 
-  GrockMenu({
+  const GrockMenu({
     Key? key,
     required this.child,
     required this.items,
@@ -88,7 +88,8 @@ class _GrockMenuState extends State<GrockMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       key: key,
       onTap: () {
         getOffset();
@@ -289,13 +290,6 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                     duration: widget.openAnimationDuration,
                     tween: Tween<double>(begin: 0, end: 1),
                     curve: widget.openAnimation,
-
-                    /// decelerate
-                    /// bounceOut
-                    /// ease
-                    /// easeInOutCubicEmphasized
-                    /// elasticOut
-                    /// linearToEaseOut
                     builder: (context, double angle, child) {
                       return Transform.scale(
                         scale: angle,
@@ -387,8 +381,6 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                                             widget.textOverflow,
                                                       ),
                                                 ),
-                                                if (e.trailing != null)
-                                                  const Spacer(),
                                                 if (e.trailing != null)
                                                   e.trailing!,
                                               ],

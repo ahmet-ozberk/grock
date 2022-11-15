@@ -47,7 +47,13 @@ class _HomeState extends State<Home> {
               itemBuilder: (context, index) {
                 return Container();
               },
-            ),        
+            ),  
+            GrockMenu(child: Container(height: 80,width: 80,decoration: BoxDecoration(
+              borderRadius: 20.borderRadius,
+              color: Colors.red
+            ),), items: [
+              GrockMenuItem(text: "test")
+            ])      
           ],
         )
       ),

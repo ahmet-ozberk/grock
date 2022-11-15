@@ -1,22 +1,25 @@
+
 import 'package:flutter/material.dart';
 
 class GrockButton extends StatefulWidget {
-  BorderRadius? borderRadius;
-  Gradient? gradient;
-  Color? color;
-  Color elevationColor;
-  double elevation;
-  EdgeInsetsGeometry padding;
-  Widget? child;
-  void Function()? onTap;
-  void Function()? onDoubleTap;
-  void Function()? onLongPress;
-  double? height;
-  double? width;
+  final BorderRadius? borderRadius;
+  final Gradient? gradient;
+  final double tapOpacity;
+  final Color? color;
+  final Color elevationColor;
+  final double elevation;
+  final EdgeInsetsGeometry padding;
+  final Widget? child;
+  final void Function()? onTap;
+  final void Function()? onDoubleTap;
+  final void Function()? onLongPress;
+  final double? height;
+  final double? width;
 
-  GrockButton({
+  const GrockButton({
     Key? key,
     this.child,
+    this.tapOpacity = 0.8,
     this.onTap,
     this.onDoubleTap,
     this.onLongPress,
@@ -26,70 +29,79 @@ class GrockButton extends StatefulWidget {
     this.elevation = 8.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     this.elevationColor = Colors.black26,
-    this.height,
+    this.height = 44,
     this.width,
-  }) : super(key: key);
+  }) : assert(tapOpacity > 0 || tapOpacity < 1), super(key: key);
 
   @override
   _GrockButtonState createState() => _GrockButtonState();
 }
 
 class _GrockButtonState extends State<GrockButton> {
-  final _kBorderRadius = const BorderRadius.all(Radius.elliptical(30, 30));
+  final _kBorderRadius = const BorderRadius.all(Radius.elliptical(20, 20));
+  bool _isTapped = false;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
       height: widget.height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Material(
-            key: widget.key,
-            elevation: widget.elevation,
-            shadowColor: widget.elevationColor,
-            shape: _SquircleBorder(
-              radius: widget.borderRadius ?? _kBorderRadius,
-            ),
-            child: ClipPath.shape(
+      child: Material(
+        key: widget.key,
+        elevation: widget.elevation,
+        shadowColor: widget.elevationColor,
+        shape: _SquircleBorder(
+          radius: widget.borderRadius ?? _kBorderRadius,
+        ),
+        child: ClipPath.shape(
+          shape: _SquircleBorder(
+            radius: widget.borderRadius ?? _kBorderRadius,
+          ),
+          child: Opacity(
+            opacity: _isTapped ? widget.tapOpacity : 1.0,
+            child: Material(
+              key: widget.key,
+              elevation: widget.elevation,
+              shadowColor: widget.elevationColor,
               shape: _SquircleBorder(
                 radius: widget.borderRadius ?? _kBorderRadius,
               ),
-              child: Material(
-                key: widget.key,
-                elevation: widget.elevation,
-                shadowColor: widget.elevationColor,
-                shape: _SquircleBorder(
-                  radius: widget.borderRadius ?? _kBorderRadius,
-                ),
-                child: InkWell(
-                  onTap: widget.onTap,
-                  onDoubleTap: widget.onDoubleTap,
-                  onLongPress: widget.onLongPress,
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      gradient: widget.gradient,
-                      color: widget.color ?? Colors.white,
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: widget.padding,
-                        child: widget.child ??
-                            Text(
-                              "Grock Button",
-                              style: Theme.of(context).textTheme.button,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                            ),
-                      ),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: widget.onTap,
+                onDoubleTap: widget.onDoubleTap,
+                onLongPress: widget.onLongPress,
+                onTapDown: (details) => setState(() {
+                  _isTapped = true;
+                }),
+                onTapCancel: () => setState(() {
+                  _isTapped = false;
+                }),
+                onTapUp: (details) => setState(() {
+                  _isTapped = false;
+                }),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: widget.gradient,
+                    color: widget.color ?? Colors.white,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: widget.padding,
+                      child: widget.child ??
+                          Text(
+                            "Grock Button",
+                            style: Theme.of(context).textTheme.button,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                          ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -145,8 +157,7 @@ class _SquircleBorder extends ShapeBorder {
       case BorderStyle.none:
         break;
       case BorderStyle.solid:
-        var path = getOuterPath(rect.deflate(side.width / 2.0),
-            textDirection: textDirection);
+        var path = getOuterPath(rect.deflate(side.width / 2.0), textDirection: textDirection);
         canvas.drawPath(path, side.toPaint());
     }
   }
@@ -186,7 +197,6 @@ Path _SquirclePath(Rect rect, BorderRadius? radius) {
       startX + radius.topLeft.x,
       startY,
     )
-
     // top line
     ..lineTo(endX - radius.topRight.x, startY)
 

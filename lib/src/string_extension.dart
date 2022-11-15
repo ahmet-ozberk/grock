@@ -1,5 +1,7 @@
 extension StringExtension on String {
   String get capitalize => this[0].toUpperCase() + this.substring(1);
+  String get trimAllRegex => this.replaceAll(RegExp(r"\s+\b|\b\s"), "");
+  String get trimAll => this.replaceAll(" ", "");
   String get capitalizeEach =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
   String get capitalizeEachFirst =>
@@ -96,6 +98,8 @@ extension StringExtension on String {
       this.length == 13 && this.startsWith("+");
   bool get isPhoneNumberWithCountryCodeAndSpace =>
       this.length == 14 && this.startsWith("+ ");
+  
+  bool get isPassword => this.length >= 8;
 
   String get lower => this.toLowerCase();
   String get lowerFirst => this[0].toLowerCase() + this.substring(1);

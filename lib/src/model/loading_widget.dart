@@ -4,40 +4,51 @@ class GrockCustomLoadingWidget extends StatefulWidget {
   Color? backgroundColor;
   Color? color;
   BorderRadiusGeometry? borderRadius;
+  bool isScale;
+  Widget? child;
+  double? width;
+  double? height;
   GrockCustomLoadingWidget(
-      {Key? key, this.backgroundColor, this.color, this.borderRadius})
+      {Key? key,
+      this.backgroundColor,
+      this.color,
+      this.borderRadius,
+      this.isScale = true,
+      this.child,
+      this.height,
+      this.width})
       : super(key: key);
 
   @override
-  _GrockCustomLoadingWidgetState createState() =>
-      _GrockCustomLoadingWidgetState();
+  _GrockCustomLoadingWidgetState createState() => _GrockCustomLoadingWidgetState();
 }
 
-class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
-    with SingleTickerProviderStateMixin {
+class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      reverseDuration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.3).animate(_controller);
-    _controller.addListener(() {
-      setState(() {});
-    });
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _controller.forward();
-      }
-    });
-    _controller.forward();
+    if (widget.isScale) {
+      _controller = AnimationController(
+        duration: const Duration(milliseconds: 800),
+        reverseDuration: const Duration(milliseconds: 500),
+        vsync: this,
+      );
+      _scaleAnimation = Tween<double>(begin: 1.0, end: 0.3).animate(_controller);
+      _controller.addListener(() {
+        setState(() {});
+      });
+      _controller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller.forward();
+        }
+      });
+      _controller.forward();
+    }
   }
 
   @override
@@ -54,17 +65,22 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
       alignment: Alignment.center,
       child: Center(
         child: Container(
-          height: size.width * 0.25,
-          width: size.width * 0.25,
+          height: widget.height ?? size.width * 0.25,
+          width: widget.width ?? size.width * 0.25,
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             color: widget.backgroundColor ?? Colors.black,
           ),
-          child: Center(
-              child: CircularProgressIndicator(
-            strokeWidth: 5,
-            color: widget.color ?? Colors.white,
-          )),
+          child: widget.child ??
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 5,
+                    color: widget.color ?? Colors.white,
+                  ),
+                ),
+              ),
         ),
       ),
     );

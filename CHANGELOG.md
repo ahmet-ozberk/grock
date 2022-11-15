@@ -1,3 +1,3 @@
-## 0.0.8+3 - 08-11-2022
+## 0.0.8+4 - 15-11-2022
 
-* Readme.md GrockTimer Widget added
+* Readme.md Bugfixes
