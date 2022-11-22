@@ -5,10 +5,13 @@ import 'package:grock/src/model/navigation_state.dart';
 import '../../grock.dart';
 
 class GrockSnackbar {
+  static OverlayEntry? overlayEntry;
+  static bool isShowing = false;
   static Future<void> showSnackbar({
     required String title,
     required String description,
     BorderRadiusGeometry? borderRadius,
+    Widget? body,
     required Duration duration,
     required SnackbarPosition position,
     required Curve curve,
@@ -35,23 +38,21 @@ class GrockSnackbar {
     BoxBorder? border,
   }) async {
     OverlayState overlayState = Grock.navigationKey.currentState!.overlay!;
-    late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(builder: (context) {
+      isShowing = true;
       return Material(
         type: MaterialType.transparency,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: MediaQuery.of(
-                      Grock.navigationKey.currentState!.overlay!.context)
-                  .size
-                  .width,
+              width: MediaQuery.of(Grock.navigationKey.currentState!.overlay!.context).size.width,
               child: _SnackbarBody(
-                overlayEntry: overlayEntry,
+                overlayEntry: overlayEntry!,
                 borderRadius: borderRadius,
                 duration: duration,
                 position: position,
+                body: body,
                 curve: curve,
                 blur: blur,
                 openDuration: openDuration,
@@ -82,11 +83,11 @@ class GrockSnackbar {
         ),
       );
     });
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   static void dialog({
-    required Widget Function(BuildContext) builder,
+    required Widget Function(BuildContext grockContext) builder,
     bool barrierDismissible = true,
     Color? barrierColor = Colors.black54,
     String? barrierLabel,
@@ -113,6 +114,7 @@ class _SnackbarBody extends StatefulWidget {
   Duration duration;
   SnackbarPosition position;
   Curve curve;
+  Widget? body;
   double? blur;
   Duration openDuration;
   double? opacity;
@@ -145,6 +147,7 @@ class _SnackbarBody extends StatefulWidget {
       this.position = SnackbarPosition.bottom,
       this.blur,
       this.opacity,
+      this.body,
       this.color,
       this.width,
       this.border,
@@ -170,8 +173,7 @@ class _SnackbarBody extends StatefulWidget {
   _SnackbarBodyState createState() => _SnackbarBodyState();
 }
 
-class _SnackbarBodyState extends State<_SnackbarBody>
-    with TickerProviderStateMixin {
+class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMixin {
   AnimationController? _controller;
   late Animation<double> _animation;
   //late Timer time;
@@ -195,9 +197,8 @@ class _SnackbarBodyState extends State<_SnackbarBody>
       duration: widget.openDuration,
       reverseDuration: widget.openDuration,
     );
-    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(
-        CurvedAnimation(
-            parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = Tween<double>(begin: -Grock.width, end: 0)
+        .animate(CurvedAnimation(parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         setState(() {});
       });
@@ -206,24 +207,38 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void _closeSnackbar() {
     Future.delayed(widget.duration - widget.openDuration, () {
       if (_controller != null && _isClosed) {
-        _controller!.reverse().then((value) {
-          widget.overlayEntry.remove();
-          _controller!.dispose();
-        });
+        if (GrockSnackbar.overlayEntry != null) {
+          _controller?.reverse().then((value) {
+            if (!mounted) {
+              widget.overlayEntry.remove();
+            }
+            GrockSnackbar.isShowing = false;
+            _controller?.dispose();
+          });
+        }
       }
     });
   }
 
   @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return widget.body ?? GestureDetector(
       onVerticalDragEnd: (details) {
         setState(() {
           _isClosed = false;
         });
-        _controller!.reverse().then((value) {
-          widget.overlayEntry.remove();
-          _controller!.dispose();
+        _controller?.reverse().then((value) {
+          if (!mounted) {
+            widget.overlayEntry.remove();
+          }
+          GrockSnackbar.isShowing = false;
+          _controller?.dispose();
         });
       },
       child: SizedBox(
@@ -280,9 +295,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   }
 
   Padding _leadingWidget() {
-    return Padding(
-        padding: widget.leadingPadding ?? EdgeInsets.zero,
-        child: widget.leading);
+    return Padding(padding: widget.leadingPadding ?? EdgeInsets.zero, child: widget.leading);
   }
 
   Expanded _bodyWidgets(BuildContext context) {
@@ -300,9 +313,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   }
 
   Padding _trailingWidget() {
-    return Padding(
-        padding: widget.trailingPadding ?? EdgeInsets.zero,
-        child: widget.trailing);
+    return Padding(padding: widget.trailingPadding ?? EdgeInsets.zero, child: widget.trailing);
   }
 
   Padding _descriptionWidget(BuildContext context) {
@@ -379,10 +390,7 @@ class _GlassMorphism extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          decoration: BoxDecoration(
-              color: color.withOpacity(opacity),
-              borderRadius: borderRadius,
-              border: border),
+          decoration: BoxDecoration(color: color.withOpacity(opacity), borderRadius: borderRadius, border: border),
           child: child,
         ),
       ),

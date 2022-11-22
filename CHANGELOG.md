@@ -1,3 +1,3 @@
-## 0.0.8+4 - 15-11-2022
+## 0.0.8+5 - 23-11-2022
 
-* Readme.md Bugfixes
+* Readme.md Bugfixes and new features

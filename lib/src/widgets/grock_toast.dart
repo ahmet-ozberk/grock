@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
 
-import '../enum/toast_enum.dart';
+// import '../enum/toast_enum.dart';
 
-class GrockToastWidget extends StatefulWidget {
+part of '../grock_extension.dart';
+
+class _GrockToastWidget extends StatefulWidget {
   final OverlayEntry overlayEntry;
   final String? text;
   final Widget? widget;
@@ -12,26 +14,32 @@ class GrockToastWidget extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   ToastTheme? theme;
+  final Function? onTap;
   final Color? backgroundColor;
   final Color? textColor;
   final List<BoxShadow>? boxShadow;
   final TextStyle? textStyle;
   final AlignmentGeometry alignment;
   final double? width;
-  Curve curve = Curves.fastLinearToSlowEaseIn;
+  Curve curve;
   Duration? duration;
+  Duration openDuration;
   BoxBorder? border;
   TextAlign textAlign;
   TextOverflow overflow;
   int? maxLines;
-  GrockToastWidget({
+  _GrockToastWidget({
     Key? key,
     required this.overlayEntry,
+    this.onTap,
     this.text,
     this.widget,
     this.child,
     this.curve = Curves.bounceOut,
+    /// [4 seconds]
     this.duration,
+    /// [600 milliseconds]
+    this.openDuration = const Duration(milliseconds: 600),
     this.theme,
     this.backgroundColor,
     this.borderRadius,
@@ -49,32 +57,39 @@ class GrockToastWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GrockToastWidget> createState() => _GrockToastWidgetState();
+  State<_GrockToastWidget> createState() => _GrockToastWidgetState();
 }
 
-class _GrockToastWidgetState extends State<GrockToastWidget> with SingleTickerProviderStateMixin {
+class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  final kDuration = const Duration(seconds: 2);
-  final kAnimateDuration = const Duration(milliseconds: 200);
+  final kDuration = const Duration(seconds: 4);
 
   _animateStart() {
     _controller = AnimationController(
       vsync: this,
-      duration: kAnimateDuration,
-      reverseDuration: kAnimateDuration,
+      duration: widget.openDuration,
+      reverseDuration: Duration(milliseconds: 300),
     );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-      reverseCurve: widget.curve,
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: widget.curve,
+        reverseCurve: Curves.easeOut,
+      ),
     );
+    // _animation = CurvedAnimation(
+    //   parent: _controller,
+    //   curve: widget.curve,
+    //   reverseCurve: widget.curve,
+    // );
     _controller.forward();
   }
 
   _animateClosed() {
-    Future.delayed((widget.duration ?? kDuration) - kAnimateDuration, () {
+    Future.delayed((widget.duration ?? kDuration) - widget.openDuration, () {
       _controller.reverse();
     });
   }
@@ -131,12 +146,13 @@ class _GrockToastWidgetState extends State<GrockToastWidget> with SingleTickerPr
                   textAlign: widget.textAlign,
                   overflow: widget.overflow,
                   maxLines: widget.maxLines,
-                  child: Container(
+                  child: GrockContainer(
+                    onTap: () => widget.onTap?.call(),
                     width: widget.width,
                     padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     decoration: BoxDecoration(
-                      color: widget.backgroundColor ?? widget.theme?.backgroundColor ?? Colors.black.withOpacity(0.6),
-                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(12)),
+                      color: widget.backgroundColor ?? widget.theme?.backgroundColor ?? Colors.black.withOpacity(0.8),
+                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(24)),
                       border: widget.border,
                       boxShadow: widget.boxShadow ??
                           [

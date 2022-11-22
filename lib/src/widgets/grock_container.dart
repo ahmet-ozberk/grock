@@ -15,8 +15,8 @@ class GrockContainer extends StatelessWidget {
   final Decoration? foregroundDecoration;
   final BoxConstraints? constraints;
   final bool isKeyboardDismiss;
-  bool isTapAnimation = true;
-  double pressedOpacity = 0.4;
+  final bool isTapAnimation;
+  final double pressedOpacity;
   GrockContainer({
     Key? key,
     this.onTap,
@@ -38,62 +38,98 @@ class GrockContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isTapAnimation) {
-      return CupertinoTheme(
-        data: CupertinoThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.white,
-          primaryContrastingColor: Colors.black,
-          textTheme: CupertinoTextThemeData(),
-        ),
-        child: CupertinoButton(
-          key: key,
-          padding: EdgeInsets.zero,
-          onPressed: () {
-            onTap?.call();
-            if (isKeyboardDismiss) {
-              FocusScope.of(context).requestFocus(FocusNode());
-            }
-          },
-          color: color,
-          pressedOpacity: pressedOpacity,
-          child: Container(
-            key: key,
-            color: color,
-            width: width,
-            height: height,
-            alignment: alignment,
-            padding: padding,
-            margin: margin,
-            decoration: decoration,
-            foregroundDecoration: foregroundDecoration,
-            constraints: constraints,
-            child: child,
-          ),
-        ),
-      );
-    }
-    return GestureDetector(
+    return _GrockTapContainer(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: child,
+      color: color,
+      width: width,
+      height: height,
+      alignment: alignment,
+      padding: padding,
+      margin: margin,
+      decoration: decoration,
+      foregroundDecoration: foregroundDecoration,
+      constraints: constraints,
+      pressedOpacity: isTapAnimation ? pressedOpacity : 1,
+      isKeyboardDismiss: isKeyboardDismiss,
+      isTapAnimation: isTapAnimation,
       key: key,
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        onTap?.call();
-        if (isKeyboardDismiss) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
-      },
-      onLongPress: () => onLongPress?.call(),
-      child: Container(
-        color: color,
-        width: width,
-        height: height,
-        alignment: alignment,
-        padding: padding,
-        margin: margin,
-        decoration: decoration,
-        foregroundDecoration: foregroundDecoration,
-        constraints: constraints,
-        child: child,
+    );
+  }
+}
+
+class _GrockTapContainer extends StatefulWidget {
+  final GestureTapCallback? onTap;
+  final GestureLongPressCallback? onLongPress;
+  final Widget? child;
+  final Color? color;
+  final double? width;
+  final double? height;
+  final AlignmentGeometry? alignment;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final Decoration? decoration;
+  final Decoration? foregroundDecoration;
+  final BoxConstraints? constraints;
+  final bool isKeyboardDismiss;
+  final bool isTapAnimation;
+  final double pressedOpacity;
+  _GrockTapContainer({
+    super.key,
+    this.onTap,
+    this.onLongPress,
+    this.child,
+    this.color,
+    this.width,
+    this.height,
+    this.alignment,
+    this.padding,
+    this.margin,
+    this.decoration,
+    this.foregroundDecoration,
+    this.constraints,
+    this.isTapAnimation = true,
+    this.pressedOpacity = 0.4,
+    this.isKeyboardDismiss = true,
+  });
+
+  @override
+  State<_GrockTapContainer> createState() => __GrockTapContainerState();
+}
+
+class __GrockTapContainerState extends State<_GrockTapContainer> {
+  bool _isPressed = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: widget.key,
+      color: widget.color,
+      width: widget.width,
+      height: widget.height,
+      alignment: widget.alignment,
+      padding: widget.padding,
+      margin: widget.margin,
+      decoration: widget.decoration,
+      foregroundDecoration: widget.foregroundDecoration,
+      constraints: widget.constraints,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          widget.onTap?.call();
+          if (widget.isKeyboardDismiss) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
+        },
+        onLongPress: widget.onLongPress,
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
+        child: AnimatedOpacity(
+          opacity: _isPressed ? widget.pressedOpacity : 1.0,
+          duration: const Duration(milliseconds: 100),
+          child: widget.child,
+        ),
       ),
     );
   }

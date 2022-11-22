@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class GrockCustomLoadingWidget extends StatefulWidget {
   Color? backgroundColor;
+  String? text;
+  TextStyle? textStyle;
   Color? color;
   BorderRadiusGeometry? borderRadius;
   bool isScale;
@@ -11,6 +13,8 @@ class GrockCustomLoadingWidget extends StatefulWidget {
   GrockCustomLoadingWidget(
       {Key? key,
       this.backgroundColor,
+      this.text,
+      this.textStyle,
       this.color,
       this.borderRadius,
       this.isScale = true,
@@ -75,9 +79,25 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 5,
-                    color: widget.color ?? Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        strokeWidth: 5,
+                        color: widget.color ?? Colors.white,
+                      ),
+                      if (widget.text != null) const SizedBox(height: 4),
+                      if (widget.text != null)
+                        Text(
+                          widget.text!,
+                          style: widget.textStyle ??
+                              TextStyle(
+                                color: widget.color ?? Colors.white,
+                                fontSize: 14,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                    ],
                   ),
                 ),
               ),

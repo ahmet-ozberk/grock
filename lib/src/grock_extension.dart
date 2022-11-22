@@ -7,7 +7,10 @@ import 'package:grock/grock.dart';
 import 'package:grock/src/model/loading_widget.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffoldMessenger.dart';
-import 'widgets/grock_toast.dart';
+import 'package:flutter/cupertino.dart';
+
+part 'widgets/grock_toast.dart';
+part 'components/grock_overlay.dart';
 
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
@@ -32,6 +35,7 @@ extension Grock on ScaffoldMessengerModel {
 
   static double get deviceWidth => window.physicalSize.width;
   static double get deviceHeight => window.physicalSize.height;
+  static Size get deviceSize => window.physicalSize;
 
   static double get height => ScaffoldMessengerModel.height;
   static double get width => ScaffoldMessengerModel.width;
@@ -114,6 +118,7 @@ extension Grock on ScaffoldMessengerModel {
     required String title,
     required String description,
     Color? color,
+    Widget? body,
     SnackbarPosition position = SnackbarPosition.top,
     Duration duration = const Duration(seconds: 4),
     Curve curve = Curves.fastLinearToSlowEaseIn,
@@ -145,6 +150,7 @@ extension Grock on ScaffoldMessengerModel {
         position: position,
         curve: curve,
         blur: blur,
+        body: body,
         openDuration: openDuration,
         opacity: opacity,
         color: color,
@@ -169,8 +175,14 @@ extension Grock on ScaffoldMessengerModel {
         titlePadding: titlePadding,
       );
 
+  static bool get isOpenSnackbar => GrockSnackbar.isShowing;
+  // static void closeSnackbar() {
+  //   GrockSnackbar.overlayEntry?.remove();
+  //   GrockSnackbar.overlayEntry = null;
+  // }
+
   static void dialog({
-    required Widget Function(BuildContext) builder,
+    required Widget Function(BuildContext grockContext) builder,
     bool barrierDismissible = true,
     Color? barrierColor = Colors.black54,
     String? barrierLabel,
@@ -191,7 +203,8 @@ extension Grock on ScaffoldMessengerModel {
     String? text,
     Widget? child,
     AlignmentGeometry alignment = Alignment.bottomCenter,
-    Curve curve = Curves.easeInOutCubicEmphasized,
+    Curve curve = Curves.bounceOut,
+    Function? onTap,
     Duration? duration,
     BorderRadiusGeometry? borderRadius,
     EdgeInsetsGeometry? padding,
@@ -211,9 +224,10 @@ extension Grock on ScaffoldMessengerModel {
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
       builder: (context) {
-        return GrockToastWidget(
+        return _GrockToastWidget(
           overlayEntry: overlayEntry,
           text: text,
+          onTap: onTap,
           borderRadius: borderRadius,
           padding: padding,
           margin: margin,
@@ -236,6 +250,13 @@ extension Grock on ScaffoldMessengerModel {
     );
     overlayState.insert(overlayEntry);
   }
+
+  static void showGrockOverlay({required Widget child}) {
+    _GrockOverlay.show(child: child);
+  }
+
+  static bool isOpenGrockOverlay() => _GrockOverlay.isOpen;
+  static void closeGrockOverlay() => _GrockOverlay.close();
 
   /// [Empty Widget]
 
@@ -277,6 +298,8 @@ extension Grock on ScaffoldMessengerModel {
     );
   }
 
-  static Widget loadingPopup({Color? backgroundColor, Color? color, BorderRadiusGeometry? borderRadius}) =>
-      GrockCustomLoadingWidget(backgroundColor: backgroundColor, color: color, borderRadius: borderRadius);
+  static Widget loadingPopup(
+          {Color? backgroundColor, String? text, TextStyle? style, Color? color, BorderRadiusGeometry? borderRadius}) =>
+      GrockCustomLoadingWidget(
+          backgroundColor: backgroundColor, color: color, borderRadius: borderRadius, text: text, textStyle: style);
 }
