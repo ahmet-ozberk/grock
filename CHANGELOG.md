@@ -1,3 +1,3 @@
-## 0.0.8+5 - 23-11-2022
+## 0.0.8+6 - 25-11-2022
 
-* Readme.md Bugfixes and new features
+* Readme.md Bugfixes Grock.loadingPopup()

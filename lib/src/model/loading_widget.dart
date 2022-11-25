@@ -6,10 +6,14 @@ class GrockCustomLoadingWidget extends StatefulWidget {
   TextStyle? textStyle;
   Color? color;
   BorderRadiusGeometry? borderRadius;
+  double strokeWidth;
   bool isScale;
   Widget? child;
   double? width;
   double? height;
+  double startScale;
+  double endScale;
+  Gradient? gradient;
   GrockCustomLoadingWidget(
       {Key? key,
       this.backgroundColor,
@@ -17,17 +21,20 @@ class GrockCustomLoadingWidget extends StatefulWidget {
       this.textStyle,
       this.color,
       this.borderRadius,
+      this.strokeWidth = 4,
+      this.startScale = 1.0,
+      this.endScale = 0.6,
       this.isScale = true,
       this.child,
       this.height,
-      this.width})
+      this.width,this.gradient})
       : super(key: key);
 
   @override
   _GrockCustomLoadingWidgetState createState() => _GrockCustomLoadingWidgetState();
 }
 
-class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> with SingleTickerProviderStateMixin {
+class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -40,7 +47,7 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
         reverseDuration: const Duration(milliseconds: 500),
         vsync: this,
       );
-      _scaleAnimation = Tween<double>(begin: 1.0, end: 0.3).animate(_controller);
+      _scaleAnimation = Tween<double>(begin: widget.startScale, end: widget.endScale).animate(_controller);
       _controller.addListener(() {
         setState(() {});
       });
@@ -65,6 +72,7 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return ScaleTransition(
+      key: widget.key,
       scale: _scaleAnimation,
       alignment: Alignment.center,
       child: Center(
@@ -73,29 +81,34 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
           width: widget.width ?? size.width * 0.25,
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
-            color: widget.backgroundColor ?? Colors.black,
+            color: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
+            gradient: widget.gradient,
           ),
           child: widget.child ??
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: widget.text == null ? 8 : 2),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(
-                        strokeWidth: 5,
-                        color: widget.color ?? Colors.white,
+                      FittedBox(
+                        child: CircularProgressIndicator(
+                          strokeWidth: widget.strokeWidth,
+                          color: widget.color ?? Colors.white,
+                        ),
                       ),
-                      if (widget.text != null) const SizedBox(height: 4),
                       if (widget.text != null)
-                        Text(
-                          widget.text!,
-                          style: widget.textStyle ??
-                              TextStyle(
-                                color: widget.color ?? Colors.white,
-                                fontSize: 14,
-                              ),
-                          textAlign: TextAlign.center,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            widget.text!,
+                            style: widget.textStyle ??
+                                TextStyle(
+                                  color: widget.color ?? Colors.white,
+                                  fontSize: 14,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                     ],
                   ),

@@ -299,7 +299,33 @@ extension Grock on ScaffoldMessengerModel {
   }
 
   static Widget loadingPopup(
-          {Color? backgroundColor, String? text, TextStyle? style, Color? color, BorderRadiusGeometry? borderRadius}) =>
+          {Key? key,
+          Color? backgroundColor,
+          String? text,
+          Widget? child,
+          TextStyle? style,
+          Color? color,
+          double? height,
+          double? width,
+          BorderRadiusGeometry? borderRadius,
+          bool isScale = true,
+          double strokeWidth = 4,
+          double startScale = 1.0,
+          double endScale = 0.6,Gradient? gradient}) =>
       GrockCustomLoadingWidget(
-          backgroundColor: backgroundColor, color: color, borderRadius: borderRadius, text: text, textStyle: style);
+        backgroundColor: backgroundColor,
+        child: child,
+        startScale: startScale,
+        isScale: isScale,
+        height: height,
+        width: width,
+        key: key,
+        strokeWidth: strokeWidth,
+        endScale: endScale,
+        color: color,
+        borderRadius: borderRadius,
+        text: text,
+        textStyle: style,
+        gradient: gradient,
+      );
 }
