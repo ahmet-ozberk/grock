@@ -6,7 +6,6 @@ This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯�
 ## Grock UI Tools Demo
 ![grock_ui_tools_demo](https://user-images.githubusercontent.com/83654764/174483340-22b539a0-9d9b-442b-8011-3829f029d8bd.gif)
 
-[pub.dev link](https://pub.dev/packages/grock)
 
 ## Firstly 🤫
 ```dart
@@ -57,6 +56,33 @@ GrockButton(
   child: const Text("GrockButton"),
   onTap: (){},
 ),
+```
+
+### GrockDirectSelectionMenu
+```dart
+GrockDirectSelectionMenu(
+  width: double.infinity,
+  margin: const EdgeInsets.all(20),
+  hintText: "Selection Data",
+  value: listActiveIndex,
+  onChanged: (index) {
+    setState(() {
+      listActiveIndex = index;
+    });
+  },
+  items: List.generate(
+    list.length,
+    (index) => Text(list[index]),
+  ),
+  /// [Customize your own widget]
+  // child: Row(
+  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //   children: [
+  //   Text(listActiveIndex == null ? "Please selection data" : list[listActiveIndex!]),
+  //   listActiveIndex == null ? const Icon(Icons.menu) : Text(list[listActiveIndex ?? 0])
+  //   ],
+  // ),
+ ),
 ```
 
 ### GrockTimer
@@ -299,15 +325,6 @@ GrockButton(
 ['data','data1'].forLoop((value, index){})
 ['data','data1'].mapIndexedWhere((value, index))
 ['data','data1'].mapFiltered((value){})
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
-['data','data1'].
 ```
 
 ### String Extension

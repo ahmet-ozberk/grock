@@ -1,3 +1,3 @@
-## 0.0.8+6 - 25-11-2022
+## 0.0.8+7 - 25-11-2022
 
-* Readme.md Bugfixes Grock.loadingPopup()
+* Readme.md Added new widget => GrockDirectSelectionMenu
