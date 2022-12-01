@@ -169,7 +169,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.8+5"
+    version: "0.0.8+8"
   http_parser:
     dependency: transitive
     description:

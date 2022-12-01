@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 
 class GrockFadeAnimation extends StatefulWidget {
-  Widget child;
-  Duration duration;
-  Duration opacityDuration;
-  PositionF position;
-  Curve curve;
-  double value;
-  GrockFadeAnimation({
-    Key? key,
+  final Widget child;
+  final Duration duration;
+  final Duration opacityDuration;
+  final PositionF position;
+  final Curve curve;
+  final double value;
+  const GrockFadeAnimation({
+    super.key,
     required this.child,
     this.duration = const Duration(milliseconds: 500),
     this.opacityDuration = const Duration(milliseconds: 400),
     this.position = PositionF.top,
     this.curve = Curves.easeInOut,
     this.value = 100,
-  }) : super(key: key);
+  });
 
   @override
   State<GrockFadeAnimation> createState() => _GrockFadeAnimationState();
 }
 
-class _GrockFadeAnimationState extends State<GrockFadeAnimation>
-    with TickerProviderStateMixin {
+class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -31,8 +30,7 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   Tween<double> _tween(PositionF location) {
     if (location == PositionF.top || location == PositionF.bottom) {
       return Tween<double>(begin: widget.value, end: 0.0);
-    } else if (location == PositionF.left ||
-        location == PositionF.right) {
+    } else if (location == PositionF.left || location == PositionF.right) {
       return Tween<double>(begin: widget.value, end: 0.0);
     } else {
       return Tween<double>(begin: 0.0, end: -widget.value);
@@ -60,8 +58,8 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
       vsync: this,
       duration: widget.duration,
     );
-    _animation = _tween(widget.position).animate(CurvedAnimation(
-        parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = _tween(widget.position)
+        .animate(CurvedAnimation(parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         _isOpacity = true;
         setState(() {});
@@ -78,11 +76,13 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
+      key: widget.key,
       offset: _offset(),
       child: AnimatedOpacity(
-          opacity: _isOpacity ? 1 : 0,
-          duration: widget.opacityDuration,
-          child: widget.child),
+        opacity: _isOpacity ? 1 : 0,
+        duration: widget.opacityDuration,
+        child: widget.child,
+      ),
     );
   }
 }

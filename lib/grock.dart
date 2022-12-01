@@ -28,3 +28,5 @@ export 'src/widgets/grock_horizontal_list.dart';
 export 'src/widgets/grock_widget_size.dart';
 export 'src/widgets/grock_timer.dart';
 export 'src/widgets/grock_direct_selection_menu.dart';
+export 'src/function_extension.dart';
+export 'src/widgets/grock_scale_animation.dart';

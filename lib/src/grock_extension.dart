@@ -111,6 +111,7 @@ extension Grock on ScaffoldMessengerModel {
   }
 
   static void hideKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
+  static void widgetBinding(Function function) => WidgetsBinding.instance.addPostFrameCallback((_) => function());
 
   /// [Snackbar]
 
