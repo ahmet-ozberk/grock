@@ -1,3 +1,3 @@
-## 0.0.8+9 - 01-12-2022
+## 0.0.9+1 - 04-12-2022
 
-* Readme.md This is Grock.
+* Readme.md Rotate animation widget added

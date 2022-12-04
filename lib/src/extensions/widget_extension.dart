@@ -244,7 +244,7 @@ extension WidgetExtension on Widget {
     Curve? curve,
     Duration? duration,
   }) =>
-      GrockRotationAnimation(
+      _GrockRotationAnimation(
         child: this,
         to: end,
         from: start,
@@ -267,244 +267,15 @@ extension ExpansionTileExtension on ExpansionTile {
       });
 }
 
-// extension TextExtension on Text {
-//   Text gradient(List<Color> colors) => Text(
-//         data ?? '',
-//         style: TextStyle(
-//           foreground: Paint()
-//             ..shader = LinearGradient(colors: colors).createShader(
-//               Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-//             ),
-//         ),
-//       );
-
-//   Text get bold => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontWeight: FontWeight.bold),
-//       );
-
-//   Text get italic => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontStyle: FontStyle.italic),
-//       );
-
-//   Text get underline => Text(
-//         this.data ?? '',
-//         style: TextStyle(decoration: TextDecoration.underline),
-//       );
-
-//   Text get lineThrough => Text(
-//         this.data ?? '',
-//         style: TextStyle(decoration: TextDecoration.lineThrough),
-//       );
-
-//   Text get overline => Text(
-//         this.data ?? '',
-//         style: TextStyle(decoration: TextDecoration.overline),
-//       );
-
-//   Text get uppercase => Text(
-//         this.data?.toUpperCase() ?? '',
-//       );
-
-//   Text get lowercase => Text(
-//         this.data?.toLowerCase() ?? '',
-//       );
-
-//   Text fontSize(int t) => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 20),
-//       );
-
-//   Text get fontSize10 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 10),
-//       );
-
-//   Text get fontSize12 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 12),
-//       );
-
-//   Text get fontSize14 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 14),
-//       );
-
-//   Text get fontSize16 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 16),
-//       );
-
-//   Text get fontSize18 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 18),
-//       );
-
-//   Text get fontSize20 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 20),
-//       );
-
-//   Text get fontSize22 => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontSize: 22),
-//       );
-
-//   Text fontWeight(FontWeight fontWeight) => Text(
-//         this.data ?? '',
-//         style: TextStyle(fontWeight: fontWeight),
-//       );
-
-//   Text color(Color t) => Text(
-//         this.data ?? '',
-//         style: TextStyle(color: t),
-//       );
-
-//   Text get center => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.center,
-//       );
-
-//   Text get left => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.left,
-//       );
-
-//   Text get right => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.right,
-//       );
-
-//   Text get justify => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.justify,
-//       );
-
-//   Text get start => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.start,
-//       );
-
-//   Text get end => Text(
-//         this.data ?? '',
-//         textAlign: TextAlign.end,
-//       );
-
-//   Text get white => Text(
-//         this.data ?? '',
-//         style: TextStyle(color: Colors.white),
-//       );
-
-//   Text get black => Text(
-//         this.data ?? '',
-//         style: TextStyle(color: Colors.black),
-//       );
-// }
-
-// extension TextStyleExtension on TextStyle {
-//   TextStyle get bold => TextStyle(fontWeight: FontWeight.bold);
-
-//   TextStyle get italic => TextStyle(fontStyle: FontStyle.italic);
-
-//   TextStyle get underline => TextStyle(decoration: TextDecoration.underline);
-
-//   TextStyle get lineThrough => TextStyle(decoration: TextDecoration.lineThrough);
-
-//   TextStyle get overline => TextStyle(decoration: TextDecoration.overline);
-
-//   TextStyle get uppercase => TextStyle(fontWeight: FontWeight.bold);
-
-//   TextStyle get lowercase => TextStyle(fontWeight: FontWeight.bold);
-
-//   TextStyle fontSize(int t) => TextStyle(fontSize: 20);
-
-//   TextStyle get fontSize10 => TextStyle(fontSize: 10);
-
-//   TextStyle get fontSize12 => TextStyle(fontSize: 12);
-
-//   TextStyle get fontSize14 => TextStyle(fontSize: 14);
-
-//   TextStyle get fontSize16 => TextStyle(fontSize: 16);
-
-//   TextStyle get fontSize18 => TextStyle(fontSize: 18);
-
-//   TextStyle get fontSize20 => TextStyle(fontSize: 20);
-
-//   TextStyle get fontSize22 => TextStyle(fontSize: 22);
-
-//   TextStyle fontWeight(FontWeight fontWeight) => TextStyle(fontWeight: fontWeight);
-
-//   TextStyle color(Color t) => TextStyle(color: t);
-
-//   TextStyle get gradient => TextStyle(
-//         foreground: Paint()
-//           ..shader = LinearGradient(colors: [Colors.red, Colors.yellow]).createShader(
-//             Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-//           ),
-//       );
-// }
-
-// extension StringToText on String {
-//   Text get text => Text(this);
-
-//   Text get bold => Text(this, style: TextStyle(fontWeight: FontWeight.bold));
-
-//   Text get italic => Text(this, style: TextStyle(fontStyle: FontStyle.italic));
-
-//   Text get underline => Text(this, style: TextStyle(decoration: TextDecoration.underline));
-
-//   Text get lineThrough => Text(this, style: TextStyle(decoration: TextDecoration.lineThrough));
-
-//   Text get overflow => Text(this, overflow: TextOverflow.ellipsis);
-
-//   Text get fontSize10 => Text(this, style: TextStyle(fontSize: 10));
-
-//   Text get fontSize12 => Text(this, style: TextStyle(fontSize: 12));
-
-//   Text get fontSize14 => Text(this, style: TextStyle(fontSize: 14));
-
-//   Text get fontSize16 => Text(this, style: TextStyle(fontSize: 16));
-
-//   Text get fontSize18 => Text(this, style: TextStyle(fontSize: 18));
-
-//   Text get fontSize20 => Text(this, style: TextStyle(fontSize: 20));
-
-//   Text fontSize(double t) => Text(this, style: TextStyle(fontSize: t));
-
-//   Text get uppercase => Text(this.toUpperCase());
-
-//   Text get lowercase => Text(this.toLowerCase());
-
-//   Text color(Color t) => Text(this, style: TextStyle(color: t));
-
-//   Text fontWeight(FontWeight fontWeight) => Text(this, style: TextStyle(fontWeight: fontWeight));
-
-//   Text get overline => Text(this, style: TextStyle(decoration: TextDecoration.overline));
-
-//   Text get center => Text(this, textAlign: TextAlign.center);
-
-//   Text gradient(List<Color> colors) => Text(
-//         this,
-//         style: TextStyle(
-//           foreground: Paint()
-//             ..shader = LinearGradient(
-//               colors: colors,
-//             ).createShader(
-//               Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-//             ),
-//         ),
-//       );
-// }
 
 // ignore: must_be_immutable
-class GrockRotationAnimation extends StatefulWidget {
+class _GrockRotationAnimation extends StatefulWidget {
   final Widget child;
   Curve? curve;
   Duration? duration;
   double from;
   double to;
-  GrockRotationAnimation({
+  _GrockRotationAnimation({
     Key? key,
     required this.child,
     this.curve,
@@ -514,10 +285,10 @@ class GrockRotationAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GrockRotationAnimation> createState() => _GrockRotationAnimationState();
+  State<_GrockRotationAnimation> createState() => __GrockRotationAnimationState();
 }
 
-class _GrockRotationAnimationState extends State<GrockRotationAnimation> with TickerProviderStateMixin {
+class __GrockRotationAnimationState extends State<_GrockRotationAnimation> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

@@ -2,8 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../grock_extension.dart';
-import '../padding_extension.dart';
-import '../context_extension.dart';
+import '../extensions/padding_extension.dart';
+import '../extensions/context_extension.dart';
 
 late OverlayEntry _networkConnect;
 
