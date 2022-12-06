@@ -30,3 +30,4 @@ export 'src/widgets/grock_timer.dart';
 export 'src/widgets/grock_direct_selection_menu.dart';
 export 'src/extensions/function_extension.dart';
 export 'src/widgets/grock_scale_animation.dart';
+export 'src/widgets/grock_rotate_animation.dart';

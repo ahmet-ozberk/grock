@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class GrockButton extends StatefulWidget {
@@ -31,14 +30,15 @@ class GrockButton extends StatefulWidget {
     this.elevationColor = Colors.black26,
     this.height = 44,
     this.width,
-  }) : assert(tapOpacity > 0 || tapOpacity < 1), super(key: key);
+  })  : assert(tapOpacity > 0 || tapOpacity < 1),
+        super(key: key);
 
   @override
   _GrockButtonState createState() => _GrockButtonState();
 }
 
 class _GrockButtonState extends State<GrockButton> {
-  final _kBorderRadius = const BorderRadius.all(Radius.elliptical(20, 20));
+  final _kBorderRadius = const BorderRadius.all(Radius.elliptical(16, 16));
   bool _isTapped = false;
 
   @override
@@ -83,7 +83,7 @@ class _GrockButtonState extends State<GrockButton> {
                 child: Ink(
                   decoration: BoxDecoration(
                     gradient: widget.gradient,
-                    color: widget.color ?? Colors.white,
+                    color: widget.color ?? Theme.of(context).primaryColor,
                   ),
                   child: Center(
                     child: Padding(
@@ -91,7 +91,7 @@ class _GrockButtonState extends State<GrockButton> {
                       child: widget.child ??
                           Text(
                             "Grock Button",
-                            style: Theme.of(context).textTheme.button,
+                            style: Theme.of(context).textTheme.button!.copyWith(color: Colors.white),
                             textAlign: TextAlign.center,
                             maxLines: 1,
                           ),
