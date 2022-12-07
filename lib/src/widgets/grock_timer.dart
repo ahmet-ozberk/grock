@@ -48,6 +48,9 @@ class _GrockTimerState extends State<GrockTimer> {
     widget.onTimerStart?.call();
     _timer = Timer.periodic(widget.interval!, (timer) {
       if (_time.inSeconds == widget.endTime!.inSeconds) {
+        if (widget.onTimerTick != null) {
+          widget.onTimerTick!(_time, GrockTimerState.completed);
+        }
         _timer.cancel();
         widget.onTimerEnd?.call();
       } else {
