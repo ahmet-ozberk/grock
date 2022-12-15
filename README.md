@@ -1,18 +1,8 @@
-# Grock
+# This is Grock
 
 ![alt text](https://wallpaperaccess.com/full/2764317.jpg)
 
 This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
-## Grock UI Tools Demo
-
-![grock_button](https://user-images.githubusercontent.com/83654764/204043399-b20c7c51-918e-4840-8314-df7faf0b80a0.png)
-![grock_timer](https://user-images.githubusercontent.com/83654764/204043401-10018bfa-4e1c-4f74-90c0-54625411c6e1.png)
-![grock_direct_selection_menu](https://user-images.githubusercontent.com/83654764/204043406-be754e40-80bd-4ab5-86e0-6590773dfd7c.png)
-![grock_menu](https://user-images.githubusercontent.com/83654764/204043407-96e300ff-4565-4444-b0d8-d45fcc9da95d.png)
-![grock_dropdown](https://user-images.githubusercontent.com/83654764/204043408-7e23c96b-2705-4603-af9e-091da6f4d4b1.png)
-![grock_info_widget](https://user-images.githubusercontent.com/83654764/204043411-00194295-ffc1-42bf-bf98-03348367b975.png)
-![grock_snackbar](https://user-images.githubusercontent.com/83654764/204043414-a33d2c78-0089-40dd-8cde-39b6de6c24e7.png)
-![grock_toast](https://user-images.githubusercontent.com/83654764/204043415-9a21e719-cf1c-4408-be37-3709999a080a.png)
 
 ## Firstly 🤫
 ```dart

@@ -17,7 +17,7 @@ class GrockContainer extends StatelessWidget {
   final bool isKeyboardDismiss;
   final bool isTapAnimation;
   final double pressedOpacity;
-  GrockContainer({
+  const GrockContainer({
     Key? key,
     this.onTap,
     this.onLongPress,
@@ -72,10 +72,20 @@ class _GrockTapContainer extends StatefulWidget {
   final Decoration? decoration;
   final Decoration? foregroundDecoration;
   final BoxConstraints? constraints;
+
+  /// Whether to dismiss the keyboard when the button is pressed. Defaults to true.
   final bool isKeyboardDismiss;
+
+  /// Whether to show the tap animation. Defaults to true.
   final bool isTapAnimation;
+
+  /// The opacity of the button when the button is pressed. Defaults to 0.4. 
   final double pressedOpacity;
-  _GrockTapContainer({
+
+  /// The duration of the opacity animation when the button is pressed. Defaults to 10ms.
+  final int pressedOpacityDuration;
+  
+  const _GrockTapContainer({
     super.key,
     this.onTap,
     this.onLongPress,
@@ -92,6 +102,7 @@ class _GrockTapContainer extends StatefulWidget {
     this.isTapAnimation = true,
     this.pressedOpacity = 0.4,
     this.isKeyboardDismiss = true,
+    this.pressedOpacityDuration = 10,
   });
 
   @override
@@ -127,7 +138,7 @@ class __GrockTapContainerState extends State<_GrockTapContainer> {
         onTapCancel: () => setState(() => _isPressed = false),
         child: AnimatedOpacity(
           opacity: _isPressed ? widget.pressedOpacity : 1.0,
-          duration: const Duration(milliseconds: 100),
+          duration: Duration(milliseconds: widget.pressedOpacityDuration),
           child: widget.child,
         ),
       ),

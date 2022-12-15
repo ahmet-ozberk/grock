@@ -34,6 +34,10 @@ extension WaitExtension on int {
 
   Future<void> waitMicro([FutureOr<void> Function()? func]) =>
       Future.delayed(Duration(microseconds: this), () => func?.call());
+  
+  Duration get seconds => Duration(seconds: this);
+  Duration get milliseconds => Duration(milliseconds: this);
+  Duration get microseconds => Duration(microseconds: this);
 }
 
 extension BorderRadiusIntExtension on num {

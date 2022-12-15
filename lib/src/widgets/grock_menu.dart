@@ -46,6 +46,7 @@ class GrockMenu extends StatefulWidget {
   final Duration openAnimationDuration;
   final Curve openAnimation;
   final TextStyle? textStyle;
+  final AlignmentGeometry? openAlignment;
 
   const GrockMenu({
     Key? key,
@@ -70,6 +71,7 @@ class GrockMenu extends StatefulWidget {
     this.spaceColor = Colors.black26,
     this.openAnimationDuration = const Duration(milliseconds: 200),
     this.openAnimation = Curves.fastOutSlowIn,
+    this.openAlignment,
   }) : super(key: key);
 
   @override
@@ -121,6 +123,7 @@ class _GrockMenuState extends State<GrockMenu> {
               spaceColor: widget.spaceColor,
               openAnimationDuration: widget.openAnimationDuration,
               openAnimation: widget.openAnimation,
+              openAlignment: widget.openAlignment,
             );
           },
         );
@@ -156,6 +159,7 @@ class _GrockMenuCore extends StatefulWidget {
   Color spaceColor;
   Duration openAnimationDuration;
   Curve openAnimation;
+  AlignmentGeometry? openAlignment;
 
   _GrockMenuCore({
     Key? key,
@@ -183,6 +187,7 @@ class _GrockMenuCore extends StatefulWidget {
     required this.spaceColor,
     required this.openAnimationDuration,
     required this.openAnimation,
+    this.openAlignment,
   }) : super(key: key);
 
   @override
@@ -238,7 +243,10 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
 
   AlignmentGeometry alignmentAnimation() {
     late AlignmentGeometry result;
-    if (widget.offset.dy > widgetSize.height) {
+    if (widget.openAlignment != null) {
+      result = widget.openAlignment!;
+    } else {
+      if (widget.offset.dy > widgetSize.height) {
       if (widget.offset.dx > widgetSize.width) {
         result = Alignment.bottomRight;
       } else if (widget.offset.dx > (context.mediaQuery.size.width - 30) / 2) {
@@ -254,6 +262,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
       } else {
         result = Alignment.topLeft;
       }
+    }
     }
     return result;
   }
