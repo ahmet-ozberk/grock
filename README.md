@@ -246,17 +246,6 @@ return GrockWidgetSize(
 );
 ```
 
-### GrockWidgetSize
-```dart
-return GrockWidgetSize(
-  callback: (Size size, Offset offset){
-    print("Size: $size");
-    print("Offset: $offset");
-  },
-  child: Container(),
-);
-```
-
 ### GrockCustomLoadingWidget or Grock.loadingPopup()
 ```dart
 Grock.loadingPopup(

@@ -152,7 +152,7 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
                     padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     decoration: BoxDecoration(
                       color: widget.backgroundColor ?? widget.theme?.backgroundColor ?? Colors.black.withOpacity(0.8),
-                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(24)),
+                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(16)),
                       border: widget.border,
                       boxShadow: widget.boxShadow ??
                           [

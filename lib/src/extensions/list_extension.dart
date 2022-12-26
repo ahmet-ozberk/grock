@@ -9,17 +9,30 @@ extension ExtendedIterable<E> on Iterable<E> {
     return map((e) => f(e, i++));
   }
 
-
   /// Like Iterable<T>.map but the callback has index as second argument
   /// and the index is start from 0
   /// Grock ForLoop example:
   void forLoop(void Function(E value, int index) f) {
-    var i = 0;
-    forEach((e) => f(e, i++));
+    var index = 0;
+    for (int i = 0; i < length; i++) {
+      f(elementAt(i), index);
+      index++;
+    }
+  }
+
+  /// Like Iterable<T>.map but the callback has index as second argument
+  /// and the index is start from 0
+  /// Grock ForLoop example:
+  void forLoopReverse(void Function(E value, int index) f) {
+    var index = length - 1;
+    for (int i = length - 1; i >= 0; i--) {
+      f(elementAt(i), index);
+      index--;
+    }
   }
 }
 
-extension ListExtension<E> on List<E>{
+extension ListExtension<E> on List<E> {
   List<T> mapIndexed<T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++)).toList();
@@ -37,67 +50,213 @@ extension ListExtension<E> on List<E>{
 
   List<E> mapIndexedWhereNotNullAndNotEmpty<T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) => element != null && element.toString().isNotEmpty)
+        .toList();
   }
 
   List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZero<T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) => element != null && element.toString().isNotEmpty && element != 0)
+        .toList();
   }
 
   List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalse<T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false)
+        .toList();
   }
 
   List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrue<T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegative<T>(T Function(E value, int index) f) {
+  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegative<T>(
+      T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroString<T>(T Function(E value, int index) f) {
+  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroString<T>(
+      T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0").toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0")
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDouble<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDouble<T>(
+          T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroInt<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroInt<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBool<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBool<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0 && element != false).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0 &&
+            element != false)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroList<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroList<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0 && element != false && element != []).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0 &&
+            element != false &&
+            element != [])
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMap<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMap<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0 && element != false && element != [] && element != {}).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0 &&
+            element != false &&
+            element != [] &&
+            element != {})
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMapAndNotZeroSet<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMapAndNotZeroSet<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0 && element != false && element != [] && element != {} && element != {}).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0 &&
+            element != false &&
+            element != [] &&
+            element != {} &&
+            element != {})
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMapAndNotZeroSetAndNotZeroDateTime<T>(T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDoubleAndNotZeroIntAndNotZeroBoolAndNotZeroListAndNotZeroMapAndNotZeroSetAndNotZeroDateTime<
+          T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true && element != -1 && element != "0" && element != 0.0 && element != 0 && element != false && element != [] && element != {} && element != {} && element != DateTime(0)).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true &&
+            element != -1 &&
+            element != "0" &&
+            element != 0.0 &&
+            element != 0 &&
+            element != false &&
+            element != [] &&
+            element != {} &&
+            element != {} &&
+            element != DateTime(0))
+        .toList();
   }
 
   List<E> mapFiltered<T>(T Function(E value) f) {
@@ -107,7 +266,6 @@ extension ListExtension<E> on List<E>{
   List<E> mapFilteredWhereNotNull<T>(T Function(E value) f) {
     return map((e) => f(e)).whereType<E>().where((element) => element != null).toList();
   }
-
 
   Widget toBuilder<T>(Widget Function(E value) f) {
     return Column(
@@ -121,14 +279,16 @@ extension ListExtension<E> on List<E>{
     );
   }
 
-  Widget listToBuilderWithPadding<T>(Widget Function(E value) f, {EdgeInsetsGeometry padding = const EdgeInsets.all(8)}) {
+  Widget listToBuilderWithPadding<T>(Widget Function(E value) f,
+      {EdgeInsetsGeometry padding = const EdgeInsets.all(8)}) {
     return ListView(
       padding: padding,
       children: map((e) => f(e)).whereType<Widget>().toList(),
     );
   }
 
-  Widget listToBuilderWithPaddingAndScrollDirection<T>(Widget Function(E value) f, {EdgeInsetsGeometry padding = const EdgeInsets.all(8), Axis scrollDirection = Axis.vertical}) {
+  Widget listToBuilderWithPaddingAndScrollDirection<T>(Widget Function(E value) f,
+      {EdgeInsetsGeometry padding = const EdgeInsets.all(8), Axis scrollDirection = Axis.vertical}) {
     return ListView(
       padding: padding,
       scrollDirection: scrollDirection,
@@ -136,7 +296,10 @@ extension ListExtension<E> on List<E>{
     );
   }
 
-  Widget listToBuilderWithPaddingAndScrollDirectionAndShrinkWrap<T>(Widget Function(E value) f, {EdgeInsetsGeometry padding = const EdgeInsets.all(8), Axis scrollDirection = Axis.vertical, bool shrinkWrap = true}) {
+  Widget listToBuilderWithPaddingAndScrollDirectionAndShrinkWrap<T>(Widget Function(E value) f,
+      {EdgeInsetsGeometry padding = const EdgeInsets.all(8),
+      Axis scrollDirection = Axis.vertical,
+      bool shrinkWrap = true}) {
     return ListView(
       padding: padding,
       scrollDirection: scrollDirection,
