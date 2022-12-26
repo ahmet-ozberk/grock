@@ -1,3 +1,3 @@
-## 0.0.9+5 - 26-12-2022
+## 0.0.9+6 - 26-12-2022
 
-* Readme.md List extension updated
+* Readme.md Developer extension added
