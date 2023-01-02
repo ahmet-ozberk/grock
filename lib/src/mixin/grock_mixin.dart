@@ -595,47 +595,47 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
 
   /// [safe area bottm] method
   double safeAreaBottom() {
-    return MediaQuery.of(context).viewInsets.bottom;
+    return MediaQuery.of(context).padding.bottom;
   }
 
   /// [safe area top] method
   double safeAreaTop() {
-    return MediaQuery.of(context).viewInsets.top;
+    return MediaQuery.of(context).padding.top;
   }
 
   /// [safe area left] method
   double safeAreaLeft() {
-    return MediaQuery.of(context).viewInsets.left;
+    return MediaQuery.of(context).padding.left;
   }
 
   /// [safe area right] method
   double safeAreaRight() {
-    return MediaQuery.of(context).viewInsets.right;
+    return MediaQuery.of(context).padding.right;
   }
 
   /// [safe area] method
   EdgeInsets safeArea() {
-    return MediaQuery.of(context).viewInsets;
+    return MediaQuery.of(context).padding;
   }
 
   /// [safe area] method
   EdgeInsets safeAreaWithPadding() {
-    return MediaQuery.of(context).viewInsets + EdgeInsets.all(10);
+    return MediaQuery.of(context).padding + EdgeInsets.all(10);
   }
 
   /// [safe area] method
   EdgeInsets safeAreaWithPaddingAndBottom(double bottom) {
-    return MediaQuery.of(context).viewInsets + EdgeInsets.only(bottom: bottom);
+    return MediaQuery.of(context).padding + EdgeInsets.only(bottom: bottom);
   }
 
   /// [safe area] method
   EdgeInsets safeAreaWithPaddingAndTop(double top) {
-    return MediaQuery.of(context).viewInsets + EdgeInsets.only(top: top);
+    return MediaQuery.of(context).padding + EdgeInsets.only(top: top);
   }
 
   /// [safe area] method
   EdgeInsets safeAreaWithPaddingAndLeft(double left) {
-    return MediaQuery.of(context).viewInsets + EdgeInsets.only(left: left);
+    return MediaQuery.of(context).padding + EdgeInsets.only(left: left);
   }
 
   /// [Hero animation] method
