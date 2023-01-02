@@ -265,8 +265,8 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
         lastDate: lastDate,
       );
     } else {
-    Future<DateTime?> result = Future.value(null);
-      showCupertinoModalPopup(
+      Future<DateTime?> result = Future.value(null);
+      await showCupertinoModalPopup(
         context: context,
         builder: (context) => Container(
           height: MediaQuery.of(context).size.height * 0.32,
@@ -279,7 +279,7 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
             maximumDate: lastDate,
             onDateTimeChanged: (value) {
               setState(() {
-              result = Future.value(value);
+                result = Future.value(value);
               });
             },
           ),
@@ -299,7 +299,8 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
         initialTime: initialTime,
       );
     } else {
-      return showCupertinoModalPopup(
+      Future<TimeOfDay?> result = Future.value(null);
+      await showCupertinoModalPopup(
         context: context,
         builder: (context) => Container(
           height: 200,
@@ -313,10 +314,20 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
               initialTime.hour,
               initialTime.minute,
             ),
-            onDateTimeChanged: (value) {},
+            onDateTimeChanged: (value) {
+              setState(() {
+                result = Future.value(
+                  TimeOfDay(
+                    hour: value.hour,
+                    minute: value.minute,
+                  ),
+                );
+              });
+            },
           ),
         ),
       );
+      return result;
     }
   }
 
@@ -680,8 +691,20 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  /// [Text shimmer animation] method
+  /// Dynamic height
+  double dH(double height) {
+    return MediaQuery.of(context).size.height * height;
+  }
 
+  /// Dynamic width
+  double dW(double width) {
+    return MediaQuery.of(context).size.width * width;
+  }
+
+  /// Dynbamic text scale factor
+  double dTSF(double textScaleFactor) {
+    return MediaQuery.of(context).textScaleFactor * textScaleFactor;
+  }  
 }
 
 class _ScrollGlowConfiguration extends ScrollBehavior {
