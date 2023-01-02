@@ -265,19 +265,27 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
         lastDate: lastDate,
       );
     } else {
-      return showCupertinoModalPopup(
+    Future<DateTime?> result = Future.value(null);
+      showCupertinoModalPopup(
         context: context,
         builder: (context) => Container(
-          height: 200,
+          height: MediaQuery.of(context).size.height * 0.32,
           color: Colors.white,
           child: CupertinoDatePicker(
             initialDateTime: initialDate,
+            use24hFormat: true,
+            mode: CupertinoDatePickerMode.date,
             minimumDate: firstDate,
             maximumDate: lastDate,
-            onDateTimeChanged: (value) {},
+            onDateTimeChanged: (value) {
+              setState(() {
+              result = Future.value(value);
+              });
+            },
           ),
         ),
       );
+      return result;
     }
   }
 
@@ -299,9 +307,9 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.time,
             initialDateTime: DateTime(
-              2021,
-              1,
-              1,
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
               initialTime.hour,
               initialTime.minute,
             ),
@@ -468,7 +476,6 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
       );
     }
   }
-
 
   /// [AndroidScrollGlowDisable] method
   Widget AndroidScrollGlowDisable({
@@ -674,8 +681,7 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
   }
 
   /// [Text shimmer animation] method
-  
-  
+
 }
 
 class _ScrollGlowConfiguration extends ScrollBehavior {
