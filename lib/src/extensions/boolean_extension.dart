@@ -1,6 +1,6 @@
 extension BooleanExtension on bool {
   /// Returns the opposite of the boolean value.
-  bool get not => !this;
+  bool toggle() => !this;
 
   /// Returns the boolean value if it is true, otherwise returns the [other] value.
   bool or(bool other) => this ? this : other;
@@ -19,4 +19,7 @@ extension BooleanExtension on bool {
 
   /// Returns the boolean value if it is false, otherwise returns the [other] value.
   bool otherwiseNot(bool other) => this ? other : this;
+
+  /// Returns the boolean value if it is true, otherwise returns the [other] value.
+  bool otherwiseTrue(bool other) => this ? this : other;
 }

@@ -33,4 +33,5 @@ export 'src/widgets/grock_scale_animation.dart';
 export 'src/widgets/grock_rotate_animation.dart';
 export 'src/extensions/developer_extension.dart';
 export 'src/extensions/double_extension.dart';
+export 'src/extensions/boolean_extension.dart';
 export 'src/mixin/grock_mixin.dart';
