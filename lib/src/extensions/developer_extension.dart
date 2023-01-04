@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-extension DeveloperExtension on Object {
+extension DeveloperExtension on Object? {
   void get logger {
-    log(this.toString(), name: 'GrockLogger[$runtimeType]');
+    log(this.toString(), name: 'GrockLogger => ');
   }
 
   void get printer {

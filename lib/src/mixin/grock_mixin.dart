@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// [Grock Mixin]
 /// This mixin is used to add grock functionality to a class.
@@ -705,6 +706,39 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
   double dTSF(double textScaleFactor) {
     return MediaQuery.of(context).textScaleFactor * textScaleFactor;
   }  
+
+  /// Grock Widget Size
+  Widget GetWidgetSize({
+    required Widget child,
+    required Function(Size size) onSizeChange,
+  }) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onSizeChange(constraints.biggest);
+        });
+        return child;
+      },
+    );
+  }
+
+  /// Widget Size and Position
+  Widget GetWidgetSizeAndPosition({
+    required Widget child,
+    required Function(Size size, Offset offset) onSizeChange,
+  }) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final RenderBox renderBox = context.findRenderObject() as RenderBox;
+          final Offset offset = renderBox.localToGlobal(Offset.zero);
+          onSizeChange(constraints.biggest, offset);
+        });
+        return child;
+      },
+    );
+  }
+  
 }
 
 class _ScrollGlowConfiguration extends ScrollBehavior {
