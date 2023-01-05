@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, must_be_immutable, unused_element
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
@@ -167,8 +167,6 @@ class _GrockMenuCore extends StatefulWidget {
     required this.offset,
     required this.items,
     this.onTap,
-    this.title,
-    this.bottomWidget,
     this.physics,
     this.maxHeight,
     required this.minWidth,
@@ -410,22 +408,6 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
     );
   }
 
-  BorderRadius _borderRadius(GrockMenuItem e) {
-    return BorderRadius.only(
-      topLeft: e == widget.items.first
-          ? Radius.circular(widget.borderRadius ?? 12)
-          : Radius.zero,
-      topRight: e == widget.items.first
-          ? Radius.circular(widget.borderRadius ?? 12)
-          : Radius.zero,
-      bottomLeft: e == widget.items.last
-          ? Radius.circular(widget.borderRadius ?? 12)
-          : Radius.zero,
-      bottomRight: e == widget.items.last
-          ? Radius.circular(widget.borderRadius ?? 12)
-          : Radius.zero,
-    );
-  }
 }
 
 class GrockMenuItem {

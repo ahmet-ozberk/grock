@@ -1,7 +1,10 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class GrockButton extends StatefulWidget {
   final BorderRadius? borderRadius;
+  final BorderSide? borderSide;
   final Gradient? gradient;
   final double tapOpacity;
   final Color? color;
@@ -23,6 +26,7 @@ class GrockButton extends StatefulWidget {
     this.onDoubleTap,
     this.onLongPress,
     this.borderRadius,
+    this.borderSide,
     this.gradient,
     this.color,
     this.elevation = 8.0,
@@ -52,6 +56,7 @@ class _GrockButtonState extends State<GrockButton> {
         shadowColor: widget.elevationColor,
         shape: _SquircleBorder(
           radius: widget.borderRadius ?? _kBorderRadius,
+          side: widget.borderSide ?? BorderSide.none,
         ),
         child: ClipPath.shape(
           shape: _SquircleBorder(
@@ -83,7 +88,7 @@ class _GrockButtonState extends State<GrockButton> {
                 child: Ink(
                   decoration: BoxDecoration(
                     gradient: widget.gradient,
-                    color: widget.color ?? Theme.of(context).primaryColor,
+                    color: widget.color ?? Colors.blue,
                   ),
                   child: Center(
                     child: Padding(

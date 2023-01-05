@@ -98,8 +98,7 @@ class _GrockTimerBodyWidget extends StatelessWidget {
   final bool isHourWidget;
   final bool isDayWidget;
   const _GrockTimerBodyWidget(
-      {super.key,
-      required this.time,
+      {required this.time,
       required this.isSecondsWidget,
       required this.isMinuteWidget,
       required this.isHourWidget,

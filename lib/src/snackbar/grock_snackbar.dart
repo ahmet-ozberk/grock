@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:grock/src/model/navigation_state.dart';
 import '../../grock.dart';
 
 class GrockSnackbar {
@@ -108,6 +107,7 @@ class GrockSnackbar {
   }
 }
 
+// ignore: must_be_immutable
 class _SnackbarBody extends StatefulWidget {
   OverlayEntry overlayEntry;
   BorderRadiusGeometry? borderRadius;
@@ -366,6 +366,7 @@ enum SnackbarPosition {
   }
 }
 
+// ignore: must_be_immutable
 class _GlassMorphism extends StatelessWidget {
   double blur;
   double opacity;

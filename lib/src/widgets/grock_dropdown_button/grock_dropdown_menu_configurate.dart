@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart'
-    show kMinFlingVelocity, kLongPressTimeout;
+    show kMinFlingVelocity;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
@@ -57,8 +59,7 @@ class GrockCustomMenu extends StatefulWidget {
       required this.onCancelFunction,
       this.borderRadius,
       this.width})
-      : assert(actions != null && actions.isNotEmpty),
-        assert(child != null),
+      : assert(actions.isNotEmpty),
         super(key: key);
 
   final Widget child;
@@ -180,9 +181,11 @@ class _GrockCustomMenuState extends State<GrockCustomMenu>
     if (status != AnimationStatus.dismissed) {
       return;
     }
+    // ignore: todo
     // TODO: kapatılma durumu tetikleme
     setState(() {
       _childHidden = false;
+      // ignore: todo
       // TODO: Menu kapatılma durumu etkin
     });
     _route!.animation!.removeStatusListener(_routeAnimationStatusListener);
@@ -192,6 +195,7 @@ class _GrockCustomMenuState extends State<GrockCustomMenu>
   void _onTap() {
     widget.onTapFunction();
 
+    // ignore: todo
     /// TODO: clicked button
     if (_openController.isAnimating && _openController.value < 0.5) {
       _openController.reverse();
@@ -381,8 +385,7 @@ class _ContextMenuRoute<T> extends PopupRoute<T> {
     RouteSettings? settings,
     this.borderRadius,
     this.width,
-  })  : assert(actions != null && actions.isNotEmpty),
-        assert(contextMenuLocation != null),
+  })  : assert(actions.isNotEmpty),
         _actions = actions,
         _builder = builder,
         _contextMenuLocation = contextMenuLocation,
@@ -396,6 +399,7 @@ class _ContextMenuRoute<T> extends PopupRoute<T> {
 
   static const Duration _kModalPopupTransitionDuration =
       Duration(milliseconds: 400);
+  // ignore: todo
   // TODO: açılma animasyonu duration
 
   final List<Widget> _actions;
@@ -665,9 +669,7 @@ class _ContextMenuRouteStatic extends StatefulWidget {
     this.sheetGlobalKey,
     this.borderRadius,
     this.width,
-  })  : assert(contextMenuLocation != null),
-        assert(orientation != null),
-        super(key: key);
+  })  : super(key: key);
 
   final List<Widget>? actions;
   final Widget child;
@@ -978,6 +980,7 @@ class _ContextMenuRouteStaticState extends State<_ContextMenuRouteStatic>
   }
 }
 
+// ignore: todo
 // TODO: Card Tasarım
 class _ContextMenuSheet extends StatelessWidget {
   _ContextMenuSheet({
@@ -987,9 +990,7 @@ class _ContextMenuSheet extends StatelessWidget {
     required Orientation orientation,
     this.borderRadius,
     this.width,
-  })  : assert(actions != null && actions.isNotEmpty),
-        assert(contextMenuLocation != null),
-        assert(orientation != null),
+  })  : assert(actions.isNotEmpty),
         _contextMenuLocation = contextMenuLocation,
         _orientation = orientation,
         super(key: key);
@@ -1003,6 +1004,7 @@ class _ContextMenuSheet extends StatelessWidget {
   List<Widget> getChildren(BuildContext context) {
     final Widget menu = Flexible(
       fit: FlexFit.tight,
+      // ignore: todo
       // TODO item width
       flex: 5,
       child: IntrinsicHeight(

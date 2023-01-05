@@ -307,4 +307,10 @@ extension ListExtension<E> on List<E> {
       children: map((e) => f(e)).whereType<Widget>().toList(),
     );
   }
+
+  /// reverse list
+  List<E> reverseList() {
+    return reversed.toList();
+  }
+  
 }

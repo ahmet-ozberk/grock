@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class GrockCustomLoadingWidget extends StatefulWidget {
-  Color? backgroundColor;
-  String? text;
-  TextStyle? textStyle;
-  Color? color;
-  BorderRadiusGeometry? borderRadius;
-  double strokeWidth;
-  bool isScale;
-  Widget? child;
-  double? width;
-  double? height;
-  double startScale;
-  double endScale;
-  Gradient? gradient;
-  GrockCustomLoadingWidget(
+  final Color? backgroundColor;
+  final String? text;
+  final TextStyle? textStyle;
+  final Color? color;
+  final BorderRadiusGeometry? borderRadius;
+  final double strokeWidth;
+  final bool isScale;
+  final Widget? child;
+  final double? width;
+  final double? height;
+  final double startScale;
+  final double endScale;
+  final Gradient? gradient;
+  const GrockCustomLoadingWidget(
       {Key? key,
       this.backgroundColor,
       this.text,

@@ -5,19 +5,19 @@ class GrockHList<T> extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
   final int itemCount;
   final bool reverse;
-  EdgeInsetsGeometry? padding;
-  bool? primary;
-  ScrollPhysics? physics;
-  ScrollController? controller;
+  final EdgeInsetsGeometry? padding;
+  final bool? primary;
+  final ScrollPhysics? physics;
+  final ScrollController? controller;
   final DragStartBehavior dragStartBehavior;
-  Clip clipBehavior;
-  String? restorationId;
-  ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
-  double? listHeight;
-  double? itemHeight;
-  double? itemWidth;
+  final Clip clipBehavior;
+  final String? restorationId;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
+  final double? listHeight;
+  final double? itemHeight;
+  final double? itemWidth;
 
-  GrockHList(
+  const GrockHList(
       {Key? key,
       required this.itemBuilder,
       this.itemCount = 100,

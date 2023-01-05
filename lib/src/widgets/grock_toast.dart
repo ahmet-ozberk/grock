@@ -3,6 +3,8 @@
 
 // import '../enum/toast_enum.dart';
 
+// ignore_for_file: must_be_immutable, unused_element
+
 part of '../grock_extension.dart';
 
 class _GrockToastWidget extends StatefulWidget {

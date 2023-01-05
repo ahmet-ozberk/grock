@@ -54,7 +54,7 @@ extension Grock on ScaffoldMessengerModel {
   static Future to(
     Widget page, {
     NavType? type,
-    Widget? childCurrent = null,
+    Widget? childCurrent,
     BuildContext? ctx,
     bool inheritTheme = false,
     Curve curve = Curves.linear,
@@ -81,7 +81,7 @@ extension Grock on ScaffoldMessengerModel {
   static Future toRemove(
     Widget page, {
     NavType? type,
-    Widget? childCurrent = null,
+    Widget? childCurrent,
     BuildContext? ctx,
     bool inheritTheme = false,
     Curve curve = Curves.linear,
