@@ -12,7 +12,7 @@ class GrockCrossFade extends StatefulWidget {
       required this.firstChild,
       required this.secondChild,
       this.state,
-      this.type = GrockCrossFadeType.scale,
+      this.type = GrockCrossFadeType.fadeScale,
       this.alignment = Alignment.center,
       this.duration = const Duration(milliseconds: 300)})
       : assert(state != null);
@@ -59,15 +59,76 @@ class _GrockCrossFadeState extends State<GrockCrossFade> {
   Widget setType(GrockCrossFadeType type, Animation<double> animation, Widget child) {
     switch (type) {
       case GrockCrossFadeType.fade:
-        return FadeTransition(opacity: animation, child: child);
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
       case GrockCrossFadeType.scale:
-        return ScaleTransition(scale: animation, alignment: widget.alignment!, child: child);
+        return ScaleTransition(
+          scale: animation,
+          alignment: widget.alignment!,
+          child: child,
+        );
       case GrockCrossFadeType.rotate:
-        return RotationTransition(turns: animation, alignment: widget.alignment!, child: child);
+        return RotationTransition(
+          turns: animation,
+          alignment: widget.alignment!,
+          child: child,
+        );
+      case GrockCrossFadeType.scaleRotate:
+        return ScaleTransition(
+          scale: animation,
+          alignment: widget.alignment!,
+          child: RotationTransition(
+            turns: animation,
+            alignment: widget.alignment!,
+            child: child,
+          ),
+        );
+      case GrockCrossFadeType.scaleRotateFade:
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: animation,
+            alignment: widget.alignment!,
+            child: RotationTransition(
+              turns: animation,
+              alignment: widget.alignment!,
+              child: child,
+            ),
+          ),
+        );
+      case GrockCrossFadeType.scaleFade:
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: animation,
+            alignment: widget.alignment!,
+            child: child,
+          ),
+        );
+      case GrockCrossFadeType.fadeRotate:
+        return FadeTransition(
+          opacity: animation,
+          child: RotationTransition(
+            turns: animation,
+            alignment: widget.alignment!,
+            child: child,
+          ),
+        );
+      case GrockCrossFadeType.fadeScale:
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: animation,
+            alignment: widget.alignment!,
+            child: child,
+          ),
+        );
     }
   }
 }
 
 enum GrockCrossFadeState { first, second }
 
-enum GrockCrossFadeType { fade, scale, rotate }
+enum GrockCrossFadeType { fade, scale, rotate, scaleRotate, scaleRotateFade, scaleFade, fadeRotate, fadeScale }
