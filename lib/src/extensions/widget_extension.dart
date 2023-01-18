@@ -304,64 +304,6 @@ extension ExpansionTileExtension on ExpansionTile {
       });
 }
 
-extension TextWidgetExtension on Widget {
-  Widget bold() {
-    return DefaultTextStyle(
-      style: TextStyle(fontWeight: FontWeight.bold),
-      child: this,
-    );
-  }
-
-  Widget italic() {
-    return DefaultTextStyle(
-      style: TextStyle(fontStyle: FontStyle.italic),
-      child: this,
-    );
-  }
-
-  Widget underline() {
-    return DefaultTextStyle(
-      style: TextStyle(decoration: TextDecoration.underline),
-      child: this,
-    );
-  }
-
-  Widget overline() {
-    return DefaultTextStyle(
-      style: TextStyle(decoration: TextDecoration.overline),
-      child: this,
-    );
-  }
-
-  Widget lineThrough() {
-    return DefaultTextStyle(
-      style: TextStyle(decoration: TextDecoration.lineThrough),
-      child: this,
-    );
-  }
-
-  Widget color(Color color) {
-    return DefaultTextStyle(
-      style: TextStyle(color: color),
-      child: this,
-    );
-  }
-
-  Widget size(double size) {
-    return DefaultTextStyle(
-      style: TextStyle(fontSize: size),
-      child: this,
-    );
-  }
-
-  Widget normal() {
-    return DefaultTextStyle(
-      style: TextStyle(fontWeight: FontWeight.normal),
-      child: this,
-    );
-  }
-}
-
 // ignore: must_be_immutable
 class _GrockRotationAnimation extends StatefulWidget {
   final Widget child;
