@@ -36,8 +36,7 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingLTRB({double? left, double? right, double? top, double? bottom}) =>
-      Padding(
+  Widget paddingLTRB({double? left, double? right, double? top, double? bottom}) => Padding(
         padding: EdgeInsets.fromLTRB(left ?? 0, top ?? 0, right ?? 0, bottom ?? 0),
         child: this,
       );
@@ -67,6 +66,26 @@ extension WidgetExtension on Widget {
 
   Widget paddingVertical(double val) => Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
 
+  Widget paddingTopLeft(double top, double left) => Padding(
+        padding: EdgeInsets.only(top: top, left: left),
+        child: this,
+      );
+
+  Widget paddingTopRight(double top, double right) => Padding(
+        padding: EdgeInsets.only(top: top, right: right),
+        child: this,
+      );
+
+  Widget paddingBottomLeft(double bottom, double left) => Padding(
+        padding: EdgeInsets.only(bottom: bottom, left: left),
+        child: this,
+      );
+
+  Widget paddingBottomRight(double bottom, double right) => Padding(
+        padding: EdgeInsets.only(bottom: bottom, right: right),
+        child: this,
+      );
+
   Widget margin({double? l, double? t, double? r, double? b}) => Padding(
         padding: EdgeInsets.fromLTRB(l ?? 0, t ?? 0, r ?? 0, b ?? 0),
         child: this,
@@ -82,6 +101,7 @@ extension WidgetExtension on Widget {
   Widget get rotationBottom => RotationTransition(turns: const AlwaysStoppedAnimation(0.75), child: this);
   Widget get rotationLeft => RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
   Widget rotate({double? value}) => RotationTransition(turns: AlwaysStoppedAnimation(value ?? 0), child: this);
+  Widget rotateBox({int? value}) => RotatedBox(quarterTurns: value ?? 0, child: this);
 
   Widget alignment({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
   Widget align({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
@@ -169,6 +189,16 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
+  Widget get forgroundGradient => ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return const LinearGradient(
+            colors: <Color>[Colors.black, Colors.transparent, Colors.black],
+          ).createShader(bounds);
+        },
+        blendMode: BlendMode.dstIn,
+        child: this,
+      );
+
   Widget get oval => ClipOval(child: this);
 
   Widget decoration({
@@ -219,13 +249,20 @@ extension WidgetExtension on Widget {
 
   Widget purple() => ColoredBox(color: Colors.purple, child: this);
 
-  Widget shadow({Color? color, double? blurRadius, double? spreadRadius}) => Container(
+  Widget shadow({
+    Color? color,
+    double? blurRadius,
+    double? spreadRadius,
+    Offset? offset,
+  }) =>
+      DecoratedBox(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: color ?? Colors.black,
               blurRadius: blurRadius ?? 10,
               spreadRadius: spreadRadius ?? 0,
+              offset: offset ?? Offset(0, 0),
             ),
           ],
         ),
@@ -267,6 +304,63 @@ extension ExpansionTileExtension on ExpansionTile {
       });
 }
 
+extension TextWidgetExtension on Widget {
+  Widget bold() {
+    return DefaultTextStyle(
+      style: TextStyle(fontWeight: FontWeight.bold),
+      child: this,
+    );
+  }
+
+  Widget italic() {
+    return DefaultTextStyle(
+      style: TextStyle(fontStyle: FontStyle.italic),
+      child: this,
+    );
+  }
+
+  Widget underline() {
+    return DefaultTextStyle(
+      style: TextStyle(decoration: TextDecoration.underline),
+      child: this,
+    );
+  }
+
+  Widget overline() {
+    return DefaultTextStyle(
+      style: TextStyle(decoration: TextDecoration.overline),
+      child: this,
+    );
+  }
+
+  Widget lineThrough() {
+    return DefaultTextStyle(
+      style: TextStyle(decoration: TextDecoration.lineThrough),
+      child: this,
+    );
+  }
+
+  Widget color(Color color) {
+    return DefaultTextStyle(
+      style: TextStyle(color: color),
+      child: this,
+    );
+  }
+
+  Widget size(double size) {
+    return DefaultTextStyle(
+      style: TextStyle(fontSize: size),
+      child: this,
+    );
+  }
+
+  Widget normal() {
+    return DefaultTextStyle(
+      style: TextStyle(fontWeight: FontWeight.normal),
+      child: this,
+    );
+  }
+}
 
 // ignore: must_be_immutable
 class _GrockRotationAnimation extends StatefulWidget {

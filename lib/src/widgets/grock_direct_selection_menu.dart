@@ -175,21 +175,19 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
                 filter: ImageFilter.blur(sigmaX: _bgAnimation.value, sigmaY: _bgAnimation.value),
                 child: ScaleTransition(
                   scale: _animation,
-                  child: CupertinoScrollbar(
-                    child: CupertinoPicker.builder(
-                      itemExtent: widget.itemExtent,
-                      selectionOverlay: widget.centerItem ?? const CupertinoPickerDefaultSelectionOverlay(),
-                      scrollController: _scrollController,
-                      childCount: widget.items.length,
-                      onSelectedItemChanged: (value) => widget.onChanged?.call(value),
-                      itemBuilder: (context, index) {
-                        final item = widget.items[index];
-                        if (widget.isItemCenter) {
-                          return Center(child: item);
-                        }
-                        return item;
-                      },
-                    ),
+                  child: CupertinoPicker.builder(
+                    itemExtent: widget.itemExtent,
+                    selectionOverlay: widget.centerItem ?? const CupertinoPickerDefaultSelectionOverlay(),
+                    scrollController: _scrollController,
+                    childCount: widget.items.length,
+                    onSelectedItemChanged: (value) => widget.onChanged?.call(value),
+                    itemBuilder: (context, index) {
+                      final item = widget.items[index];
+                      if (widget.isItemCenter) {
+                        return Center(child: item);
+                      }
+                      return item;
+                    },
                   ),
                 ),
               ),

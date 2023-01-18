@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension StringExtension on String {
   String get capitalize => this[0].toUpperCase() + this.substring(1);
   String get trimAllRegex => this.replaceAll(RegExp(r"\s+\b|\b\s"), "");
@@ -162,4 +164,29 @@ extension StringExtension on String {
 
   bool isNumericOnly() => RegExp(r'^\d+$').hasMatch(this);
   bool isAlphabetOnly() => RegExp(r'^[a-zA-Z]+$').hasMatch(this);
+
+  bool isSearch(String search) => this.toLowerCase().contains(search.toLowerCase());
+
+  bool isSearchList(List<String> searchList) {
+    for (var search in searchList) {
+      if (this.isSearch(search)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  String get toTurkishPhoneNumber {
+    if (this.isTurkeyPhoneNumber) {
+      return "0$this";
+    } else if (this.isTurkeyPhoneNumberWithCountryCode) {
+      return this.substring(3);
+    } else if (this.isTurkeyPhoneNumberWithCountryCodeAndSpace) {
+      return this.substring(4);
+    } else {
+      return this;
+    }
+  }
+
+  Text get toTextWidget => Text(this);
 }

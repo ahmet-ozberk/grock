@@ -38,6 +38,71 @@ extension ListExtension<E> on List<E> {
     return map((e) => f(e, i++)).toList();
   }
 
+  /// groupBy extension for List
+  /// Grock GroupBy
+  Map<K, List<E>> groupBy<K>(K Function(E value) f) {
+    final map = <K, List<E>>{};
+    for (final element in this) {
+      final key = f(element);
+      map.putIfAbsent(key, () => <E>[]).add(element);
+    }
+    return map;
+  }
+
+  /// groupBy extension for List
+  /// Grock GroupBy
+  Map<K, List<E>> groupByIndexed<K>(K Function(E value, int index) f) {
+    final map = <K, List<E>>{};
+    var i = 0;
+    for (final element in this) {
+      final key = f(element, i++);
+      map.putIfAbsent(key, () => <E>[]).add(element);
+    }
+    return map;
+  }
+
+  /// groupBy extension for List
+  /// Grock GroupBy
+  Map<K, List<E>> groupByIndexedAndWhere<K>(K Function(E value, int index) f) {
+    final map = <K, List<E>>{};
+    var i = 0;
+    for (final element in this) {
+      final key = f(element, i++);
+      if (key != null) {
+        map.putIfAbsent(key, () => <E>[]).add(element);
+      }
+    }
+    return map;
+  }
+
+  /// groupBy extension for List
+  /// Grock GroupBy
+  Map<K, List<E>> groupByIndexedAndWhereNotNull<K>(K Function(E value, int index) f) {
+    final map = <K, List<E>>{};
+    var i = 0;
+    for (final element in this) {
+      final key = f(element, i++);
+      if (key != null) {
+        map.putIfAbsent(key, () => <E>[]).add(element);
+      }
+    }
+    return map;
+  }
+
+  /// groupBy extension for List
+  /// Grock GroupBy
+  Map<K, List<E>> groupByIndexedAndWhereNotNullAndNotEmpty<K>(K Function(E value, int index) f) {
+    final map = <K, List<E>>{};
+    var i = 0;
+    for (final element in this) {
+      final key = f(element, i++);
+      if (key != null && key.toString().isNotEmpty) {
+        map.putIfAbsent(key, () => <E>[]).add(element);
+      }
+    }
+    return map;
+  }
+
   List<E> mapIndexedWhere<T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++)).whereType<E>().toList();
@@ -312,5 +377,4 @@ extension ListExtension<E> on List<E> {
   List<E> reverseList() {
     return reversed.toList();
   }
-  
 }

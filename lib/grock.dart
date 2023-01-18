@@ -37,3 +37,4 @@ export 'src/extensions/boolean_extension.dart';
 export 'src/widgets/grock_shimmer.dart';
 export 'src/mixin/grock_mixin.dart';
 export 'src/widgets/grock_cross_fade.dart';
+export 'src/components/grock_input_formatter.dart';

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 import 'package:grock/src/model/loading_widget.dart';
 import 'model/navigation_state.dart';
-import 'model/scaffoldMessenger.dart';
+import 'model/scaffold_messenger.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'widgets/grock_toast.dart';

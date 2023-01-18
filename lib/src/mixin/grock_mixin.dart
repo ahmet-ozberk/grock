@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grock/grock.dart';
 
 /// [Grock Mixin]
 /// This mixin is used to add grock functionality to a class.
@@ -572,7 +573,7 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     return regex.hasMatch(password);
   }
 
-  /// [phone validation] method
+  /// [phone validation] method, only 10 digits
   bool phoneValidation(String phone) {
     final RegExp regex = RegExp(
       r'^[0-9]{10}$',
@@ -580,7 +581,7 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     return regex.hasMatch(phone);
   }
 
-  /// [phone validation] method
+  /// [phone validation] method, only 12 digits
   bool phoneValidationWithCountryCode(String phone) {
     final RegExp regex = RegExp(
       r'^[0-9]{12}$',
@@ -588,7 +589,7 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     return regex.hasMatch(phone);
   }
 
-  /// [phone validation] method
+  /// [phone validation] method, only 12 digits
   bool phoneValidationWithCountryCodeAndPlus(String phone) {
     final RegExp regex = RegExp(
       r'^\+[0-9]{12}$',
@@ -696,48 +697,28 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     return MediaQuery.of(context).size.height * height;
   }
 
+  double h(double height) {
+    return MediaQuery.of(context).size.height * height;
+  }
+
   /// Dynamic width
   double dW(double width) {
+    return MediaQuery.of(context).size.width * width;
+  }
+
+  double w(double width) {
     return MediaQuery.of(context).size.width * width;
   }
 
   /// Dynbamic text scale factor
   double dTSF(double textScaleFactor) {
     return MediaQuery.of(context).textScaleFactor * textScaleFactor;
+  }
+
+  /// Grock Get Widget Size
+  Widget WidgetSize({required Widget child, required Function(Size size, Offset offset) callback}) {
+    return GrockWidgetSize(child: child, callback: callback);
   }  
-
-  /// Grock Widget Size
-  Widget GetWidgetSize({
-    required Widget child,
-    required Function(Size size) onSizeChange,
-  }) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          onSizeChange(constraints.biggest);
-        });
-        return child;
-      },
-    );
-  }
-
-  /// Widget Size and Position
-  Widget GetWidgetSizeAndPosition({
-    required Widget child,
-    required Function(Size size, Offset offset) onSizeChange,
-  }) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final RenderBox renderBox = context.findRenderObject() as RenderBox;
-          final Offset offset = renderBox.localToGlobal(Offset.zero);
-          onSizeChange(constraints.biggest, offset);
-        });
-        return child;
-      },
-    );
-  }
-  
 }
 
 class _ScrollGlowConfiguration extends ScrollBehavior {

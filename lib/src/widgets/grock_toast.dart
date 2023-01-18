@@ -150,6 +150,8 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
                   maxLines: widget.maxLines,
                   child: GrockContainer(
                     onTap: () => widget.onTap?.call(),
+                    isTapAnimation: false,
+                    isKeyboardDismiss: false,
                     width: widget.width,
                     padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     decoration: BoxDecoration(

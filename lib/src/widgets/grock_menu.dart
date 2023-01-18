@@ -69,8 +69,8 @@ class GrockMenu extends StatefulWidget {
     this.padding,
     this.onTapClose = true,
     this.spaceColor = Colors.black26,
-    this.openAnimationDuration = const Duration(milliseconds: 200),
-    this.openAnimation = Curves.fastOutSlowIn,
+    this.openAnimationDuration = const Duration(milliseconds: 800),
+    this.openAnimation = Curves.bounceOut,
     this.openAlignment,
   }) : super(key: key);
 
@@ -439,26 +439,6 @@ class _GrockMenuItemPressed {
     required this.isPressed,
   });
 }
-
-//extension ListExtension<E> on List<E> {
-//   /// Like Iterable<T>.map but the callback has index as second argument
-//   /// and the index is not reset after each iteration.
-//   /// Grock MapIndexed<T, U>
-//   Iterable<T> mapIndexed<T>(T Function(E value, int index) f) {
-//     var i = 0;
-//     return map((e) => f(e, i++));
-//   }
-
-//   /// Like Iterable<T>.map but the callback has index as second argument
-//   /// and the index is start from 0
-//   /// Grock ForLoop example:
-//   void forLoop(void Function(E value, int index) f) {
-//     var i = 0;
-//     forEach((e) => f(e, i++));
-//   }
-// }
-
-
 
 
 
