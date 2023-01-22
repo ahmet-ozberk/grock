@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
 extension WidgetExtension on Widget {
+  Material material() => Material(type: MaterialType.transparency, child: this);
+
   Widget visible(bool val) => Visibility(
         child: this,
         visible: val,

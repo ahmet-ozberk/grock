@@ -228,34 +228,35 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    return widget.body ?? GestureDetector(
-      onVerticalDragEnd: (details) {
-        setState(() {
-          _isClosed = false;
-        });
-        _controller?.reverse().then((value) {
-          if (!mounted) {
-            widget.overlayEntry.remove();
-          }
-          GrockSnackbar.isShowing = false;
-          _controller?.dispose();
-        });
-      },
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: widget.position.getPosition,
-            children: [
-              Padding(
-                padding: widget.margin ?? widget.position.getPadding(),
-                child: _transformWidget(context),
+    return widget.body ??
+        GestureDetector(
+          onVerticalDragEnd: (details) {
+            setState(() {
+              _isClosed = false;
+            });
+            _controller?.reverse().then((value) {
+              if (!mounted) {
+                widget.overlayEntry.remove();
+              }
+              GrockSnackbar.isShowing = false;
+              _controller?.dispose();
+            });
+          },
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: widget.position.getPosition,
+                children: [
+                  Padding(
+                    padding: widget.margin ?? widget.position.getPadding(),
+                    child: _transformWidget(context),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
   }
 
   Transform _transformWidget(BuildContext context) {

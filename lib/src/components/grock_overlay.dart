@@ -1,4 +1,4 @@
-part of '../grock_extension.dart';
+part of grock_extension;
 
 class _GrockOverlay {
   static OverlayState? overlayState = Grock.navigationKey.currentState!.overlay!;

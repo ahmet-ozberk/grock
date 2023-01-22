@@ -9,11 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      /// added this line
-      navigatorKey: Grock.navigationKey,
-      scaffoldMessengerKey: Grock.scaffoldMessengerKey,
-      title: 'Material App',
+      navigatorKey: Grock.navigationKey, // added this line
+      scaffoldMessengerKey: Grock.scaffoldMessengerKey, // added this line
+      title: 'GROCK',
       home: const Home(),
     );
   }
@@ -27,11 +25,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
+  
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Grock"),),
-    );
+    return const Scaffold();
   }
 }

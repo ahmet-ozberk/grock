@@ -3,7 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grock/grock.dart';
+
+import '../grock_extension.dart';
 
 class GrockDirectSelectionMenu extends StatefulWidget {
   final int? value;
@@ -17,7 +18,7 @@ class GrockDirectSelectionMenu extends StatefulWidget {
   final bool isItemCenter;
   final double? iconSize;
   final TextStyle? valueStyle;
-  final AlignmentGeometry? alignment;
+  final Alignment? alignment;
   final EdgeInsetsGeometry? padding;
   final Color? color;
   final Decoration? decoration;
@@ -29,6 +30,7 @@ class GrockDirectSelectionMenu extends StatefulWidget {
   final Widget? child;
   final Widget? centerItem;
   final double itemExtent;
+  final double centerItemOpacity;
   const GrockDirectSelectionMenu({
     super.key,
     this.child,
@@ -36,14 +38,14 @@ class GrockDirectSelectionMenu extends StatefulWidget {
     this.onChanged,
     required this.items,
     this.icon = Icons.menu,
-    this.backgroundColor,
-    this.backgroundColorOpacity = 1.6,
+    this.backgroundColor = Colors.black,
+    this.backgroundColorOpacity = 0.4,
     this.isItemCenter = true,
     this.hintText,
     this.iconColor,
     this.iconSize,
     this.valueStyle,
-    this.alignment,
+    this.alignment = Alignment.bottomCenter,
     this.padding,
     this.color,
     this.centerItem,
@@ -54,8 +56,11 @@ class GrockDirectSelectionMenu extends StatefulWidget {
     this.constraints,
     this.margin,
     this.itemExtent = 50.0,
-  }) : assert(backgroundColorOpacity >= 1,
-            "backgroundColorOpacity must be at least 1 (backgroundColorOpacity değeri en az 1 olmalıdır)");
+    this.centerItemOpacity = 0.3,
+  })  : assert(backgroundColorOpacity >= 0 && backgroundColorOpacity <= 1,
+            "The backgroundColorOpacity value must be at least 0, and at most 1 (backgroundColorOpacity değeri en az 0, en fazla 1 olmalıdır)"),
+        assert(centerItemOpacity >= 0 && centerItemOpacity <= 1,
+            "The centerItemOpacity value must be at least 0, and at most 1 (centerItemOpacity değeri en az 0, en fazla 1 olmalıdır)");
 
   @override
   State<GrockDirectSelectionMenu> createState() => _GrockDirectSelectionMenuState();
@@ -66,7 +71,8 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
   late FixedExtentScrollController _scrollController;
   late AnimationController _animationController;
   late Animation<double> _animation;
-  late Animation<double> _bgAnimation;
+  late Animation<double> _blurAnimation;
+  late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -77,16 +83,29 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
       duration: const Duration(milliseconds: 600),
       reverseDuration: const Duration(milliseconds: 200),
     );
-    _animation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOutCubicEmphasized),
-    );
-    _bgAnimation = Tween(
-      begin: 0.0,
-      end: 10.0,
+    _animation = _animation = TweenSequence<double>(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.0, end: 1.1).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          weight: 9,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          weight: 3,
+        ),
+      ],
     ).animate(_animationController);
+    _blurAnimation = Tween(
+      begin: 0.0,
+      end: 20.0,
+    ).animate(_animationController);
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: widget.backgroundColorOpacity,
+    ).animate(_animationController);
+    _animationController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -99,7 +118,6 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
         key: widget.key,
         alignment: widget.alignment,
         padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        color: widget.color,
         decoration: widget.decoration ?? _defaultDecoration(context),
         foregroundDecoration: widget.foregroundDecoration,
         width: widget.width,
@@ -143,7 +161,7 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
 
   Decoration _defaultDecoration(BuildContext context) {
     return BoxDecoration(
-      color: Colors.white,
+      color: widget.color,
       borderRadius: BorderRadius.circular(10),
       border: Border.all(
         color: Colors.grey,
@@ -165,19 +183,20 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
       child: Material(
         type: MaterialType.transparency,
         child: SizedBox.expand(
-            child: AnimatedBuilder(
-          animation: _bgAnimation,
-          builder: (context, child) {
-            return ColoredBox(
-              color: (widget.backgroundColor ?? Colors.white)
-                  .withOpacity(_animation.value / widget.backgroundColorOpacity),
+          child: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) => ColoredBox(
+              color: widget.backgroundColor!.withOpacity(_opacityAnimation.value),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: _bgAnimation.value, sigmaY: _bgAnimation.value),
+                filter: ImageFilter.blur(sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
                 child: ScaleTransition(
                   scale: _animation,
+                  alignment: widget.alignment!,
                   child: CupertinoPicker.builder(
                     itemExtent: widget.itemExtent,
-                    selectionOverlay: widget.centerItem ?? const CupertinoPickerDefaultSelectionOverlay(),
+                    selectionOverlay: widget.centerItem ??
+                        CupertinoPickerDefaultSelectionOverlay(
+                            background: Colors.white.withOpacity(widget.centerItemOpacity)),
                     scrollController: _scrollController,
                     childCount: widget.items.length,
                     onSelectedItemChanged: (value) => widget.onChanged?.call(value),
@@ -191,9 +210,9 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
                   ),
                 ),
               ),
-            );
-          },
-        )),
+            ),
+          ),
+        ),
       ),
     );
   }

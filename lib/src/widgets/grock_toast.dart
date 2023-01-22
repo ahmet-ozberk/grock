@@ -1,11 +1,4 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-
-// import '../enum/toast_enum.dart';
-
-// ignore_for_file: must_be_immutable, unused_element
-
-part of '../grock_extension.dart';
+part of grock_extension;
 
 class _GrockToastWidget extends StatefulWidget {
   final OverlayEntry overlayEntry;
@@ -15,7 +8,7 @@ class _GrockToastWidget extends StatefulWidget {
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  ToastTheme? theme;
+  late final ToastTheme? theme;
   final Function? onTap;
   final Color? backgroundColor;
   final Color? textColor;

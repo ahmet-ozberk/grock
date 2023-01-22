@@ -1,3 +1,5 @@
+library grock_extension;
+
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
@@ -11,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 
 part 'widgets/grock_toast.dart';
 part 'components/grock_overlay.dart';
+part 'widgets/grock_fullscreen_dialog.dart';
 
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
@@ -176,6 +179,38 @@ extension Grock on ScaffoldMessengerModel {
         titlePadding: titlePadding,
       );
 
+  static void fullScreenDialog({
+    required Widget child,
+    Duration openDuration = const Duration(milliseconds: 600),
+    Duration closeDuration = const Duration(milliseconds: 300),
+    Tween<double>? closeTween,
+    bool isCloseScaleAnimation = false,
+    bool isMatrixAnimation = false,
+    bool isHorizontalSlideAnimation = true,
+    double closureRate = 0.24,
+    Alignment openAlignment = Alignment.bottomLeft,
+    Alignment closeAlignment = Alignment.bottomLeft,
+    bool isSlideOpacity = true,
+    int matrixRotateValue = 1000,
+    Key? key,
+  }) {
+    GrockFullScreenDialog(
+      child: child,
+      openDuration: openDuration,
+      closeDuration: closeDuration,
+      closeTween: closeTween,
+      isCloseScaleAnimation: isCloseScaleAnimation,
+      isMatrixAnimation: isMatrixAnimation,
+      isHorizontalSlideAnimation: isHorizontalSlideAnimation,
+      closureRate: closureRate,
+      openAlignment: openAlignment,
+      closeAlignment: closeAlignment,
+      isSlideOpacity: isSlideOpacity,
+      matrixRotateValue: matrixRotateValue,
+      key: key,
+    );
+  }
+
   static bool get isOpenSnackbar => GrockSnackbar.isShowing;
   // static void closeSnackbar() {
   //   GrockSnackbar.overlayEntry?.remove();
@@ -312,7 +347,8 @@ extension Grock on ScaffoldMessengerModel {
           bool isScale = true,
           double strokeWidth = 4,
           double startScale = 1.0,
-          double endScale = 0.6,Gradient? gradient}) =>
+          double endScale = 0.6,
+          Gradient? gradient}) =>
       GrockCustomLoadingWidget(
         backgroundColor: backgroundColor,
         child: child,
