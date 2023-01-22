@@ -1,4 +1,4 @@
-enum NavType{
+enum NavType {
   fade,
   leftToRight,
   rightToLeft,

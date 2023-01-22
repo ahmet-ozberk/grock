@@ -31,8 +31,10 @@ class _GrockToastWidget extends StatefulWidget {
     this.widget,
     this.child,
     this.curve = Curves.bounceOut,
+
     /// [4 seconds]
     this.duration,
+
     /// [600 milliseconds]
     this.openDuration = const Duration(milliseconds: 600),
     this.theme,
@@ -55,7 +57,8 @@ class _GrockToastWidget extends StatefulWidget {
   State<_GrockToastWidget> createState() => _GrockToastWidgetState();
 }
 
-class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerProviderStateMixin {
+class _GrockToastWidgetState extends State<_GrockToastWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -90,7 +93,10 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
   }
 
   _setTheme() {
-    widget.theme ??= MediaQuery.of(context).platformBrightness == Brightness.dark ? ToastTheme.dark : ToastTheme.light;
+    widget.theme ??=
+        MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? ToastTheme.dark
+            : ToastTheme.light;
   }
 
   _closeToast() {
@@ -128,14 +134,19 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
         alignment: widget.alignment,
         child: widget.widget ??
             Padding(
-              padding: widget.margin ?? EdgeInsets.symmetric(vertical: size.height * 0.1, horizontal: size.width * 0.1),
+              padding: widget.margin ??
+                  EdgeInsets.symmetric(
+                      vertical: size.height * 0.1,
+                      horizontal: size.width * 0.1),
               child: ScaleTransition(
                 scale: _animation,
                 alignment: Alignment.center,
                 child: DefaultTextStyle(
                   style: widget.textStyle ??
                       TextStyle(
-                        color: widget.textColor ?? widget.theme?.textColor ?? Colors.white,
+                        color: widget.textColor ??
+                            widget.theme?.textColor ??
+                            Colors.white,
                         fontSize: 14,
                       ),
                   textAlign: widget.textAlign,
@@ -146,16 +157,21 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
                     isTapAnimation: false,
                     isKeyboardDismiss: false,
                     width: widget.width,
-                    padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    padding: widget.padding ??
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     decoration: BoxDecoration(
-                      color: widget.backgroundColor ?? widget.theme?.backgroundColor ?? Colors.black.withOpacity(0.8),
-                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(16)),
+                      color: widget.backgroundColor ??
+                          widget.theme?.backgroundColor ??
+                          Colors.black.withOpacity(0.8),
+                      borderRadius: widget.borderRadius ??
+                          const BorderRadius.all(Radius.circular(16)),
                       border: widget.border,
                       boxShadow: widget.boxShadow ??
                           [
                             BoxShadow(
                               color:
-                                  widget.theme?.textColor.withOpacity(0.05) ?? CupertinoColors.black.withOpacity(0.05),
+                                  widget.theme?.textColor.withOpacity(0.05) ??
+                                      CupertinoColors.black.withOpacity(0.05),
                               blurRadius: 15,
                             ),
                           ],

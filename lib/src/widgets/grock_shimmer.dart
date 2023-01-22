@@ -184,10 +184,12 @@ class _GrockShimmerState extends State<GrockShimmer>
             widget.borderRadiusGeometryOnlyTopRight ??
             widget.borderRadiusDirectionalOnlyTopRight ??
             widget.borderRadiusGeometryDirectionalOnlyTopRight ??
-            widget.borderRadiusOnlyBottomLeft ?? widget.borderRadiusGeometryOnlyBottomLeft ?? widget.borderRadiusDirectionalOnlyBottomLeft ?? BorderRadius.zero,
+            widget.borderRadiusOnlyBottomLeft ??
+            widget.borderRadiusGeometryOnlyBottomLeft ??
+            widget.borderRadiusDirectionalOnlyBottomLeft ??
+            BorderRadius.zero,
         child: widget.child,
       ),
     );
   }
 }
-  

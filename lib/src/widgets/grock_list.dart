@@ -29,17 +29,17 @@ class GrockList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-            itemCount: itemCount,
-            controller: controller,
-            physics: scrollEffect ?? const BouncingScrollPhysics(),
-            scrollDirection: scrollDirection,
-            padding: padding ?? [8,8,8,context.bottom].paddingLTRB,
-            keyboardDismissBehavior: keyboardDismissBehavior,
-            shrinkWrap: shrinkWrap,
-            itemBuilder: (context, index) => itemBuilder(context, index),
-            separatorBuilder: (context, index) {
-              return itemSpace ?? const SizedBox(height: 8);
-            },
-          );
+      itemCount: itemCount,
+      controller: controller,
+      physics: scrollEffect ?? const BouncingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      padding: padding ?? [8, 8, 8, context.bottom].paddingLTRB,
+      keyboardDismissBehavior: keyboardDismissBehavior,
+      shrinkWrap: shrinkWrap,
+      itemBuilder: (context, index) => itemBuilder(context, index),
+      separatorBuilder: (context, index) {
+        return itemSpace ?? const SizedBox(height: 8);
+      },
+    );
   }
 }

@@ -17,15 +17,19 @@ extension SizeExtension on BuildContext {
   double get statusBarHeight => MediaQuery.of(this).padding.top;
   double get bottomBarHeight => MediaQuery.of(this).padding.bottom;
   double get safeAreaHeight =>
-      MediaQuery.of(this).size.height - MediaQuery.of(this).padding.top - MediaQuery.of(this).padding.bottom;
+      MediaQuery.of(this).size.height -
+      MediaQuery.of(this).padding.top -
+      MediaQuery.of(this).padding.bottom;
 
-  double aspectRatio(double width, double height) => MediaQuery.of(this).size.width / width * height;
+  double aspectRatio(double width, double height) =>
+      MediaQuery.of(this).size.width / width * height;
 
   EdgeInsets get bottomSheetKeyboardPadding => MediaQuery.of(this).viewInsets;
 
   double get bottomSheetKeyboardHeight => MediaQuery.of(this).viewInsets.bottom;
 
-  double get bottomSheetKeyboardHeightRatio => MediaQuery.of(this).viewInsets.bottom / 100;
+  double get bottomSheetKeyboardHeightRatio =>
+      MediaQuery.of(this).viewInsets.bottom / 100;
 
   TextStyle? get headline1 => textTheme.headline1;
 
@@ -93,13 +97,16 @@ extension SizeExtension on BuildContext {
 
   TargetPlatform get platform => Theme.of(this).platform;
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(SnackBar snackbar) =>
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
+          SnackBar snackbar) =>
       ScaffoldMessenger.of(this).showSnackBar(snackbar);
 
-  void removeCurrentSnackBar({SnackBarClosedReason reason = SnackBarClosedReason.remove}) =>
+  void removeCurrentSnackBar(
+          {SnackBarClosedReason reason = SnackBarClosedReason.remove}) =>
       ScaffoldMessenger.of(this).removeCurrentSnackBar(reason: reason);
 
-  void hideCurrentSnackBar({SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
+  void hideCurrentSnackBar(
+          {SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
       ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
 
   void hideKeyboard() => FocusScope.of(this).unfocus();

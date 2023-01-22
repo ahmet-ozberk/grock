@@ -39,7 +39,7 @@ class GrockInfoWidget extends StatelessWidget {
       message: message ?? '',
       richMessage: richMessage,
       height: height,
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       margin: margin,
       verticalOffset: verticalOffset,
       preferBelow: preferBelow,

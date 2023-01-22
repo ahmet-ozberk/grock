@@ -27,14 +27,17 @@ class GrockCustomLoadingWidget extends StatefulWidget {
       this.isScale = true,
       this.child,
       this.height,
-      this.width,this.gradient})
+      this.width,
+      this.gradient})
       : super(key: key);
 
   @override
-  _GrockCustomLoadingWidgetState createState() => _GrockCustomLoadingWidgetState();
+  _GrockCustomLoadingWidgetState createState() =>
+      _GrockCustomLoadingWidgetState();
 }
 
-class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> with TickerProviderStateMixin {
+class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -47,7 +50,9 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
         reverseDuration: const Duration(milliseconds: 500),
         vsync: this,
       );
-      _scaleAnimation = Tween<double>(begin: widget.startScale, end: widget.endScale).animate(_controller);
+      _scaleAnimation =
+          Tween<double>(begin: widget.startScale, end: widget.endScale)
+              .animate(_controller);
       _controller.addListener(() {
         setState(() {});
       });
@@ -86,7 +91,11 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> wit
           ),
           child: widget.child ??
               Padding(
-                padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: widget.text == null ? 8 : 2),
+                padding: EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                    top: 8,
+                    bottom: widget.text == null ? 8 : 2),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

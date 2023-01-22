@@ -204,11 +204,13 @@ class GrockTimerController {
   }
 
   void setEndTime(Duration time) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.endTime = time);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _state.widget.endTime = time);
   }
 
   void setInterval(Duration time) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.interval = time);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _state.widget.interval = time);
   }
 
   GrockTimerState get state {
@@ -221,7 +223,8 @@ class GrockTimerController {
     }
   }
 
-  void addListener(void Function(Duration time, GrockTimerState state) listener) {
+  void addListener(
+      void Function(Duration time, GrockTimerState state) listener) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _state.widget.onTimerTick = listener;
     });

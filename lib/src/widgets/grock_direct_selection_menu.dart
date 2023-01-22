@@ -63,10 +63,12 @@ class GrockDirectSelectionMenu extends StatefulWidget {
             "The centerItemOpacity value must be at least 0, and at most 1 (centerItemOpacity değeri en az 0, en fazla 1 olmalıdır)");
 
   @override
-  State<GrockDirectSelectionMenu> createState() => _GrockDirectSelectionMenuState();
+  State<GrockDirectSelectionMenu> createState() =>
+      _GrockDirectSelectionMenuState();
 }
 
-class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> with TickerProviderStateMixin {
+class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
+    with TickerProviderStateMixin {
   /// [variables]
   late FixedExtentScrollController _scrollController;
   late AnimationController _animationController;
@@ -77,7 +79,8 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
   @override
   void initState() {
     super.initState();
-    _scrollController = FixedExtentScrollController(initialItem: widget.value ?? 0);
+    _scrollController =
+        FixedExtentScrollController(initialItem: widget.value ?? 0);
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -86,11 +89,13 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
     _animation = _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.1).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.1)
+              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.1, end: 1.0)
+              .chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],
@@ -117,7 +122,8 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
       child: Container(
         key: widget.key,
         alignment: widget.alignment,
-        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: widget.decoration ?? _defaultDecoration(context),
         foregroundDecoration: widget.foregroundDecoration,
         width: widget.width,
@@ -146,7 +152,9 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
     }
     return Row(
       children: [
-        Expanded(child: Text(widget.hintText ?? "Seçiniz", style: widget.valueStyle ?? _defaultValueStyle)),
+        Expanded(
+            child: Text(widget.hintText ?? "Seçiniz",
+                style: widget.valueStyle ?? _defaultValueStyle)),
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Icon(
@@ -178,7 +186,8 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
 
   void onTapDown(DragStartDetails details) {
     _animationController.forward();
-    _scrollController = FixedExtentScrollController(initialItem: widget.value ?? 0);
+    _scrollController =
+        FixedExtentScrollController(initialItem: widget.value ?? 0);
     Grock.showGrockOverlay(
       child: Material(
         type: MaterialType.transparency,
@@ -186,9 +195,11 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
           child: AnimatedBuilder(
             animation: _animationController,
             builder: (context, child) => ColoredBox(
-              color: widget.backgroundColor!.withOpacity(_opacityAnimation.value),
+              color:
+                  widget.backgroundColor!.withOpacity(_opacityAnimation.value),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
+                filter: ImageFilter.blur(
+                    sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
                 child: ScaleTransition(
                   scale: _animation,
                   alignment: widget.alignment!,
@@ -196,10 +207,12 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu> wit
                     itemExtent: widget.itemExtent,
                     selectionOverlay: widget.centerItem ??
                         CupertinoPickerDefaultSelectionOverlay(
-                            background: Colors.white.withOpacity(widget.centerItemOpacity)),
+                            background: Colors.white
+                                .withOpacity(widget.centerItemOpacity)),
                     scrollController: _scrollController,
                     childCount: widget.items.length,
-                    onSelectedItemChanged: (value) => widget.onChanged?.call(value),
+                    onSelectedItemChanged: (value) =>
+                        widget.onChanged?.call(value),
                     itemBuilder: (context, index) {
                       final item = widget.items[index];
                       if (widget.isItemCenter) {

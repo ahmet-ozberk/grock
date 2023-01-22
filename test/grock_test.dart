@@ -6,6 +6,6 @@ void main() {
   var x = 15.randomNum;
   expect(
     x,
-    x<16,
+    x < 16,
   );
 }

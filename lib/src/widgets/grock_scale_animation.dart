@@ -33,7 +33,8 @@ class GrockScaleAnimation extends StatefulWidget {
   State<GrockScaleAnimation> createState() => _GrockScaleAnimationState();
 }
 
-class _GrockScaleAnimationState extends State<GrockScaleAnimation> with TickerProviderStateMixin {
+class _GrockScaleAnimationState extends State<GrockScaleAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

@@ -1,6 +1,5 @@
 part of grock_extension;
 
-
 class GrockFullScreenDialog extends StatefulWidget {
   /// Fullscreen dialog open duration default is 600 milliseconds
   final Duration openDuration;
@@ -52,14 +51,16 @@ class GrockFullScreenDialog extends StatefulWidget {
     this.isSlideOpacity = true,
     this.matrixRotateValue = 1000,
     super.key,
-  }) : assert(closureRate <= 0.5 && closureRate >= 0.1, "Closure rate max is 0.5 and min is 0.1");
+  }) : assert(closureRate <= 0.5 && closureRate >= 0.1,
+            "Closure rate max is 0.5 and min is 0.1");
   static void close() => Grock.closeGrockOverlay();
 
   @override
   State<GrockFullScreenDialog> createState() => _GrockFullScreenDialogState();
 }
 
-class _GrockFullScreenDialogState extends State<GrockFullScreenDialog> with TickerProviderStateMixin {
+class _GrockFullScreenDialogState extends State<GrockFullScreenDialog>
+    with TickerProviderStateMixin {
   double dy = 0;
   double dx = 0;
   double opacity = 1;
@@ -82,7 +83,9 @@ class _GrockFullScreenDialogState extends State<GrockFullScreenDialog> with Tick
         scale: _animation,
         alignment: alignment,
         child: Transform.scale(
-          scale: widget.isCloseScaleAnimation ? 1 - (dy / context.height).abs() : 1,
+          scale: widget.isCloseScaleAnimation
+              ? 1 - (dy / context.height).abs()
+              : 1,
           child: Transform.translate(
             offset: Offset(widget.isHorizontalSlideAnimation ? dx : 0, dy),
             child: Transform(
@@ -119,11 +122,13 @@ class _GrockFullScreenDialogState extends State<GrockFullScreenDialog> with Tick
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.02).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.02)
+              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.02, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.02, end: 1.0)
+              .chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],

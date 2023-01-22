@@ -21,7 +21,8 @@ class GrockFadeAnimation extends StatefulWidget {
   State<GrockFadeAnimation> createState() => _GrockFadeAnimationState();
 }
 
-class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProviderStateMixin {
+class _GrockFadeAnimationState extends State<GrockFadeAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -58,8 +59,8 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProv
       vsync: this,
       duration: widget.duration,
     );
-    _animation = _tween(widget.position)
-        .animate(CurvedAnimation(parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = _tween(widget.position).animate(CurvedAnimation(
+        parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         _isOpacity = true;
         setState(() {});

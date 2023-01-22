@@ -11,7 +11,7 @@ extension NavigationExtension on BuildContext {
         MaterialPageRoute(builder: (BuildContext context) => page),
         (Route<dynamic> route) => false,
       );
-  
+
   nextReplacement(Widget page) => Navigator.pushReplacement(
         this,
         MaterialPageRoute(builder: (BuildContext context) => page),

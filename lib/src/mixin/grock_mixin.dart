@@ -716,14 +716,17 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
   }
 
   /// Grock Get Widget Size
-  Widget WidgetSize({required Widget child, required Function(Size size, Offset offset) callback}) {
+  Widget WidgetSize(
+      {required Widget child,
+      required Function(Size size, Offset offset) callback}) {
     return GrockWidgetSize(child: child, callback: callback);
-  }  
+  }
 }
 
 class _ScrollGlowConfiguration extends ScrollBehavior {
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

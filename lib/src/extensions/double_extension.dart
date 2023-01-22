@@ -1,4 +1,4 @@
-extension DoubleExtension on double{
+extension DoubleExtension on double {
   String toLimitedString(int fractionDigits) {
     return this.toStringAsFixed(fractionDigits);
   }

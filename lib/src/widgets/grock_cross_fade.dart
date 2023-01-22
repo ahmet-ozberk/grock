@@ -26,7 +26,9 @@ class _GrockCrossFadeState extends State<GrockCrossFade> {
 
   void changeState(GrockCrossFadeState state) {
     setState(() {
-      _currentChild = state == GrockCrossFadeState.first ? widget.firstChild : widget.secondChild;
+      _currentChild = state == GrockCrossFadeState.first
+          ? widget.firstChild
+          : widget.secondChild;
     });
   }
 
@@ -48,7 +50,8 @@ class _GrockCrossFadeState extends State<GrockCrossFade> {
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: widget.duration,
-      transitionBuilder: (child, animation) => setType(widget.type, animation, child),
+      transitionBuilder: (child, animation) =>
+          setType(widget.type, animation, child),
       child: SizedBox(
         key: ValueKey<Widget>(_currentChild),
         child: _currentChild,
@@ -56,7 +59,8 @@ class _GrockCrossFadeState extends State<GrockCrossFade> {
     );
   }
 
-  Widget setType(GrockCrossFadeType type, Animation<double> animation, Widget child) {
+  Widget setType(
+      GrockCrossFadeType type, Animation<double> animation, Widget child) {
     switch (type) {
       case GrockCrossFadeType.fade:
         return FadeTransition(
@@ -131,4 +135,13 @@ class _GrockCrossFadeState extends State<GrockCrossFade> {
 
 enum GrockCrossFadeState { first, second }
 
-enum GrockCrossFadeType { fade, scale, rotate, scaleRotate, scaleRotateFade, scaleFade, fadeRotate, fadeScale }
+enum GrockCrossFadeType {
+  fade,
+  scale,
+  rotate,
+  scaleRotate,
+  scaleRotateFade,
+  scaleFade,
+  fadeRotate,
+  fadeScale
+}

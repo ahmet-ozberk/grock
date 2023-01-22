@@ -17,7 +17,6 @@ class _GrockScrollEffectState extends State<GrockScrollEffect> {
           overscroll.disallowIndicator();
           return true;
         },
-        child: widget.child
-    );
+        child: widget.child);
   }
 }

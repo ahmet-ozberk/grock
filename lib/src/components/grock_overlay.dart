@@ -1,7 +1,8 @@
 part of grock_extension;
 
 class _GrockOverlay {
-  static OverlayState? overlayState = Grock.navigationKey.currentState!.overlay!;
+  static OverlayState? overlayState =
+      Grock.navigationKey.currentState!.overlay!;
   static OverlayEntry? overlayEntry;
   static void close() {
     overlayEntry?.remove();

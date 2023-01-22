@@ -34,7 +34,7 @@ extension WaitExtension on int {
 
   Future<void> waitMicro([FutureOr<void> Function()? func]) =>
       Future.delayed(Duration(microseconds: this), () => func?.call());
-  
+
   Duration get days => Duration(days: this);
   Duration get hours => Duration(hours: this);
   Duration get seconds => Duration(seconds: this);
@@ -117,7 +117,7 @@ extension RandomStringExtension on int {
       length,
       (_) =>
           charactersModel.codeUnitAt(random.nextInt(charactersModel.length))));
-  
+
   /// Get random lower case string
   String get randomLowercase => getRandomString(this).toLowerCase();
 
@@ -125,11 +125,14 @@ extension RandomStringExtension on int {
   String get randomUppercase => getRandomString(this).toUpperCase();
 
   /// get random not number string
-  String get randomNotNumber => getRandomString(this).replaceAll(RegExp(r'\d'), '');
+  String get randomNotNumber =>
+      getRandomString(this).replaceAll(RegExp(r'\d'), '');
 
   /// get random not letter string
-  String get randomNotLetter => getRandomString(this).replaceAll(RegExp(r'[a-zA-Z]'), '');
+  String get randomNotLetter =>
+      getRandomString(this).replaceAll(RegExp(r'[a-zA-Z]'), '');
 
   /// get random not letter and number string
-  String get randomNotLetterAndNumber => getRandomString(this).replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
+  String get randomNotLetterAndNumber =>
+      getRandomString(this).replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
 }

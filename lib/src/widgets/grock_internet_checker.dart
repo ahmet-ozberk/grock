@@ -35,20 +35,21 @@ class GrockInternetChecker {
             type: MaterialType.transparency,
             child: Align(
               alignment: alignment ?? Alignment.topRight,
-              child: disconnectWidget ?? Container(
-                padding: 10.allP,
-                margin: EdgeInsets.only(
-                  top: context.top + 20,
-                  right: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: disconnectBackgroundColor ?? Colors.red,
-                  shape: shape ?? BoxShape.circle,
-                ),
-                child: disconnectIcon ??
-                    Icon(Icons.wifi_off_rounded,
-                        color: disconnectIconColor ?? Colors.white),
-              ),
+              child: disconnectWidget ??
+                  Container(
+                    padding: 10.allP,
+                    margin: EdgeInsets.only(
+                      top: context.top + 20,
+                      right: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: disconnectBackgroundColor ?? Colors.red,
+                      shape: shape ?? BoxShape.circle,
+                    ),
+                    child: disconnectIcon ??
+                        Icon(Icons.wifi_off_rounded,
+                            color: disconnectIconColor ?? Colors.white),
+                  ),
             ),
           );
         });
@@ -62,18 +63,21 @@ class GrockInternetChecker {
             type: MaterialType.transparency,
             child: Align(
               alignment: alignment ?? Alignment.topRight,
-              child: connectWidget ?? Container(
-                padding: 10.allP,
-                margin: EdgeInsets.only(
-                  top: context.top + 20,
-                  right: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: connectBackgroundColor ?? Colors.green,
-                  shape: shape ?? BoxShape.circle,
-                ),
-                child: connectIcon ?? Icon(Icons.wifi_rounded, color: connectIconColor ?? Colors.white),
-              ),
+              child: connectWidget ??
+                  Container(
+                    padding: 10.allP,
+                    margin: EdgeInsets.only(
+                      top: context.top + 20,
+                      right: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: connectBackgroundColor ?? Colors.green,
+                      shape: shape ?? BoxShape.circle,
+                    ),
+                    child: connectIcon ??
+                        Icon(Icons.wifi_rounded,
+                            color: connectIconColor ?? Colors.white),
+                  ),
             ),
           );
         });

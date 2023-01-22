@@ -78,7 +78,8 @@ class _GrockMenuState extends State<GrockMenu> {
   final key = GlobalKey();
   Size? childSize;
   void getOffset() {
-    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
     _tapPosition = position;
   }
@@ -125,7 +126,9 @@ class _GrockMenuState extends State<GrockMenu> {
         );
         overlayState.insert(_menuOverlayEntry);
       },
-      child: GrockWidgetSize(callback: (size, offset) => setState(() => childSize = size), child: widget.child),
+      child: GrockWidgetSize(
+          callback: (size, offset) => setState(() => childSize = size),
+          child: widget.child),
     );
   }
 }
@@ -192,7 +195,8 @@ class _GrockMenuCore extends StatefulWidget {
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
 }
 
-class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderStateMixin {
+class _GrockMenuCoreState extends State<_GrockMenuCore>
+    with TickerProviderStateMixin {
   Size widgetSize = Size.zero;
   late AnimationController _controller;
   Animation<double>? _animation;
@@ -200,15 +204,18 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: widget.openAnimationDuration);
+    _controller = AnimationController(
+        vsync: this, duration: widget.openAnimationDuration);
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.1).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.1)
+              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.1, end: 1.0)
+              .chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],
@@ -241,10 +248,12 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
             },
             child: TweenAnimationBuilder(
               duration: _controller.duration!,
-              tween: ColorTween(begin: Colors.transparent, end: widget.spaceColor),
+              tween:
+                  ColorTween(begin: Colors.transparent, end: widget.spaceColor),
               builder: (context, Color? color, child) {
                 return BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: sigmaValue(), sigmaY: sigmaValue()),
+                  filter: ImageFilter.blur(
+                      sigmaX: sigmaValue(), sigmaY: sigmaValue()),
                   child: Container(
                     color: color,
                   ),
@@ -264,17 +273,20 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                   alignment: alignmentAnimation(),
                   child: Container(
                     constraints: BoxConstraints(
-                      maxHeight: widget.maxHeight?.toDouble() ?? MediaQuery.of(context).size.height * 0.35,
+                      maxHeight: widget.maxHeight?.toDouble() ??
+                          MediaQuery.of(context).size.height * 0.35,
                       minWidth: widget.minWidth,
                       maxWidth: widget.minWidth,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+                      borderRadius:
+                          BorderRadius.circular(widget.borderRadius ?? 12),
                       color: widget.backgroundColor ?? Colors.grey.shade100,
                       border: widget.border,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+                      borderRadius:
+                          BorderRadius.circular(widget.borderRadius ?? 12),
                       child: SingleChildScrollView(
                         physics: widget.physics,
                         child: Column(
@@ -283,13 +295,17 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                           children: widget.items.mapIndexed(
                             (e, i) {
                               return GestureDetector(
-                                onTapDown: (_) => setState(() => e.isTapped = true),
-                                onTapUp: (_) => setState(() => e.isTapped = false),
-                                onTapCancel: () => setState(() => e.isTapped = false),
+                                onTapDown: (_) =>
+                                    setState(() => e.isTapped = true),
+                                onTapUp: (_) =>
+                                    setState(() => e.isTapped = false),
+                                onTapCancel: () =>
+                                    setState(() => e.isTapped = false),
                                 onTap: () {
                                   if (widget.onTapClose) {
                                     _controller.reverse();
-                                    Future.delayed(widget.openAnimationDuration, () {
+                                    Future.delayed(widget.openAnimationDuration,
+                                        () {
                                       widget.overlayEntry.remove();
                                     });
                                   }
@@ -298,15 +314,22 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                                 },
                                 child: Container(
                                   width: double.maxFinite,
-                                  padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  padding: widget.padding ??
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: e.isTapped ? widget.pressColor : widget.backgroundColor,
+                                    color: e.isTapped
+                                        ? widget.pressColor
+                                        : widget.backgroundColor,
                                     border: Border(
                                       bottom: e == widget.items.last
                                           ? BorderSide.none
                                           : BorderSide(
-                                              color: widget.dividerColor ?? CupertinoColors.separator.withOpacity(0.2),
-                                              width: widget.dividerHeight ?? 1.0,
+                                              color: widget.dividerColor ??
+                                                  CupertinoColors.separator
+                                                      .withOpacity(0.2),
+                                              width:
+                                                  widget.dividerHeight ?? 1.0,
                                             ),
                                     ),
                                   ),
@@ -322,7 +345,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                                                       const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                   textAlign: widget.textAlign,
                                                   maxLines: widget.maxLines,
@@ -377,7 +401,9 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
     if (childOffset.dx > widgetSize.width) {
       result = childOffset.dx - widgetSize.width + (childWidth / 2);
     } else {
-      result = (childOffset.dx - childWidth) < 0 ? childWidth / 2 : childOffset.dx - childWidth;
+      result = (childOffset.dx - childWidth) < 0
+          ? childWidth / 2
+          : childOffset.dx - childWidth;
     }
     return result;
   }

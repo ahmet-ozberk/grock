@@ -62,12 +62,13 @@ class GrockFullScreenModal extends ModalRoute {
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     return RotationTransition(
       turns: isRotateTransition ? animation : const AlwaysStoppedAnimation(0.0),
       child: FadeTransition(
-        opacity: isFadeTranssition ? animation : const AlwaysStoppedAnimation(1.0),
+        opacity:
+            isFadeTranssition ? animation : const AlwaysStoppedAnimation(1.0),
         child: SlideTransition(
           position: isSlideTransition
               ? Tween<Offset>(
