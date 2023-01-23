@@ -57,6 +57,86 @@ GrockButton(
 ),
 ```
 
+### GrockFullScreenDialog
+```dart
+InkWell(
+  onTap: (){
+    Grock.fullScreenDialog(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            /// Close Grock Full Screen Dialog
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: ()=>Grock.closeGrockOverlay(),
+            )
+          ],
+        ),
+        body: Center(
+          child: const Image.network('https://picsum.photos/250?image=9'),
+        ),
+      )
+    );
+  },
+  child: const Image.network('https://picsum.photos/250?image=9'),
+),
+```
+
+### GrockFullScreenModal
+```dart
+InkWell(
+  onTap: (){
+    Navigator.of(context).push(
+      GrockFullScreenModalSheet(
+        builder: (context, animation, secondaryAnimation) => Container(
+            color: Colors.white,
+            alignment: Alignment.topRight,
+            width: double.infinity,
+            height: double.infinity,
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                actions: [
+                  /// Close Grock Full Screen Modal
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: ()=>Grock.back(),
+                  )
+                ],
+              ),
+              body: Column(
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      hintText: "Search",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 20,
+                      itemBuilder: (context, index) => ListTile(
+                        title: Text("List Item $index"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        isFadeTranssition: true,
+        isSlideTranssition: true,
+      ),
+    );
+  },
+  child: const Image.network('https://picsum.photos/250?image=9'),
+),
+```
+
 ### GrockDirectSelectionMenu
 ![grock_direct_selection_menu](https://user-images.githubusercontent.com/83654764/204043262-3c8793e9-53c8-404d-98f1-9abd39b8e5e9.png)
 
@@ -176,6 +256,81 @@ GrockFadeAnimation(
   curve: Curves.bounceOut,
   child: child(),
 )
+```
+
+### GrockScaleAnimation
+```dart
+GrockScaleAnimation(
+  alignment: Alignment.center,
+  duration: Duration(seconds: 2),
+  curve: Curves.fastOutSlowIn,
+  begin: 0.8,
+  end: 1.0,
+  addListener: (animatedController) {
+    if (animatedController.isCompleted) {
+      animatedController.reverse();
+    } else if (animatedController.isDismissed) {
+      animatedController.forward();
+    }
+  },
+  child: child(),
+)
+```
+
+### GrockRotateAnimation
+```dart
+GrockRotateAnimation(
+  alignment: Alignment.center,
+  duration: Duration(seconds: 1),
+  curve: Curves.fastOutSlowIn,
+  begin: 0.0,
+  end: 1.0,
+  addListener: (animatedController) {
+    if (animatedController.isCompleted) {
+      animatedController.reverse();
+    } else if (animatedController.isDismissed) {
+      animatedController.forward();
+    }
+  },
+  child: child(),
+)
+```
+
+### GrockCrossFade
+```dart
+GrockCrossFade(
+  firstChild: child(),
+  secondChild: child2(),
+  duration: Duration(milliseconds: 500.milliseconds),
+  state: isShow ? GrockCrossFadeState.first : GrockCrossFadeState.second,
+  type: GrockCrossFadeType.scaleRotateFade,
+)
+```
+
+### GrockShimmer
+```dart
+CachedNetworkImage(
+  imageUrl: "https://picsum.photos/200/300",
+  imageBuilder: (context, imageProvider) => Container(
+    width: 200.0,
+    height: 300.0,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: imageProvider,
+        fit: BoxFit.cover,
+      ),
+    ),
+  ),
+  placeholder: (context, url) => GrockShimmer(
+    child: Container(
+      width: 200.0,
+      height: 300.0,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+      ),
+    ),
+  ),
+),
 ```
 
 ### GrockGlassmorphism [IOS Style]
@@ -355,24 +510,32 @@ String.isUrlWithSpace
 String.isEmpty
 String.dateTime
 String.isDateTimeFormat
+String.isSearch(istanbul)
+String.toTextWidget()
 ```
 
 ## Widget Tools 🤩
 ### Widget Extensions
 ```dart
+Container().material(),
 Container().visible(val),
 Container().disable(disable),
 Container().disableOpacity(disable and opacity: 0.2),
 Container().expanded(),
 Container().size(width,height),
-Container().margin(l,t,r,b),
-Container().rotate(),
+Container().padding(all: 24),
+Container().rotate(value: 0.2),
 Container().alignment(alignment),
 Container().tooltip(msg),
 Container().onTap((){}),
 Container().bgBlur(10),
 Container().borderRadius(10),
+Container().center(),
+Container().scrollable(),
 Container().decoration(BoxDecoration),
+Container().forgroundGradient(),
+Container().oval(),
+ExpansionTile().removeDivider(),
 Container().colored(Color),
 Container().shadow(),  
 Container().animatedRotation(),
@@ -382,7 +545,7 @@ Container().leftRotation,
 Container().bottomRotation,
 ```
 
-### int Extension
+### num(int, double) Extension
 ```dart
 50.randomNum(), // 0-50 random number
 index.randomImage(),
@@ -403,6 +566,9 @@ index.randomImg()
 20.paddingOnlyBottomRight,
 20.paddingOnlyLeftRight,
 20.getRandomString(15), // 15 length random string
+1.seconds, /// => Duration(seconds: 1)
+1000.milliseconds, /// => Duration(milliseconds: 1000)
+
 ```
 
 
@@ -441,6 +607,7 @@ context.closeKeyboard,
 
 ### Grock extension [No BuildContext]
 ```dart
+Grock.context,
 Grock.height,
 Grock.width,
 Grock.bottomCenter,
@@ -464,6 +631,26 @@ Grock.isDebugMode,
 Grock.isReleaseMode,
 Grock.isProfileMode,
 Grock.hideKeyboard,
+Grock.showGrockOverlay(),
+Grock.isOpenGrockOverlay(),
+Grock.closeGrockOverlay(),
+Grock.empty(),
+Grock.randomColor(),
+
+```
+
+### Developer Extension
+```dart
+'test data'.logger,
+'test data'.printer,
+```
+
+### Function Extension
+```dart
+initState(){
+  super.initState();
+  function.widgetBinding();
+}
 ```
 
 ### Padding or Margin and BorderRadius
@@ -492,4 +679,79 @@ GrockList(
     index.randomImg(), // width and height optional
   ),
 )
+```
+
+### GrockMixin
+```dart
+class _MyHomePage
+    extends GrockStatefulWidget
+    with GrockMixin {
+
+  initState(){
+    super.initState();
+    setStateIfMounted((){
+      // your code
+    })
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: [
+          GrockContainer(
+            onTap: (){
+              showGrockSnackBar();
+              showGrockSnackBarWithAction();
+              showGrockSnackBarWithActionAndIcon();
+              showGrockSnackBarWithIcon();
+              showGrockMaterialBanner();
+              showGrockMaterialBannerWithIcon();
+              showGrockMaterialBannerWithIconAndColor();
+
+              /// Adaptive Dialog
+              showGrockAdaptiveDialog();
+              showGrockAdaptiveDialogWithIcon();
+
+              /// Adaptive DatePicker and TimePicker
+              showGrockAdaptiveDatePicker();
+              showGrockAdaptiveTimePicker();
+
+              /// Adaptive BottomSheet
+              showGrockAdaptiveBottomSheet();
+
+              /// Adaptive Button
+              GrockAdaptiveButton(); // => Widget
+
+              /// Validations
+              emailValidation(email);
+              passwordValidation(password);
+              phoneValidation();
+              phoneValidationWithCountryCode();
+
+              /// Tools
+              hideKeyboard();
+              isKeyboardOpen();
+              isKeyboardClose();
+
+              /// SafeArea
+              safeAreaTop();
+              safeAreaBottom();
+              safeAreaLeft();
+              safeAreaRight();
+              safeArea();
+              safeAreaWithPadding();
+              safeAreaWithPaddingAndBottom();
+            },
+            width: dW(0.5),
+            height: dH(0.5),
+          ),
+
+        ],
+      ),
+    );
+  }
+}
 ```
