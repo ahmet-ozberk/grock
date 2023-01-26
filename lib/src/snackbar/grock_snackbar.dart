@@ -324,7 +324,7 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
       padding: widget.descriptionPadding ?? EdgeInsets.zero,
       child: Text(
         widget.description,
-        style: widget.descriptionStyle ?? Theme.of(context).textTheme.bodyLarge,
+        style: widget.descriptionStyle ?? Theme.of(context).textTheme.titleSmall,
       ),
     );
   }
@@ -335,7 +335,7 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
       child: Text(
         widget.title,
         style: widget.titleStyle ??
-            Theme.of(context).textTheme.subtitle2!.copyWith(
+            Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
       ),

@@ -52,7 +52,6 @@ class _GrockFullScreenDialog extends StatefulWidget {
     this.matrixRotateValue = 1000,
     super.key,
   }) : assert(closureRate <= 0.5 && closureRate >= 0.1, "Closure rate max is 0.5 and min is 0.1");
-  static void close() => Grock.closeGrockOverlay();
 
   @override
   State<_GrockFullScreenDialog> createState() => _GrockFullScreenDialogState();

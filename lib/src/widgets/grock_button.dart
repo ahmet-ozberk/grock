@@ -96,10 +96,9 @@ class _GrockButtonState extends State<GrockButton> {
                       child: widget.child ??
                           Text(
                             "Grock Button",
-                            style: Theme.of(context)
-                                .textTheme
-                                .button!
-                                .copyWith(color: Colors.white),
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  color: Colors.white,
+                                ),
                             textAlign: TextAlign.center,
                             maxLines: 1,
                           ),
@@ -165,8 +164,7 @@ class _SquircleBorder extends ShapeBorder {
       case BorderStyle.none:
         break;
       case BorderStyle.solid:
-        var path = getOuterPath(rect.deflate(side.width / 2.0),
-            textDirection: textDirection);
+        var path = getOuterPath(rect.deflate(side.width / 2.0), textDirection: textDirection);
         canvas.drawPath(path, side.toPaint());
     }
   }

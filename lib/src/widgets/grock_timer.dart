@@ -108,7 +108,7 @@ class _GrockTimerBodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: textStyle ?? Theme.of(context).textTheme.headline6!,
+      style: textStyle ?? Theme.of(context).textTheme.headlineSmall!,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

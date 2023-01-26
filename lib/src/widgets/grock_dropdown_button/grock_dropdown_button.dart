@@ -124,13 +124,13 @@ class _GrockDropdownButtonState extends State<GrockDropdownButton>
 
   TextStyle _hintTextStyle() =>
       widget.hintTextStyle ??
-      Theme.of(context).textTheme.subtitle1!.copyWith(
+      Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Colors.grey.shade400,
           );
 
   TextStyle _textStyle() =>
       widget.textStyle ??
-      Theme.of(context).textTheme.subtitle1!.copyWith(
+      Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Colors.black87,
           );
 
