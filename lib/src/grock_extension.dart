@@ -14,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 part 'widgets/grock_toast.dart';
 part 'components/grock_overlay.dart';
 part 'widgets/grock_fullscreen_dialog.dart';
+part 'snackbar/grock_snackbar.dart';
 
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
@@ -122,6 +123,7 @@ extension Grock on ScaffoldMessengerModel {
     required String title,
     required String description,
     Color? color,
+    Function()? onTap,
     Widget? body,
     SnackbarPosition position = SnackbarPosition.top,
     Duration duration = const Duration(seconds: 4),
@@ -148,9 +150,10 @@ extension Grock on ScaffoldMessengerModel {
     TextStyle? descriptionStyle,
     BoxBorder? border,
   }) =>
-      GrockSnackbar.showSnackbar(
+      _GrockSnackbar.showSnackbar(
         borderRadius: borderRadius,
         duration: duration,
+        onTap: onTap,
         position: position,
         curve: curve,
         blur: blur,
@@ -195,7 +198,7 @@ extension Grock on ScaffoldMessengerModel {
     Key? key,
   }) {
     showGrockOverlay(
-      child: GrockFullScreenDialog(
+      child: _GrockFullScreenDialog(
         child: child,
         openDuration: openDuration,
         closeDuration: closeDuration,
@@ -213,7 +216,7 @@ extension Grock on ScaffoldMessengerModel {
     );
   }
 
-  static bool get isOpenSnackbar => GrockSnackbar.isShowing;
+  static bool get isOpenSnackbar => _GrockSnackbar.isShowing;
   // static void closeSnackbar() {
   //   GrockSnackbar.overlayEntry?.remove();
   //   GrockSnackbar.overlayEntry = null;
@@ -228,7 +231,7 @@ extension Grock on ScaffoldMessengerModel {
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
   }) =>
-      GrockSnackbar.dialog(
+      _GrockSnackbar.dialog(
           builder: builder,
           barrierDismissible: barrierDismissible,
           barrierColor: barrierColor,

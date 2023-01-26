@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import '../../grock.dart';
+part of grock_extension;
 
-class GrockSnackbar {
+class _GrockSnackbar {
   static OverlayEntry? overlayEntry;
   static bool isShowing = false;
   static Future<void> showSnackbar({
@@ -11,6 +8,7 @@ class GrockSnackbar {
     required String description,
     BorderRadiusGeometry? borderRadius,
     Widget? body,
+    final Function()? onTap,
     required Duration duration,
     required SnackbarPosition position,
     required Curve curve,
@@ -45,13 +43,11 @@ class GrockSnackbar {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: MediaQuery.of(
-                      Grock.navigationKey.currentState!.overlay!.context)
-                  .size
-                  .width,
+              width: MediaQuery.of(Grock.navigationKey.currentState!.overlay!.context).size.width,
               child: _SnackbarBody(
                 overlayEntry: overlayEntry!,
                 borderRadius: borderRadius,
+                onTap: onTap,
                 duration: duration,
                 position: position,
                 body: body,
@@ -114,6 +110,7 @@ class GrockSnackbar {
 class _SnackbarBody extends StatefulWidget {
   OverlayEntry overlayEntry;
   BorderRadiusGeometry? borderRadius;
+  Function()? onTap;
   Duration duration;
   SnackbarPosition position;
   Curve curve;
@@ -146,6 +143,7 @@ class _SnackbarBody extends StatefulWidget {
       this.borderRadius,
       this.duration = const Duration(seconds: 4),
       this.curve = Curves.fastOutSlowIn,
+      this.onTap,
       this.openDuration = const Duration(milliseconds: 800),
       this.position = SnackbarPosition.bottom,
       this.blur,
@@ -176,8 +174,7 @@ class _SnackbarBody extends StatefulWidget {
   _SnackbarBodyState createState() => _SnackbarBodyState();
 }
 
-class _SnackbarBodyState extends State<_SnackbarBody>
-    with TickerProviderStateMixin {
+class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMixin {
   AnimationController? _controller;
   late Animation<double> _animation;
   //late Timer time;
@@ -201,9 +198,8 @@ class _SnackbarBodyState extends State<_SnackbarBody>
       duration: widget.openDuration,
       reverseDuration: widget.openDuration,
     );
-    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(
-        CurvedAnimation(
-            parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = Tween<double>(begin: -Grock.width, end: 0)
+        .animate(CurvedAnimation(parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         setState(() {});
       });
@@ -212,12 +208,12 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   void _closeSnackbar() {
     Future.delayed(widget.duration - widget.openDuration, () {
       if (_controller != null && _isClosed) {
-        if (GrockSnackbar.overlayEntry != null) {
+        if (_GrockSnackbar.overlayEntry != null) {
           _controller?.reverse().then((value) {
             if (!mounted) {
               widget.overlayEntry.remove();
             }
-            GrockSnackbar.isShowing = false;
+            _GrockSnackbar.isShowing = false;
             _controller?.dispose();
           });
         }
@@ -243,7 +239,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
               if (!mounted) {
                 widget.overlayEntry.remove();
               }
-              GrockSnackbar.isShowing = false;
+              _GrockSnackbar.isShowing = false;
               _controller?.dispose();
             });
           },
@@ -278,7 +274,8 @@ class _SnackbarBodyState extends State<_SnackbarBody>
       opacity: widget.opacity ?? 0.6,
       color: widget.color ?? Colors.white,
       border: widget.border,
-      child: Container(
+      child: GrockContainer(
+        onTap: () => widget.onTap?.call(),
         padding: widget.padding,
         width: widget.width ?? Grock.width,
         decoration: BoxDecoration(
@@ -301,9 +298,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   }
 
   Padding _leadingWidget() {
-    return Padding(
-        padding: widget.leadingPadding ?? EdgeInsets.zero,
-        child: widget.leading);
+    return Padding(padding: widget.leadingPadding ?? EdgeInsets.zero, child: widget.leading);
   }
 
   Expanded _bodyWidgets(BuildContext context) {
@@ -321,9 +316,7 @@ class _SnackbarBodyState extends State<_SnackbarBody>
   }
 
   Padding _trailingWidget() {
-    return Padding(
-        padding: widget.trailingPadding ?? EdgeInsets.zero,
-        child: widget.trailing);
+    return Padding(padding: widget.trailingPadding ?? EdgeInsets.zero, child: widget.trailing);
   }
 
   Padding _descriptionWidget(BuildContext context) {
@@ -401,10 +394,7 @@ class _GlassMorphism extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          decoration: BoxDecoration(
-              color: color.withOpacity(opacity),
-              borderRadius: borderRadius,
-              border: border),
+          decoration: BoxDecoration(color: color.withOpacity(opacity), borderRadius: borderRadius, border: border),
           child: child,
         ),
       ),

@@ -169,11 +169,11 @@ class _Form {
 
   final BuildContext _context;
 
-  bool validate() => Form.of(_context)!.validate();
+  bool validate() => Form.of(_context).validate();
 
-  void reset() => Form.of(_context)!.reset();
+  void reset() => Form.of(_context).reset();
 
-  void save() => Form.of(_context)!.save();
+  void save() => Form.of(_context).save();
 }
 
 extension FormExt on BuildContext {

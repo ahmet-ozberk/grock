@@ -91,7 +91,7 @@ class _GrockMenuState extends State<GrockMenu> {
       key: key,
       onTap: () {
         getOffset();
-        OverlayState overlayState = Overlay.of(context)!;
+        OverlayState overlayState = Overlay.of(context);
         late OverlayEntry _menuOverlayEntry;
         _menuOverlayEntry = OverlayEntry(
           builder: (context) {

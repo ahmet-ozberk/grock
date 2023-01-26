@@ -1,3 +1,3 @@
-## 0.1.1+9 - 22-01-2023
+## 0.1.2 - 26-01-2023
 
-* Readme.md Added new widgets and components
+* Readme.md Bug fix
