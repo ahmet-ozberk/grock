@@ -31,32 +31,6 @@ extension SizeExtension on BuildContext {
   double get bottomSheetKeyboardHeightRatio =>
       MediaQuery.of(this).viewInsets.bottom / 100;
 
-  TextStyle? get headline1 => textTheme.headline1;
-
-  TextStyle? get headline2 => textTheme.headline2;
-
-  TextStyle? get headline3 => textTheme.headline3;
-
-  TextStyle? get headline4 => textTheme.headline4;
-
-  TextStyle? get headline5 => textTheme.headline5;
-
-  TextStyle? get headline6 => textTheme.headline6;
-
-  TextStyle? get subtitle1 => textTheme.subtitle1;
-
-  TextStyle? get bodyText1 => textTheme.bodyText1;
-
-  TextStyle? get bodyText2 => textTheme.bodyText2;
-
-  TextStyle? get caption => textTheme.caption;
-
-  TextStyle? get button => textTheme.button;
-
-  TextStyle? get subtitle2 => textTheme.subtitle2;
-
-  TextStyle? get overline => textTheme.overline;
-
   Orientation get orientation => MediaQuery.of(this).orientation;
 
   bool get isLandscape => orientation == Orientation.landscape;
