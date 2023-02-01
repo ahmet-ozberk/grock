@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class GrockTimer extends StatefulWidget {
@@ -62,6 +63,37 @@ class _GrockTimerState extends State<GrockTimer> {
         if (widget.onTimerTick != null) {
           widget.onTimerTick!(_time, GrockTimerState.running);
         }
+      }
+    });
+  }
+
+  void reset() {
+    setState(() {
+      if (widget.onTimerTick != null) {
+        widget.onTimerTick!.call(_time, GrockTimerState.reset);
+      }
+      _timer.cancel();
+      _time = widget.startTime!;
+      if (widget.builder != null) {
+        widget.builder!(_time);
+      }
+    });
+  }
+
+  void stop() {
+    setState(() {
+      _timer.cancel();
+      if (widget.onTimerTick != null) {
+        widget.onTimerTick!(_time, GrockTimerState.stopped);
+      }
+    });
+  }
+
+  void start() {
+    setState(() {
+      _startTimer();
+      if (widget.onTimerStart != null) {
+        widget.onTimerTick!(_time, GrockTimerState.running);
       }
     });
   }
@@ -179,24 +211,15 @@ class GrockTimerController {
   late _GrockTimerState _state;
 
   void start() {
-    _state._startTimer();
-    if (_state.widget.onTimerStart != null) {
-      _state.widget.onTimerTick!(_state._time, GrockTimerState.running);
-    }
+    _state.start();
   }
 
   void stop() {
-    _state._timer.cancel();
-    if (_state.widget.onTimerTick != null) {
-      _state.widget.onTimerTick!(_state._time, GrockTimerState.stopped);
-    }
+    _state.stop();
   }
 
   void reset() {
-    _state.widget.onTimerTick!(_state._time, GrockTimerState.reset);
-    _state._timer.cancel();
-    _state._time = _state.widget.startTime!;
-    _state._startTimer();
+    _state.reset();
   }
 
   void setStartTime(Duration time) {
@@ -204,13 +227,11 @@ class GrockTimerController {
   }
 
   void setEndTime(Duration time) {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _state.widget.endTime = time);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.endTime = time);
   }
 
   void setInterval(Duration time) {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _state.widget.interval = time);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.interval = time);
   }
 
   GrockTimerState get state {
@@ -223,8 +244,7 @@ class GrockTimerController {
     }
   }
 
-  void addListener(
-      void Function(Duration time, GrockTimerState state) listener) {
+  void addListener(void Function(Duration time, GrockTimerState state) listener) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _state.widget.onTimerTick = listener;
     });

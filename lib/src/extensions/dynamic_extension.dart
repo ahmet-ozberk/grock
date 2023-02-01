@@ -48,7 +48,7 @@ extension DynamicExtension on dynamic{
   bool get isType => this is Type;
 
   /// get type
-  Type get type => this.runtimeType;
+  Type get hasValueType => this.runtimeType;
 
   /// json to object
   T? toObject<T>() => this is T ? this : null;
