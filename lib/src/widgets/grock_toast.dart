@@ -119,43 +119,46 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
         child: widget.widget ??
             Padding(
               padding: widget.margin ?? EdgeInsets.symmetric(vertical: size.height * 0.1, horizontal: size.width * 0.1),
-              child: ScaleTransition(
-                scale: _animation,
-                alignment: Alignment.center,
-                child: DefaultTextStyle(
-                  style: widget.textStyle ??
-                      TextStyle(
-                        color: widget.textColor ?? Colors.white,
-                        fontSize: 14,
-                      ),
-                  textAlign: widget.textAlign,
-                  overflow: widget.overflow,
-                  maxLines: widget.maxLines,
-                  child: GrockContainer(
-                    onTap: () => widget.onTap?.call(),
-                    isTapAnimation: false,
-                    isKeyboardDismiss: false,
-                    width: widget.width,
-                    padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
-                      borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(16)),
-                      border: widget.border,
-                      boxShadow: widget.boxShadow ??
-                          [
-                            BoxShadow(
-                              color: CupertinoColors.black.withOpacity(0.05),
-                              blurRadius: 15,
-                            ),
-                          ],
-                    ),
-                    child: widget.child ??
-                        Text(
-                          widget.text ?? "",
-                          textAlign: widget.textAlign,
-                          overflow: widget.overflow,
-                          maxLines: widget.maxLines,
+              child: FadeTransition(
+                opacity: _animation,
+                child: ScaleTransition(
+                  scale: _animation,
+                  alignment: Alignment.center,
+                  child: DefaultTextStyle(
+                    style: widget.textStyle ??
+                        TextStyle(
+                          color: widget.textColor ?? Colors.white,
+                          fontSize: 14,
                         ),
+                    textAlign: widget.textAlign,
+                    overflow: widget.overflow,
+                    maxLines: widget.maxLines,
+                    child: GrockContainer(
+                      onTap: () => widget.onTap?.call(),
+                      isTapAnimation: false,
+                      isKeyboardDismiss: false,
+                      width: widget.width,
+                      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
+                        borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(16)),
+                        border: widget.border,
+                        boxShadow: widget.boxShadow ??
+                            [
+                              BoxShadow(
+                                color: CupertinoColors.black.withOpacity(0.05),
+                                blurRadius: 15,
+                              ),
+                            ],
+                      ),
+                      child: widget.child ??
+                          Text(
+                            widget.text ?? "",
+                            textAlign: widget.textAlign,
+                            overflow: widget.overflow,
+                            maxLines: widget.maxLines,
+                          ),
+                    ),
                   ),
                 ),
               ),

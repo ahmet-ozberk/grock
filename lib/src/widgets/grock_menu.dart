@@ -37,9 +37,10 @@ class GrockMenu extends StatefulWidget {
   final BoxBorder? border;
   final Color spaceColor;
   final Duration openAnimationDuration;
+  final Duration closeAnimationDuration;
   final Curve openAnimation;
   final TextStyle? textStyle;
-  final AlignmentGeometry? openAlignment;
+  final Alignment? openAlignment;
   final double backgroundBlur;
 
   const GrockMenu({
@@ -64,6 +65,7 @@ class GrockMenu extends StatefulWidget {
     this.onTapClose = true,
     this.spaceColor = Colors.black26,
     this.openAnimationDuration = const Duration(milliseconds: 450),
+    this.closeAnimationDuration = const Duration(milliseconds: 350),
     this.openAnimation = Curves.fastOutSlowIn,
     this.openAlignment,
     this.backgroundBlur = 5.0,
@@ -78,8 +80,7 @@ class _GrockMenuState extends State<GrockMenu> {
   final key = GlobalKey();
   Size? childSize;
   void getOffset() {
-    final RenderBox renderBox =
-        key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
     _tapPosition = position;
   }
@@ -117,6 +118,7 @@ class _GrockMenuState extends State<GrockMenu> {
               border: widget.border,
               spaceColor: widget.spaceColor,
               openAnimationDuration: widget.openAnimationDuration,
+              closeAnimationDuration: widget.closeAnimationDuration,
               openAnimation: widget.openAnimation,
               openAlignment: widget.openAlignment,
               childSize: childSize ?? Size.zero,
@@ -126,9 +128,7 @@ class _GrockMenuState extends State<GrockMenu> {
         );
         overlayState.insert(_menuOverlayEntry);
       },
-      child: GrockWidgetSize(
-          callback: (size, offset) => setState(() => childSize = size),
-          child: widget.child),
+      child: GrockWidgetSize(callback: (size, offset) => setState(() => childSize = size), child: widget.child),
     );
   }
 }
@@ -157,8 +157,9 @@ class _GrockMenuCore extends StatefulWidget {
   bool onTapClose;
   Color spaceColor;
   Duration openAnimationDuration;
+  Duration closeAnimationDuration;
   Curve openAnimation;
-  AlignmentGeometry? openAlignment;
+  Alignment? openAlignment;
   Size childSize;
   final double backgroundBlur;
 
@@ -185,6 +186,7 @@ class _GrockMenuCore extends StatefulWidget {
     this.onTapClose = true,
     required this.spaceColor,
     required this.openAnimationDuration,
+    required this.closeAnimationDuration,
     required this.openAnimation,
     required this.childSize,
     this.openAlignment,
@@ -195,27 +197,26 @@ class _GrockMenuCore extends StatefulWidget {
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
 }
 
-class _GrockMenuCoreState extends State<_GrockMenuCore>
-    with TickerProviderStateMixin {
+class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderStateMixin {
   Size widgetSize = Size.zero;
-  late AnimationController _controller;
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: widget.openAnimationDuration,
+    reverseDuration: widget.closeAnimationDuration,
+  );
   Animation<double>? _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: widget.openAnimationDuration);
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.1)
-              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.1).chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.1, end: 1.0)
-              .chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],
@@ -240,20 +241,13 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () {
-              _controller.reverse();
-              Future.delayed(widget.openAnimationDuration, () {
-                widget.overlayEntry.remove();
-              });
-            },
+            onTap: () => closeMenu(),
             child: TweenAnimationBuilder(
               duration: _controller.duration!,
-              tween:
-                  ColorTween(begin: Colors.transparent, end: widget.spaceColor),
+              tween: ColorTween(begin: Colors.transparent, end: widget.spaceColor),
               builder: (context, Color? color, child) {
                 return BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: sigmaValue(), sigmaY: sigmaValue()),
+                  filter: ImageFilter.blur(sigmaX: sigmaValue(), sigmaY: sigmaValue()),
                   child: Container(
                     color: color,
                   ),
@@ -268,98 +262,83 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
               type: MaterialType.transparency,
               child: GrockWidgetSize(
                 callback: (size, offset) => setState(() => widgetSize = size),
-                child: Transform.scale(
-                  scale: _animation!.value,
-                  alignment: alignmentAnimation(),
-                  child: Container(
-                    constraints: BoxConstraints(
-                      maxHeight: widget.maxHeight?.toDouble() ??
-                          MediaQuery.of(context).size.height * 0.35,
-                      minWidth: widget.minWidth,
-                      maxWidth: widget.minWidth,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 12),
-                      color: widget.backgroundColor ?? Colors.grey.shade100,
-                      border: widget.border,
-                    ),
-                    child: ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 12),
-                      child: SingleChildScrollView(
-                        physics: widget.physics,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: widget.items.mapIndexed(
-                            (e, i) {
-                              return GestureDetector(
-                                onTapDown: (_) =>
-                                    setState(() => e.isTapped = true),
-                                onTapUp: (_) =>
-                                    setState(() => e.isTapped = false),
-                                onTapCancel: () =>
-                                    setState(() => e.isTapped = false),
-                                onTap: () {
-                                  if (widget.onTapClose) {
-                                    _controller.reverse();
-                                    Future.delayed(widget.openAnimationDuration,
-                                        () {
-                                      widget.overlayEntry.remove();
-                                    });
-                                  }
-                                  widget.onTap?.call(i);
-                                  e.onTap?.call();
-                                },
-                                child: Container(
-                                  width: double.maxFinite,
-                                  padding: widget.padding ??
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: e.isTapped
-                                        ? widget.pressColor
-                                        : widget.backgroundColor,
-                                    border: Border(
-                                      bottom: e == widget.items.last
-                                          ? BorderSide.none
-                                          : BorderSide(
-                                              color: widget.dividerColor ??
-                                                  CupertinoColors.separator
-                                                      .withOpacity(0.2),
-                                              width:
-                                                  widget.dividerHeight ?? 1.0,
-                                            ),
-                                    ),
-                                  ),
-                                  child: e.child ??
-                                      Row(
-                                        children: [
-                                          if (e.leading != null) e.leading!,
-                                          Expanded(
-                                            child: e.body ??
-                                                Text(
-                                                  e.text ?? "",
-                                                  style: e.textStyle ??
-                                                      const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                  textAlign: widget.textAlign,
-                                                  maxLines: widget.maxLines,
-                                                  overflow: widget.textOverflow,
-                                                ),
-                                          ),
-                                          if (e.trailing != null) e.trailing!,
-                                        ],
+                child: FadeTransition(
+                  opacity: _animation!,
+                  child: ScaleTransition(
+                       scale: _animation!,
+                    alignment: alignmentAnimation(),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: widget.maxHeight?.toDouble() ?? MediaQuery.of(context).size.height * 0.35,
+                        minWidth: widget.minWidth,
+                        maxWidth: widget.minWidth,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+                        color: widget.backgroundColor ?? Colors.grey.shade100,
+                        border: widget.border,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+                        child: SingleChildScrollView(
+                          physics: widget.physics,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widget.items.mapIndexed(
+                              (e, i) {
+                                return GestureDetector(
+                                  onTapDown: (_) => setState(() => e.isTapped = true),
+                                  onTapUp: (_) => setState(() => e.isTapped = false),
+                                  onTapCancel: () => setState(() => e.isTapped = false),
+                                  onTap: () {
+                                    if (widget.onTapClose) {
+                                      closeMenu();
+                                    }
+                                    widget.onTap?.call(i);
+                                    e.onTap?.call();
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: e.isTapped ? widget.pressColor : widget.backgroundColor,
+                                      border: Border(
+                                        bottom: e == widget.items.last
+                                            ? BorderSide.none
+                                            : BorderSide(
+                                                color: widget.dividerColor ?? CupertinoColors.separator.withOpacity(0.2),
+                                                width: widget.dividerHeight ?? 1.0,
+                                              ),
                                       ),
-                                ),
-                              );
-                            },
-                          ).toList(),
+                                    ),
+                                    child: e.child ??
+                                        Row(
+                                          children: [
+                                            if (e.leading != null) e.leading!,
+                                            Expanded(
+                                              child: e.body ??
+                                                  Text(
+                                                    e.text ?? "",
+                                                    style: e.textStyle ??
+                                                        const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
+                                                    textAlign: widget.textAlign,
+                                                    maxLines: widget.maxLines,
+                                                    overflow: widget.textOverflow,
+                                                  ),
+                                            ),
+                                            if (e.trailing != null) e.trailing!,
+                                          ],
+                                        ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
                         ),
                       ),
                     ),
@@ -381,6 +360,13 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
   /// elasticOut
   /// linearToEaseOut
 
+  void closeMenu() {
+    _controller.reverse();
+    Future.delayed(widget.closeAnimationDuration, () {
+      widget.overlayEntry.remove();
+    });
+  }
+
   double topSpace() {
     late double result;
     final screenHeight = context.height;
@@ -401,15 +387,13 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
     if (childOffset.dx > widgetSize.width) {
       result = childOffset.dx - widgetSize.width + (childWidth / 2);
     } else {
-      result = (childOffset.dx - childWidth) < 0
-          ? childWidth / 2
-          : childOffset.dx - childWidth;
+      result = (childOffset.dx - childWidth) < 0 ? childWidth / 2 : childOffset.dx - childWidth;
     }
     return result;
   }
 
-  AlignmentGeometry alignmentAnimation() {
-    late AlignmentGeometry result;
+  Alignment alignmentAnimation() {
+    late Alignment result;
     if (widget.openAlignment != null) {
       result = widget.openAlignment!;
     } else {
