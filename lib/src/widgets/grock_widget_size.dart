@@ -16,7 +16,7 @@ class _GrockWidgetSizeState extends State<GrockWidgetSize> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBox =
-          _key.currentContext!.findRenderObject() as RenderBox;
+          _key.currentContext?.findRenderObject() as RenderBox;
       final size = renderBox.size;
       final offset = renderBox.localToGlobal(Offset.zero);
       widget.callback(size, offset);

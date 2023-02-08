@@ -1,3 +1,3 @@
-## 0.1.5 - 07-02-2023
+## 0.1.6 - 08-02-2023
 
-* Readme.md Updated optimization performance.
+* Readme.md Bug fix updated.

@@ -30,7 +30,7 @@ class GrockRotateAnimation extends StatefulWidget {
 }
 
 class _GrockRotateAnimationState extends State<GrockRotateAnimation>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
