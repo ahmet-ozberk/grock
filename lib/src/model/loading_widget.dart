@@ -32,37 +32,33 @@ class GrockCustomLoadingWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _GrockCustomLoadingWidgetState createState() =>
-      _GrockCustomLoadingWidgetState();
+  _GrockCustomLoadingWidgetState createState() => _GrockCustomLoadingWidgetState();
 }
 
-class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
-    with TickerProviderStateMixin {
+class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      reverseDuration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: widget.startScale, end: widget.endScale).animate(_controller);
+    _controller.addListener(() {
+      setState(() {});
+    });
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _controller.forward();
+      }
+    });
     if (widget.isScale) {
-      _controller = AnimationController(
-        duration: const Duration(milliseconds: 800),
-        reverseDuration: const Duration(milliseconds: 500),
-        vsync: this,
-      );
-      _scaleAnimation =
-          Tween<double>(begin: widget.startScale, end: widget.endScale)
-              .animate(_controller);
-      _controller.addListener(() {
-        setState(() {});
-      });
-      _controller.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _controller.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          _controller.forward();
-        }
-      });
       _controller.forward();
     }
   }
@@ -91,11 +87,7 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
           ),
           child: widget.child ??
               Padding(
-                padding: EdgeInsets.only(
-                    left: 8,
-                    right: 8,
-                    top: 8,
-                    bottom: widget.text == null ? 8 : 2),
+                padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: widget.text == null ? 8 : 2),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

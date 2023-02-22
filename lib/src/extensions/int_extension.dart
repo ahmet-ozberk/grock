@@ -106,6 +106,25 @@ extension PaddingIntExtension on num {
       EdgeInsets.only(top: this.toDouble(), bottom: this.toDouble());
   EdgeInsetsGeometry get paddingOnlyLeftRight =>
       EdgeInsets.only(left: this.toDouble(), right: this.toDouble());
+  
+  /// left and bottom and right
+  EdgeInsetsGeometry get paddingOnlyLeftBottomRight =>
+      EdgeInsets.only(left: this.toDouble(), bottom: this.toDouble(), right: this.toDouble());
+
+  /// top and left and bottom
+  EdgeInsetsGeometry get paddingOnlyTopLeftBottom =>
+      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), bottom: this.toDouble());
+
+  /// top and left and right
+  EdgeInsetsGeometry get paddingOnlyTopLeftRight =>
+      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), right: this.toDouble());
+  
+  /// top and right and bottom
+  EdgeInsetsGeometry get paddingOnlyTopRightBottom =>
+      EdgeInsets.only(top: this.toDouble(), right: this.toDouble(), bottom: this.toDouble());
+
+  EdgeInsetsGeometry get paddingOnlyTopLeftBottomRight =>
+      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), bottom: this.toDouble(), right: this.toDouble());
 }
 
 extension RandomStringExtension on int {

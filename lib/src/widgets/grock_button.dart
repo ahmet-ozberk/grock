@@ -88,14 +88,14 @@ class _GrockButtonState extends State<GrockButton> {
                 child: Ink(
                   decoration: BoxDecoration(
                     gradient: widget.gradient,
-                    color: widget.color ?? Colors.blue,
+                    color: widget.color ?? Theme.of(context).primaryColor,
                   ),
                   child: Center(
                     child: Padding(
                       padding: widget.padding,
                       child: widget.child ??
                           Text(
-                            "Grock Button",
+                            "Button",
                             style: Theme.of(context).textTheme.labelMedium!.copyWith(
                                   color: Colors.white,
                                 ),

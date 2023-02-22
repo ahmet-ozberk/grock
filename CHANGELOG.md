@@ -1,3 +1,3 @@
-## 0.1.7 - 13-02-2023
+## 0.1.8 - 13-02-2023
 
-* Readme.md GrockWidgetSize widget bug fix.
+* Readme.md Bug fix and GrockGradientBorder widget.

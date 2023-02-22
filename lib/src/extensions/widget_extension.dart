@@ -6,19 +6,15 @@ import 'package:grock/grock.dart';
 extension WidgetExtension on Widget {
   Material material() => Material(type: MaterialType.transparency, child: this);
 
-  
-
   Widget visible(bool val) => Visibility(
         child: this,
         visible: val,
       );
 
-  Widget disabled([bool? disable]) =>
-      IgnorePointer(ignoring: disable ?? true, child: this);
+  Widget disabled([bool? disable]) => IgnorePointer(ignoring: disable ?? true, child: this);
 
-  Widget disabledOpacity([bool? disable, double? opacity]) => IgnorePointer(
-      ignoring: disable ?? true,
-      child: Opacity(opacity: opacity ?? 0.2, child: this));
+  Widget disabledOpacity([bool? disable, double? opacity]) =>
+      IgnorePointer(ignoring: disable ?? true, child: Opacity(opacity: opacity ?? 0.2, child: this));
 
   Widget expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
 
@@ -37,32 +33,20 @@ extension WidgetExtension on Widget {
           double? top,
           double? bottom}) =>
       Padding(
-        padding: EdgeInsets.fromLTRB(
-            left ?? horizontal ?? all ?? 0,
-            top ?? vertical ?? all ?? 0,
-            right ?? horizontal ?? all ?? 0,
-            bottom ?? vertical ?? all ?? 0),
+        padding: EdgeInsets.fromLTRB(left ?? horizontal ?? all ?? 0, top ?? vertical ?? all ?? 0,
+            right ?? horizontal ?? all ?? 0, bottom ?? vertical ?? all ?? 0),
         child: this,
       );
 
-  Widget paddingLTRB(
-          {double? left, double? right, double? top, double? bottom}) =>
-      Padding(
-        padding:
-            EdgeInsets.fromLTRB(left ?? 0, top ?? 0, right ?? 0, bottom ?? 0),
+  Widget paddingLTRB({double? left, double? right, double? top, double? bottom}) => Padding(
+        padding: EdgeInsets.fromLTRB(left ?? 0, top ?? 0, right ?? 0, bottom ?? 0),
         child: this,
       );
 
-  Widget paddingAll(double val) =>
-      Padding(padding: EdgeInsets.all(val), child: this);
+  Widget paddingAll(double val) => Padding(padding: EdgeInsets.all(val), child: this);
 
   Widget paddingOnly(
-          {double? left,
-          double? right,
-          double? top,
-          double? bottom,
-          double? horizontal,
-          double? vertical}) =>
+          {double? left, double? right, double? top, double? bottom, double? horizontal, double? vertical}) =>
       Padding(
         padding: EdgeInsets.only(
             left: left ?? horizontal ?? 0,
@@ -72,23 +56,17 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingOnlyLeft(double val) =>
-      Padding(padding: EdgeInsets.only(left: val), child: this);
+  Widget paddingOnlyLeft(double val) => Padding(padding: EdgeInsets.only(left: val), child: this);
 
-  Widget paddingOnlyRight(double val) =>
-      Padding(padding: EdgeInsets.only(right: val), child: this);
+  Widget paddingOnlyRight(double val) => Padding(padding: EdgeInsets.only(right: val), child: this);
 
-  Widget paddingOnlyTop(double val) =>
-      Padding(padding: EdgeInsets.only(top: val), child: this);
+  Widget paddingOnlyTop(double val) => Padding(padding: EdgeInsets.only(top: val), child: this);
 
-  Widget paddingOnlyBottom(double val) =>
-      Padding(padding: EdgeInsets.only(bottom: val), child: this);
+  Widget paddingOnlyBottom(double val) => Padding(padding: EdgeInsets.only(bottom: val), child: this);
 
-  Widget paddingHorizontal(double val) =>
-      Padding(padding: EdgeInsets.symmetric(horizontal: val), child: this);
+  Widget paddingHorizontal(double val) => Padding(padding: EdgeInsets.symmetric(horizontal: val), child: this);
 
-  Widget paddingVertical(double val) =>
-      Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
+  Widget paddingVertical(double val) => Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
 
   Widget paddingTopLeft(double top, double left) => Padding(
         padding: EdgeInsets.only(top: top, left: left),
@@ -110,6 +88,26 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
+  Widget paddingLeftVertical(double value) => Padding(
+        padding: EdgeInsets.only(left: value, top: value, bottom: value),
+        child: this,
+      );
+
+  Widget paddingRightVertical(double value) => Padding(
+        padding: EdgeInsets.only(right: value, top: value, bottom: value),
+        child: this,
+      );
+
+  Widget paddingTopHorizontal(double value) => Padding(
+        padding: EdgeInsets.only(right: value, top: value, left: value),
+        child: this,
+      );
+
+  Widget paddingBottomHorizontal(double value) => Padding(
+        padding: EdgeInsets.only(right: value, bottom: value, left: value),
+        child: this,
+      );
+
   Widget margin({double? l, double? t, double? r, double? b}) => Padding(
         padding: EdgeInsets.fromLTRB(l ?? 0, t ?? 0, r ?? 0, b ?? 0),
         child: this,
@@ -120,23 +118,18 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget get rotationRight =>
-      RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
-  Widget get rotationUp => RotationTransition(
-      turns: const AlwaysStoppedAnimation(0.25), child: this);
-  Widget get rotationBottom => RotationTransition(
-      turns: const AlwaysStoppedAnimation(0.75), child: this);
-  Widget get rotationLeft =>
-      RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
-  Widget rotate({double? value}) => RotationTransition(
-      turns: AlwaysStoppedAnimation(value ?? 0), child: this);
-  Widget rotateBox({int? value}) =>
-      RotatedBox(quarterTurns: value ?? 0, child: this);
+  /// Border Gradient
+  
 
-  Widget alignment({AlignmentGeometry? align}) =>
-      Align(alignment: align ?? Alignment.center, child: this);
-  Widget align({AlignmentGeometry? align}) =>
-      Align(alignment: align ?? Alignment.center, child: this);
+  Widget get rotationRight => RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
+  Widget get rotationUp => RotationTransition(turns: const AlwaysStoppedAnimation(0.25), child: this);
+  Widget get rotationBottom => RotationTransition(turns: const AlwaysStoppedAnimation(0.75), child: this);
+  Widget get rotationLeft => RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
+  Widget rotate({double? value}) => RotationTransition(turns: AlwaysStoppedAnimation(value ?? 0), child: this);
+  Widget rotateBox({int? value}) => RotatedBox(quarterTurns: value ?? 0, child: this);
+
+  Widget alignment({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
+  Widget align({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
 
   Widget get inChildrenHeight => IntrinsicHeight(child: this);
 
@@ -162,23 +155,19 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget onTap(void Function() onTap,
-          {bool isShowSplash = false, double? borderRadius}) =>
-      isShowSplash
-          ? InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.circular(borderRadius ?? 0),
-              child: this,
-            )
-          : GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: onTap,
-              child: this,
-            );
-  Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) =>
-      BackdropFilter(
-        filter: ImageFilter.blur(
-            sigmaX: sigmaX ?? blurRadius, sigmaY: sigmaY ?? blurRadius),
+  Widget onTap(void Function() onTap, {bool isShowSplash = false, double? borderRadius}) => isShowSplash
+      ? InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
+          child: this,
+        )
+      : GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: onTap,
+          child: this,
+        );
+  Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: sigmaX ?? blurRadius, sigmaY: sigmaY ?? blurRadius),
         child: this,
       );
 
@@ -232,6 +221,14 @@ extension WidgetExtension on Widget {
           ).createShader(bounds);
         },
         blendMode: BlendMode.dstIn,
+        child: this,
+      );
+
+  Widget widgetGradient(Gradient gradient, [BlendMode? blendMode]) => ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return gradient.createShader(bounds);
+        },
+        blendMode: blendMode ?? BlendMode.dstIn,
         child: this,
       );
 
@@ -325,6 +322,62 @@ extension WidgetExtension on Widget {
         curve: curve,
       );
 
+  Widget animatedSize({
+    double start = 0,
+    double end = 1,
+    Curve? curve,
+    Duration? duration,
+  }) =>
+      _GrockSizeAnimation(
+        child: this,
+        to: end,
+        from: start,
+        duration: duration,
+        curve: curve,
+      );
+
+  Widget animatedFade({
+    double start = 0,
+    double end = 1,
+    Curve? curve,
+    Duration? duration,
+  }) =>
+      _GrockFadeAnimation(
+        child: this,
+        to: end,
+        from: start,
+        duration: duration,
+        curve: curve,
+      );
+
+  Widget animatedScale({
+    double start = 0,
+    double end = 1,
+    Curve? curve,
+    Duration? duration,
+  }) =>
+      _GrockScaleAnimation(
+        child: this,
+        to: end,
+        from: start,
+        duration: duration,
+        curve: curve,
+      );
+
+  Widget animatedSlide({
+    double start = 0,
+    double end = 1,
+    Curve? curve,
+    Duration? duration,
+  }) =>
+      _GrockSlideAnimation(
+        child: this,
+        to: end,
+        from: start,
+        duration: duration,
+        curve: curve,
+      );
+
   void getSize(Function(Size size) callback) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBox = Grock.context.findRenderObject() as RenderBox;
@@ -336,10 +389,254 @@ extension WidgetExtension on Widget {
 
 extension ExpansionTileExtension on ExpansionTile {
   Widget removeDivider() => Builder(builder: (context) {
-        return Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child: this);
+        return Theme(data: Theme.of(context).copyWith(dividerColor: Colors.transparent), child: this);
       });
+}
+
+class _GrockSizeAnimation extends StatefulWidget {
+  final Widget child;
+  Curve? curve;
+  Duration? duration;
+  double from;
+  double to;
+  _GrockSizeAnimation({
+    Key? key,
+    required this.child,
+    this.curve,
+    this.duration,
+    this.from = 0,
+    this.to = 1,
+  }) : super(key: key);
+
+  @override
+  State<_GrockSizeAnimation> createState() => __GrockSizeAnimationState();
+}
+
+class __GrockSizeAnimationState extends State<_GrockSizeAnimation> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration ?? Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = Tween(begin: widget.from, end: widget.to).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          widget.from < 0 ? 0 : widget.from,
+          widget.to,
+          curve: widget.curve ?? Curves.fastOutSlowIn,
+        ),
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: Offset(0, 0),
+        end: Offset(0, 0),
+      ).animate(_animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _GrockSlideAnimation extends StatefulWidget {
+  final Widget child;
+  Curve? curve;
+  Duration? duration;
+  double from;
+  double to;
+  _GrockSlideAnimation({
+    Key? key,
+    required this.child,
+    this.curve,
+    this.duration,
+    this.from = 0,
+    this.to = 1,
+  }) : super(key: key);
+
+  @override
+  State<_GrockSlideAnimation> createState() => __GrockSlideAnimationState();
+}
+
+class __GrockSlideAnimationState extends State<_GrockSlideAnimation> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration ?? Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = Tween(begin: widget.from, end: widget.to).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          widget.from < 0 ? 0 : widget.from,
+          widget.to,
+          curve: widget.curve ?? Curves.fastOutSlowIn,
+        ),
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: Offset(0, 0),
+        end: Offset(0, 0),
+      ).animate(_animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _GrockFadeAnimation extends StatefulWidget {
+  final Widget child;
+  Curve? curve;
+  Duration? duration;
+  double from;
+  double to;
+  _GrockFadeAnimation({
+    Key? key,
+    required this.child,
+    this.curve,
+    this.duration,
+    this.from = 0,
+    this.to = 1,
+  }) : super(key: key);
+
+  @override
+  State<_GrockFadeAnimation> createState() => __GrockFadeAnimationState();
+}
+
+class __GrockFadeAnimationState extends State<_GrockFadeAnimation> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration ?? Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = Tween(begin: widget.from, end: widget.to).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          widget.from < 0 ? 0 : widget.from,
+          widget.to,
+          curve: widget.curve ?? Curves.fastOutSlowIn,
+        ),
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _animation,
+      child: widget.child,
+    );
+  }
+}
+
+class _GrockScaleAnimation extends StatefulWidget {
+  final Widget child;
+  Curve? curve;
+  Duration? duration;
+  double from;
+  double to;
+  _GrockScaleAnimation({
+    Key? key,
+    required this.child,
+    this.curve,
+    this.duration,
+    this.from = 0,
+    this.to = 1,
+  }) : super(key: key);
+
+  @override
+  State<_GrockScaleAnimation> createState() => __GrockScaleAnimationState();
+}
+
+class __GrockScaleAnimationState extends State<_GrockScaleAnimation> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration ?? Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = Tween(begin: widget.from, end: widget.to).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          widget.from < 0 ? 0 : widget.from,
+          widget.to,
+          curve: widget.curve ?? Curves.fastOutSlowIn,
+        ),
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _animation,
+      child: widget.child,
+    );
+  }
 }
 
 // ignore: must_be_immutable
@@ -359,12 +656,10 @@ class _GrockRotationAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_GrockRotationAnimation> createState() =>
-      __GrockRotationAnimationState();
+  State<_GrockRotationAnimation> createState() => __GrockRotationAnimationState();
 }
 
-class __GrockRotationAnimationState extends State<_GrockRotationAnimation>
-    with TickerProviderStateMixin {
+class __GrockRotationAnimationState extends State<_GrockRotationAnimation> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

@@ -26,7 +26,7 @@ class _GrockFullScreenDialog extends StatefulWidget {
   final bool isHorizontalSlideAnimation;
 
   /// If true, the dialog will be rotated when the dialog is closed.
-  final bool isMatrixAnimation;
+  //final bool isMatrixAnimation;
 
   /// If true, the scale animation will be closed when the dialog is closed.
   final bool isCloseScaleAnimation;
@@ -43,7 +43,7 @@ class _GrockFullScreenDialog extends StatefulWidget {
     this.closeDuration = const Duration(milliseconds: 300),
     this.closeTween,
     this.isCloseScaleAnimation = false,
-    this.isMatrixAnimation = false,
+    //this.isMatrixAnimation = false,
     this.isHorizontalSlideAnimation = true,
     this.closureRate = 0.24,
     this.openAlignment = Alignment.bottomLeft,
@@ -83,12 +83,9 @@ class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with Tic
           scale: widget.isCloseScaleAnimation ? 1 - (dy / context.height).abs() : 1,
           child: Transform.translate(
             offset: Offset(widget.isHorizontalSlideAnimation ? dx : 0, dy),
-            child: Transform(
-              transform: getMatrix(),
-              child: Opacity(
-                opacity: widget.isSlideOpacity ? opacity : 1,
-                child: widget.child,
-              ),
+            child: Opacity(
+              opacity: widget.isSlideOpacity ? opacity : 1,
+              child: widget.child,
             ),
           ),
         ),
@@ -171,10 +168,10 @@ class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with Tic
   Matrix4 getMatrix() {
     final matrix = Matrix4.identity();
     matrix.setEntry(3, 2, 0.001);
-    if (widget.isMatrixAnimation) {
+    //if (widget.isMatrixAnimation) {
       matrix.rotateX(-dy / widget.matrixRotateValue);
       matrix.rotateY(dx / widget.matrixRotateValue);
-    }
+    //}
     return matrix;
   }
 

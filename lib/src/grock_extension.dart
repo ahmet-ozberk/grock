@@ -182,13 +182,47 @@ extension Grock on ScaffoldMessengerModel {
         titlePadding: titlePadding,
       );
 
+  static void fullScreenModal({
+    required Widget Function(BuildContext, Animation<double>, Animation<double>) builder,
+    bool isSlideTransition = true,
+    bool isScaleTransition = false,
+    bool isFadeTranssition = true,
+    bool isRotateTransition = false,
+    Alignment scaleAlignment = Alignment.topCenter,
+    SlideTransitionType slideTransitionType = SlideTransitionType.fromTop,
+    Duration openDuration = const Duration(milliseconds: 500),
+    bool isOpaque = false,
+    bool isBarrierDismissible = false,
+    Color barrierColorValue = Colors.black54,
+    String? barrierLabelValue,
+    bool isMaintainState = true,
+  }) {
+    Navigator.push(
+        context,
+        GrockFullScreenModal(
+          builder: builder,
+          isSlideTransition: isSlideTransition,
+          isScaleTransition: isScaleTransition,
+          isFadeTranssition: isFadeTranssition,
+          isRotateTransition: isRotateTransition,
+          scaleAlignment: scaleAlignment,
+          slideTransitionType: slideTransitionType,
+          openDuration: openDuration,
+          isOpaque: isOpaque,
+          isBarrierDismissible: isBarrierDismissible,
+          barrierColorValue: barrierColorValue,
+          barrierLabelValue: barrierLabelValue,
+          isMaintainState: isMaintainState,
+        ));
+  }
+
   static void fullScreenDialog({
     required Widget child,
     Duration openDuration = const Duration(milliseconds: 600),
     Duration closeDuration = const Duration(milliseconds: 300),
     Tween<double>? closeTween,
     bool isCloseScaleAnimation = false,
-    bool isMatrixAnimation = false,
+    //bool isMatrixAnimation = false,
     bool isHorizontalSlideAnimation = true,
     double closureRate = 0.24,
     Alignment openAlignment = Alignment.bottomLeft,
@@ -204,7 +238,7 @@ extension Grock on ScaffoldMessengerModel {
         closeDuration: closeDuration,
         closeTween: closeTween,
         isCloseScaleAnimation: isCloseScaleAnimation,
-        isMatrixAnimation: isMatrixAnimation,
+        //isMatrixAnimation: isMatrixAnimation,
         isHorizontalSlideAnimation: isHorizontalSlideAnimation,
         closureRate: closureRate,
         openAlignment: openAlignment,
