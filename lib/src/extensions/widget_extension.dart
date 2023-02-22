@@ -392,7 +392,7 @@ extension ExpansionTileExtension on ExpansionTile {
         return Theme(data: Theme.of(context).copyWith(dividerColor: Colors.transparent), child: this);
       });
 }
-
+// ignore: must_be_immutable
 class _GrockSizeAnimation extends StatefulWidget {
   final Widget child;
   Curve? curve;
@@ -455,7 +455,7 @@ class __GrockSizeAnimationState extends State<_GrockSizeAnimation> with TickerPr
     );
   }
 }
-
+// ignore: must_be_immutable
 class _GrockSlideAnimation extends StatefulWidget {
   final Widget child;
   Curve? curve;
@@ -518,7 +518,7 @@ class __GrockSlideAnimationState extends State<_GrockSlideAnimation> with Ticker
     );
   }
 }
-
+// ignore: must_be_immutable
 class _GrockFadeAnimation extends StatefulWidget {
   final Widget child;
   Curve? curve;
@@ -578,7 +578,7 @@ class __GrockFadeAnimationState extends State<_GrockFadeAnimation> with TickerPr
     );
   }
 }
-
+// ignore: must_be_immutable
 class _GrockScaleAnimation extends StatefulWidget {
   final Widget child;
   Curve? curve;
