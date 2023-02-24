@@ -699,3 +699,15 @@ class __GrockRotationAnimationState extends State<_GrockRotationAnimation> with 
     );
   }
 }
+extension TextWidgetExtension on Text{
+  /// Gradient Text
+  Widget gradientText(Gradient gradient){
+    return ShaderMask(
+     blendMode: BlendMode.srcIn,
+     shaderCallback: (bounds) => gradient.createShader(
+       Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+     ),
+     child: this,
+   );
+  }
+}
