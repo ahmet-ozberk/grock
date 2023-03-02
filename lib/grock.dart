@@ -39,3 +39,4 @@ export 'src/components/grock_input_formatter.dart';
 export 'src/widgets/grock_fullscreen_modal.dart';
 export 'src/extensions/dynamic_extension.dart';
 export 'src/widgets/grock_gradient_border.dart';
+export 'src/widgets/grock_super_container.dart';

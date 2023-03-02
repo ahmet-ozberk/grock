@@ -13,8 +13,10 @@ Random random = Random();
 extension RandomImageExtension on int {
   String randomImage({int width = 1080, int height = 720}) =>
       "https://picsum.photos/$width/$height?random=$this";
+      
   String randomImg([int width = 1080, int height = 720]) =>
       "https://loremflickr.com/$width/$height?random=$this";
+
   String lorem() => loremIpsum(words: this);
 }
 
@@ -132,26 +134,26 @@ extension RandomStringExtension on int {
   static const charactersModel =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length,
+  String getRandomString() => String.fromCharCodes(Iterable.generate(
+      this,
       (_) =>
           charactersModel.codeUnitAt(random.nextInt(charactersModel.length))));
 
   /// Get random lower case string
-  String get randomLowercase => getRandomString(this).toLowerCase();
+  String get randomLowercase => getRandomString().toLowerCase();
 
   /// Get random upper case string
-  String get randomUppercase => getRandomString(this).toUpperCase();
+  String get randomUppercase => getRandomString().toUpperCase();
 
   /// get random not number string
   String get randomNotNumber =>
-      getRandomString(this).replaceAll(RegExp(r'\d'), '');
+      getRandomString().replaceAll(RegExp(r'\d'), '');
 
   /// get random not letter string
   String get randomNotLetter =>
-      getRandomString(this).replaceAll(RegExp(r'[a-zA-Z]'), '');
+      getRandomString().replaceAll(RegExp(r'[a-zA-Z]'), '');
 
   /// get random not letter and number string
   String get randomNotLetterAndNumber =>
-      getRandomString(this).replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
+      getRandomString().replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
 }

@@ -32,13 +32,28 @@ extension ExtendedIterable<E> on Iterable<E> {
   }
 }
 
+extension ListWidgetExtension<Widget> on List<Widget> {
+  List<Widget> seperatedWidget(Widget widget) {
+    final newList = <Widget>[];
+    for (var i = 0; i < length; i++) {
+      if (i == 0) {
+        newList.add(this[i]);
+      } else {
+        newList.add(widget);
+        newList.add(this[i]);
+      }
+    }
+    return newList;
+  }
+}
+
 extension ListExtension<E> on List<E> {
   List<T> mapIndexed<T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++)).toList();
   }
 
-  List<E> separated(E separator) {
+  List<E> seperated(E separator) {
     final newList = <E>[];
     for (var i = 0; i < length; i++) {
       if (i == 0) {
@@ -51,7 +66,7 @@ extension ListExtension<E> on List<E> {
     return newList;
   }
 
-  List<E> separatedIndexed(E Function(int index) separator) {
+  List<E> seperatedIndexed(E Function(int index) separator) {
     final newList = <E>[];
     for (var i = 0; i < length; i++) {
       if (i == 0) {
@@ -64,7 +79,7 @@ extension ListExtension<E> on List<E> {
     return newList;
   }
 
-  List<E> separatedIndexedValue(E Function(int index, E value) separator) {
+  List<E> seperatedIndexedValue(E Function(int index, E value) separator) {
     final newList = <E>[];
     for (var i = 0; i < length; i++) {
       if (i == 0) {
@@ -77,8 +92,6 @@ extension ListExtension<E> on List<E> {
     return newList;
   }
 
-  
-  
   /// groupBy extension for List
   /// Grock GroupBy
   Map<K, List<E>> groupBy<K>(K Function(E value) f) {
