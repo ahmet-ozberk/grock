@@ -66,6 +66,12 @@ extension ListExtension<E> on List<E> {
     return newList;
   }
 
+  void whereAdd(bool Function(E e) f, E value) {
+    if (f(value)) {
+      add(value);
+    }
+  }
+
   List<E> seperatedIndexed(E Function(int index) separator) {
     final newList = <E>[];
     for (var i = 0; i < length; i++) {

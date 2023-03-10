@@ -8,6 +8,8 @@ import 'package:grock/grock.dart';
 /// Grock Menu IOS Style Widget
 /// A menu tray that can be used to display a menu of items.
 /// The menu tray is a container that can be used to display a menu of items.
+///
+enum GrockMenuTapType { onTap, onLongPress }
 
 class GrockMenu extends StatefulWidget {
   final Widget child;
@@ -23,6 +25,8 @@ class GrockMenu extends StatefulWidget {
 
   /// CupertinoColors.separatorwithOpacity(0.2)
   final Color? dividerColor;
+
+  final GrockMenuTapType tapType;
 
   /// Menu Scroll Physics
   final ScrollPhysics? physics;
@@ -54,6 +58,7 @@ class GrockMenu extends StatefulWidget {
     this.borderRadius,
     this.dividerColor,
     this.dividerHeight = 1.0,
+    this.tapType = GrockMenuTapType.onTap,
     this.textStyle,
     this.backgroundColor,
     this.border,
@@ -90,44 +95,86 @@ class _GrockMenuState extends State<GrockMenu> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       key: key,
-      onTap: () {
-        getOffset();
-        OverlayState overlayState = Overlay.of(context);
-        late OverlayEntry _menuOverlayEntry;
-        _menuOverlayEntry = OverlayEntry(
-          builder: (context) {
-            return _GrockMenuCore(
-              overlayEntry: _menuOverlayEntry,
-              offset: _tapPosition,
-              physics: widget.physics,
-              items: widget.items,
-              onTap: widget.onTap,
-              maxHeight: widget.maxHeight,
-              minWidth: MediaQuery.of(context).size.width * 0.55,
-              dividerColor: widget.dividerColor,
-              dividerHeight: widget.dividerHeight,
-              borderRadius: widget.borderRadius,
-              textStyle: widget.textStyle,
-              backgroundColor: widget.backgroundColor,
-              pressColor: widget.pressColor,
-              maxLines: widget.maxLines,
-              textAlign: widget.textAlign,
-              textOverflow: widget.textOverflow,
-              padding: widget.padding,
-              onTapClose: widget.onTapClose,
-              border: widget.border,
-              spaceColor: widget.spaceColor,
-              openAnimationDuration: widget.openAnimationDuration,
-              closeAnimationDuration: widget.closeAnimationDuration,
-              openAnimation: widget.openAnimation,
-              openAlignment: widget.openAlignment,
-              childSize: childSize ?? Size.zero,
-              backgroundBlur: widget.backgroundBlur,
-            );
-          },
-        );
-        overlayState.insert(_menuOverlayEntry);
-      },
+      onTap: widget.tapType == GrockMenuTapType.onTap
+          ? () {
+              getOffset();
+              OverlayState overlayState = Overlay.of(context);
+              late OverlayEntry _menuOverlayEntry;
+              _menuOverlayEntry = OverlayEntry(
+                builder: (context) {
+                  return _GrockMenuCore(
+                    overlayEntry: _menuOverlayEntry,
+                    offset: _tapPosition,
+                    physics: widget.physics,
+                    items: widget.items,
+                    onTap: widget.onTap,
+                    maxHeight: widget.maxHeight,
+                    minWidth: MediaQuery.of(context).size.width * 0.55,
+                    dividerColor: widget.dividerColor,
+                    dividerHeight: widget.dividerHeight,
+                    borderRadius: widget.borderRadius,
+                    textStyle: widget.textStyle,
+                    backgroundColor: widget.backgroundColor,
+                    pressColor: widget.pressColor,
+                    maxLines: widget.maxLines,
+                    textAlign: widget.textAlign,
+                    textOverflow: widget.textOverflow,
+                    padding: widget.padding,
+                    onTapClose: widget.onTapClose,
+                    border: widget.border,
+                    spaceColor: widget.spaceColor,
+                    openAnimationDuration: widget.openAnimationDuration,
+                    closeAnimationDuration: widget.closeAnimationDuration,
+                    openAnimation: widget.openAnimation,
+                    openAlignment: widget.openAlignment,
+                    childSize: childSize ?? Size.zero,
+                    backgroundBlur: widget.backgroundBlur,
+                  );
+                },
+              );
+              overlayState.insert(_menuOverlayEntry);
+            }
+          : null,
+      onLongPress: widget.tapType == GrockMenuTapType.onLongPress
+          ? () {
+              getOffset();
+              OverlayState overlayState = Overlay.of(context);
+              late OverlayEntry _menuOverlayEntry;
+              _menuOverlayEntry = OverlayEntry(
+                builder: (context) {
+                  return _GrockMenuCore(
+                    overlayEntry: _menuOverlayEntry,
+                    offset: _tapPosition,
+                    physics: widget.physics,
+                    items: widget.items,
+                    onTap: widget.onTap,
+                    maxHeight: widget.maxHeight,
+                    minWidth: MediaQuery.of(context).size.width * 0.55,
+                    dividerColor: widget.dividerColor,
+                    dividerHeight: widget.dividerHeight,
+                    borderRadius: widget.borderRadius,
+                    textStyle: widget.textStyle,
+                    backgroundColor: widget.backgroundColor,
+                    pressColor: widget.pressColor,
+                    maxLines: widget.maxLines,
+                    textAlign: widget.textAlign,
+                    textOverflow: widget.textOverflow,
+                    padding: widget.padding,
+                    onTapClose: widget.onTapClose,
+                    border: widget.border,
+                    spaceColor: widget.spaceColor,
+                    openAnimationDuration: widget.openAnimationDuration,
+                    closeAnimationDuration: widget.closeAnimationDuration,
+                    openAnimation: widget.openAnimation,
+                    openAlignment: widget.openAlignment,
+                    childSize: childSize ?? Size.zero,
+                    backgroundBlur: widget.backgroundBlur,
+                  );
+                },
+              );
+              overlayState.insert(_menuOverlayEntry);
+            }
+          : null,
       child: GrockWidgetSize(callback: (size, offset) => setState(() => childSize = size), child: widget.child),
     );
   }
@@ -265,7 +312,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                 child: FadeTransition(
                   opacity: _animation!,
                   child: ScaleTransition(
-                       scale: _animation!,
+                    scale: _animation!,
                     alignment: alignmentAnimation(),
                     child: Container(
                       constraints: BoxConstraints(
@@ -307,7 +354,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                                         bottom: e == widget.items.last
                                             ? BorderSide.none
                                             : BorderSide(
-                                                color: widget.dividerColor ?? CupertinoColors.separator.withOpacity(0.2),
+                                                color:
+                                                    widget.dividerColor ?? CupertinoColors.separator.withOpacity(0.2),
                                                 width: widget.dividerHeight ?? 1.0,
                                               ),
                                       ),

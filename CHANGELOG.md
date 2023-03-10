@@ -1,3 +1,3 @@
-## 0.2.0 - 13-02-2023
+## 0.2.1 - 10-03-2023
 
-* Readme.md GrockSuperContainer widget added
+* Readme.md GrockMenu updated
