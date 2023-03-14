@@ -11,24 +11,46 @@ import 'package:grock/grock.dart';
 ///
 enum GrockMenuTapType { onTap, onLongPress }
 
+class GrockMenuController {
+  late _GrockMenuCoreState _state;
+
+  void _initState(_GrockMenuCoreState state) {
+    _state = state;
+  }
+
+  void close() {
+    _state.closeMenu();
+  }
+}
+
 class GrockMenu extends StatefulWidget {
   final Widget child;
   final double? borderRadius;
+  final GrockMenuController? controller;
 
-  /// Screenheight *0.4
+  /// MediaQuery.of(context).size.height * 0.35
   final int? maxHeight;
+
+  /// MediaQuery.of(context).size.width * 0.55
+  final double? minWidth;
 
   /// Colors.grey.shade100
   final Color? backgroundColor;
-
   final Color? pressColor;
 
   /// CupertinoColors.separatorwithOpacity(0.2)
   final Color? dividerColor;
-
   final GrockMenuTapType tapType;
+  final double? leftSpace;
+  final double? rightSpace;
+  final double? topSpace;
+  final double? bottomSpace;
 
-  /// Menu Scroll Physics
+  /// Default Tween<double>(begin: 0.0, end: 1.1)
+  final Tween<double>? startTween;
+
+  /// Default Tween<double>(begin: 1.1, end: 1.0)
+  final Tween<double>? endTween;
   final ScrollPhysics? physics;
   final double? dividerHeight;
   final List<GrockMenuItem> items;
@@ -42,7 +64,12 @@ class GrockMenu extends StatefulWidget {
   final Color spaceColor;
   final Duration openAnimationDuration;
   final Duration closeAnimationDuration;
+
+  /// Default Curves.fastOutSlowIn
   final Curve openAnimation;
+
+  /// Default Duration(milliseconds: 450)
+  final Curve closeAnimation;
   final TextStyle? textStyle;
   final Alignment? openAlignment;
   final double backgroundBlur;
@@ -52,9 +79,10 @@ class GrockMenu extends StatefulWidget {
     required this.child,
     required this.items,
     this.onTap,
+    this.controller,
     this.physics,
     this.maxHeight,
-    //this.width,
+    this.minWidth,
     this.borderRadius,
     this.dividerColor,
     this.dividerHeight = 1.0,
@@ -72,8 +100,15 @@ class GrockMenu extends StatefulWidget {
     this.openAnimationDuration = const Duration(milliseconds: 450),
     this.closeAnimationDuration = const Duration(milliseconds: 350),
     this.openAnimation = Curves.fastOutSlowIn,
+    this.closeAnimation = Curves.linear,
     this.openAlignment,
     this.backgroundBlur = 5.0,
+    this.leftSpace,
+    this.rightSpace,
+    this.topSpace,
+    this.bottomSpace,
+    this.startTween,
+    this.endTween,
   }) : super(key: key);
 
   @override
@@ -106,10 +141,11 @@ class _GrockMenuState extends State<GrockMenu> {
                     overlayEntry: _menuOverlayEntry,
                     offset: _tapPosition,
                     physics: widget.physics,
+                    controller: widget.controller,
                     items: widget.items,
                     onTap: widget.onTap,
                     maxHeight: widget.maxHeight,
-                    minWidth: MediaQuery.of(context).size.width * 0.55,
+                    minWidth: widget.minWidth ?? MediaQuery.of(context).size.width * 0.55,
                     dividerColor: widget.dividerColor,
                     dividerHeight: widget.dividerHeight,
                     borderRadius: widget.borderRadius,
@@ -126,9 +162,16 @@ class _GrockMenuState extends State<GrockMenu> {
                     openAnimationDuration: widget.openAnimationDuration,
                     closeAnimationDuration: widget.closeAnimationDuration,
                     openAnimation: widget.openAnimation,
+                    closeAnimation: widget.closeAnimation,
                     openAlignment: widget.openAlignment,
                     childSize: childSize ?? Size.zero,
                     backgroundBlur: widget.backgroundBlur,
+                    leftSpace: widget.leftSpace,
+                    rightSpace: widget.rightSpace,
+                    topSpace: widget.topSpace,
+                    bottomSpace: widget.bottomSpace,
+                    startTween: widget.startTween,
+                    endTween: widget.endTween,
                   );
                 },
               );
@@ -146,10 +189,11 @@ class _GrockMenuState extends State<GrockMenu> {
                     overlayEntry: _menuOverlayEntry,
                     offset: _tapPosition,
                     physics: widget.physics,
+                    controller: widget.controller,
                     items: widget.items,
                     onTap: widget.onTap,
                     maxHeight: widget.maxHeight,
-                    minWidth: MediaQuery.of(context).size.width * 0.55,
+                    minWidth: widget.minWidth ?? MediaQuery.of(context).size.width * 0.55,
                     dividerColor: widget.dividerColor,
                     dividerHeight: widget.dividerHeight,
                     borderRadius: widget.borderRadius,
@@ -166,16 +210,24 @@ class _GrockMenuState extends State<GrockMenu> {
                     openAnimationDuration: widget.openAnimationDuration,
                     closeAnimationDuration: widget.closeAnimationDuration,
                     openAnimation: widget.openAnimation,
+                    closeAnimation: widget.closeAnimation,
                     openAlignment: widget.openAlignment,
                     childSize: childSize ?? Size.zero,
                     backgroundBlur: widget.backgroundBlur,
+                    leftSpace: widget.leftSpace,
+                    rightSpace: widget.rightSpace,
+                    topSpace: widget.topSpace,
+                    bottomSpace: widget.bottomSpace,
+                    startTween: widget.startTween,
+                    endTween: widget.endTween,
                   );
                 },
               );
               overlayState.insert(_menuOverlayEntry);
             }
           : null,
-      child: GrockWidgetSize(callback: (size, offset) => setState(() => childSize = size), child: widget.child),
+      child: GrockWidgetSize(
+          callback: (size, offset) => setState(() => childSize = size), child: widget.child),
     );
   }
 }
@@ -183,6 +235,7 @@ class _GrockMenuState extends State<GrockMenu> {
 class _GrockMenuCore extends StatefulWidget {
   Offset offset;
   OverlayEntry overlayEntry;
+  GrockMenuController? controller;
   int? maxHeight;
   Widget? title;
   Widget? bottomWidget;
@@ -206,15 +259,23 @@ class _GrockMenuCore extends StatefulWidget {
   Duration openAnimationDuration;
   Duration closeAnimationDuration;
   Curve openAnimation;
+  Curve closeAnimation;
   Alignment? openAlignment;
   Size childSize;
   final double backgroundBlur;
+  final double? leftSpace;
+  final double? rightSpace;
+  final double? topSpace;
+  final double? bottomSpace;
+  final Tween<double>? startTween;
+  final Tween<double>? endTween;
 
   _GrockMenuCore({
     Key? key,
     required this.overlayEntry,
     required this.offset,
     required this.items,
+    this.controller,
     this.onTap,
     this.physics,
     this.maxHeight,
@@ -235,16 +296,23 @@ class _GrockMenuCore extends StatefulWidget {
     required this.openAnimationDuration,
     required this.closeAnimationDuration,
     required this.openAnimation,
+    required this.closeAnimation,
     required this.childSize,
     this.openAlignment,
     this.backgroundBlur = 5.0,
+    this.leftSpace,
+    this.rightSpace,
+    this.topSpace,
+    this.bottomSpace,
+    this.startTween,
+    this.endTween,
   }) : super(key: key);
 
   @override
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
 }
 
-class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderStateMixin {
+class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProviderStateMixin {
   Size widgetSize = Size.zero;
   late final AnimationController _controller = AnimationController(
     vsync: this,
@@ -252,18 +320,22 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
     reverseDuration: widget.closeAnimationDuration,
   );
   Animation<double>? _animation;
+  final grockMenuController = GrockMenuController();
 
   @override
   void initState() {
     super.initState();
+    widget.controller?._initState(this);
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.1).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: (widget.startTween ?? Tween<double>(begin: 0.0, end: 1.1))
+              .chain(CurveTween(curve: widget.openAnimation)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: (widget.endTween ?? Tween<double>(begin: 1.1, end: 1.0))
+              .chain(CurveTween(curve: widget.closeAnimation)),
           weight: 3,
         ),
       ],
@@ -271,7 +343,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
     _controller.addListener(() {
       setState(() {});
     });
-    _controller.forward();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _controller.forward());
   }
 
   double sigmaValue() => _animation!.value * widget.backgroundBlur;
@@ -303,8 +375,10 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
             ),
           ),
           Positioned(
-            top: topSpace(),
-            left: leftSpace(),
+            top: widget.topSpace ?? topSpace(),
+            left: widget.leftSpace ?? leftSpace(),
+            right: widget.rightSpace,
+            bottom: widget.bottomSpace,
             child: Material(
               type: MaterialType.transparency,
               child: GrockWidgetSize(
@@ -316,7 +390,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                     alignment: alignmentAnimation(),
                     child: Container(
                       constraints: BoxConstraints(
-                        maxHeight: widget.maxHeight?.toDouble() ?? MediaQuery.of(context).size.height * 0.35,
+                        maxHeight: widget.maxHeight?.toDouble() ??
+                            MediaQuery.of(context).size.height * 0.35,
                         minWidth: widget.minWidth,
                         maxWidth: widget.minWidth,
                       ),
@@ -347,15 +422,17 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with TickerProviderState
                                   },
                                   child: Container(
                                     width: double.maxFinite,
-                                    padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                    padding: widget.padding ??
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: e.isTapped ? widget.pressColor : widget.backgroundColor,
+                                      color:
+                                          e.isTapped ? widget.pressColor : widget.backgroundColor,
                                       border: Border(
                                         bottom: e == widget.items.last
                                             ? BorderSide.none
                                             : BorderSide(
-                                                color:
-                                                    widget.dividerColor ?? CupertinoColors.separator.withOpacity(0.2),
+                                                color: widget.dividerColor ??
+                                                    CupertinoColors.separator.withOpacity(0.2),
                                                 width: widget.dividerHeight ?? 1.0,
                                               ),
                                       ),

@@ -101,7 +101,7 @@ class _GrockTimerState extends State<GrockTimer> {
   @override
   void initState() {
     super.initState();
-    widget.controller?._state = this;
+    widget.controller?._init(this);
     _time = widget.startTime!;
     if (widget.isInitialStart) {
       _startTimer();
@@ -208,7 +208,12 @@ extension _GrockTimerVisibleExtension on Widget {
 }
 
 class GrockTimerController {
-  late _GrockTimerState _state;
+  late _GrockTimerState _state = _GrockTimerState();
+  bool isInitialized = false;
+
+  void _init(_GrockTimerState state) {
+    _state = state;
+  }
 
   void start() {
     _state.start();

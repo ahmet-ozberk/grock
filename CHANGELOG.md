@@ -1,3 +1,3 @@
-## 0.2.1 - 10-03-2023
+## 0.2.2 - 14-03-2023
 
-* Readme.md GrockMenu updated
+* Readme.md GrockMenu bug fix end update
