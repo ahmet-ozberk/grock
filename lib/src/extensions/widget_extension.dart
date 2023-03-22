@@ -2,6 +2,73 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:flutter/rendering.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+extension ToBitDescription on Widget {
+  Future<BitmapDescriptor> toGrockGoogleMapsMarkerWidget(
+      {Size? logicalSize,
+      Size? imageSize,
+      Duration waitToRender = const Duration(milliseconds: 300),
+      TextDirection textDirection = TextDirection.ltr}) async {
+    final widget = RepaintBoundary(
+      child: MediaQuery(
+          data: const MediaQueryData(),
+          child: Directionality(textDirection: TextDirection.ltr, child: this)),
+    );
+    final pngBytes = await createImageFromWidget(widget,
+        waitToRender: waitToRender, logicalSize: logicalSize, imageSize: imageSize);
+    return BitmapDescriptor.fromBytes(pngBytes);
+  }
+}
+
+Future<Uint8List> createImageFromWidget(Widget widget,
+    {Size? logicalSize, required Duration waitToRender, Size? imageSize}) async {
+  final RenderRepaintBoundary repaintBoundary = RenderRepaintBoundary();
+
+  logicalSize ??= ui.window.physicalSize / ui.window.devicePixelRatio;
+  imageSize ??= ui.window.physicalSize;
+
+  final RenderView renderView = RenderView(
+    window: WidgetsBinding.instance.window,
+    child: RenderPositionedBox(alignment: Alignment.center, child: repaintBoundary),
+    configuration: ViewConfiguration(
+      size: logicalSize,
+      devicePixelRatio: 1.0,
+    ),
+  );
+
+  final PipelineOwner pipelineOwner = PipelineOwner();
+  final BuildOwner buildOwner = BuildOwner(focusManager: FocusManager());
+
+  pipelineOwner.rootNode = renderView;
+  renderView.prepareInitialFrame();
+
+  final RenderObjectToWidgetElement<RenderBox> rootElement = RenderObjectToWidgetAdapter<RenderBox>(
+    container: repaintBoundary,
+    child: widget,
+  ).attachToRenderTree(buildOwner);
+
+  buildOwner.buildScope(rootElement);
+
+  await Future.delayed(waitToRender);
+
+  buildOwner.buildScope(rootElement);
+  buildOwner.finalizeTree();
+
+  pipelineOwner.flushLayout();
+  pipelineOwner.flushCompositingBits();
+  pipelineOwner.flushPaint();
+
+  final ui.Image image =
+      await repaintBoundary.toImage(pixelRatio: imageSize.width / logicalSize.width);
+  final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+  return byteData!.buffer.asUint8List();
+}
 
 extension WidgetExtension on Widget {
   Material material() => Material(type: MaterialType.transparency, child: this);
@@ -13,8 +80,8 @@ extension WidgetExtension on Widget {
 
   Widget disabled([bool? disable]) => IgnorePointer(ignoring: disable ?? true, child: this);
 
-  Widget disabledOpacity([bool? disable, double? opacity]) =>
-      IgnorePointer(ignoring: disable ?? true, child: Opacity(opacity: opacity ?? 0.2, child: this));
+  Widget disabledOpacity([bool? disable, double? opacity]) => IgnorePointer(
+      ignoring: disable ?? true, child: Opacity(opacity: opacity ?? 0.2, child: this));
 
   Widget expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
 
@@ -46,7 +113,12 @@ extension WidgetExtension on Widget {
   Widget paddingAll(double val) => Padding(padding: EdgeInsets.all(val), child: this);
 
   Widget paddingOnly(
-          {double? left, double? right, double? top, double? bottom, double? horizontal, double? vertical}) =>
+          {double? left,
+          double? right,
+          double? top,
+          double? bottom,
+          double? horizontal,
+          double? vertical}) =>
       Padding(
         padding: EdgeInsets.only(
             left: left ?? horizontal ?? 0,
@@ -62,11 +134,14 @@ extension WidgetExtension on Widget {
 
   Widget paddingOnlyTop(double val) => Padding(padding: EdgeInsets.only(top: val), child: this);
 
-  Widget paddingOnlyBottom(double val) => Padding(padding: EdgeInsets.only(bottom: val), child: this);
+  Widget paddingOnlyBottom(double val) =>
+      Padding(padding: EdgeInsets.only(bottom: val), child: this);
 
-  Widget paddingHorizontal(double val) => Padding(padding: EdgeInsets.symmetric(horizontal: val), child: this);
+  Widget paddingHorizontal(double val) =>
+      Padding(padding: EdgeInsets.symmetric(horizontal: val), child: this);
 
-  Widget paddingVertical(double val) => Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
+  Widget paddingVertical(double val) =>
+      Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
 
   Widget paddingTopLeft(double top, double left) => Padding(
         padding: EdgeInsets.only(top: top, left: left),
@@ -119,17 +194,23 @@ extension WidgetExtension on Widget {
       );
 
   /// Border Gradient
-  
 
-  Widget get rotationRight => RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
-  Widget get rotationUp => RotationTransition(turns: const AlwaysStoppedAnimation(0.25), child: this);
-  Widget get rotationBottom => RotationTransition(turns: const AlwaysStoppedAnimation(0.75), child: this);
-  Widget get rotationLeft => RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
-  Widget rotate({double? value}) => RotationTransition(turns: AlwaysStoppedAnimation(value ?? 0), child: this);
+  Widget get rotationRight =>
+      RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
+  Widget get rotationUp =>
+      RotationTransition(turns: const AlwaysStoppedAnimation(0.25), child: this);
+  Widget get rotationBottom =>
+      RotationTransition(turns: const AlwaysStoppedAnimation(0.75), child: this);
+  Widget get rotationLeft =>
+      RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
+  Widget rotate({double? value}) =>
+      RotationTransition(turns: AlwaysStoppedAnimation(value ?? 0), child: this);
   Widget rotateBox({int? value}) => RotatedBox(quarterTurns: value ?? 0, child: this);
 
-  Widget alignment({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
-  Widget align({AlignmentGeometry? align}) => Align(alignment: align ?? Alignment.center, child: this);
+  Widget alignment({AlignmentGeometry? align}) =>
+      Align(alignment: align ?? Alignment.center, child: this);
+  Widget align({AlignmentGeometry? align}) =>
+      Align(alignment: align ?? Alignment.center, child: this);
 
   Widget get inChildrenHeight => IntrinsicHeight(child: this);
 
@@ -155,17 +236,18 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget onTap(void Function() onTap, {bool isShowSplash = false, double? borderRadius}) => isShowSplash
-      ? InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(borderRadius ?? 0),
-          child: this,
-        )
-      : GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: onTap,
-          child: this,
-        );
+  Widget onTap(void Function() onTap, {bool isShowSplash = false, double? borderRadius}) =>
+      isShowSplash
+          ? InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(borderRadius ?? 0),
+              child: this,
+            )
+          : GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: onTap,
+              child: this,
+            );
   Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: sigmaX ?? blurRadius, sigmaY: sigmaY ?? blurRadius),
         child: this,
@@ -385,13 +467,39 @@ extension WidgetExtension on Widget {
       callback(size);
     });
   }
+
+  /// maxWidth
+  Widget maxWidth(double maxWidth) => ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: this,
+      );
+
+  /// maxHeight
+  Widget maxHeight(double maxHeight) => ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: maxHeight),
+        child: this,
+      );
+
+  /// minWidth
+  Widget minWidth(double minWidth) => ConstrainedBox(
+        constraints: BoxConstraints(minWidth: minWidth),
+        child: this,
+      );
+
+  /// minHeight
+  Widget minHeight(double minHeight) => ConstrainedBox(
+        constraints: BoxConstraints(minHeight: minHeight),
+        child: this,
+      );
 }
 
 extension ExpansionTileExtension on ExpansionTile {
   Widget removeDivider() => Builder(builder: (context) {
-        return Theme(data: Theme.of(context).copyWith(dividerColor: Colors.transparent), child: this);
+        return Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent), child: this);
       });
 }
+
 // ignore: must_be_immutable
 class _GrockSizeAnimation extends StatefulWidget {
   final Widget child;
@@ -455,6 +563,7 @@ class __GrockSizeAnimationState extends State<_GrockSizeAnimation> with TickerPr
     );
   }
 }
+
 // ignore: must_be_immutable
 class _GrockSlideAnimation extends StatefulWidget {
   final Widget child;
@@ -518,6 +627,7 @@ class __GrockSlideAnimationState extends State<_GrockSlideAnimation> with Ticker
     );
   }
 }
+
 // ignore: must_be_immutable
 class _GrockFadeAnimation extends StatefulWidget {
   final Widget child;
@@ -578,6 +688,7 @@ class __GrockFadeAnimationState extends State<_GrockFadeAnimation> with TickerPr
     );
   }
 }
+
 // ignore: must_be_immutable
 class _GrockScaleAnimation extends StatefulWidget {
   final Widget child;
@@ -659,7 +770,8 @@ class _GrockRotationAnimation extends StatefulWidget {
   State<_GrockRotationAnimation> createState() => __GrockRotationAnimationState();
 }
 
-class __GrockRotationAnimationState extends State<_GrockRotationAnimation> with TickerProviderStateMixin {
+class __GrockRotationAnimationState extends State<_GrockRotationAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -699,15 +811,16 @@ class __GrockRotationAnimationState extends State<_GrockRotationAnimation> with 
     );
   }
 }
-extension TextWidgetExtension on Text{
+
+extension TextWidgetExtension on Text {
   /// Gradient Text
-  Widget gradientText(Gradient gradient){
+  Widget gradientText(Gradient gradient) {
     return ShaderMask(
-     blendMode: BlendMode.srcIn,
-     shaderCallback: (bounds) => gradient.createShader(
-       Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-     ),
-     child: this,
-   );
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => gradient.createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: this,
+    );
   }
 }
