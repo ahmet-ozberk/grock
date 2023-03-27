@@ -8,7 +8,7 @@ import 'package:grock/grock.dart';
 /// Grock Menu IOS Style Widget
 /// A menu tray that can be used to display a menu of items.
 /// The menu tray is a container that can be used to display a menu of items.
-///
+
 enum GrockMenuTapType { onTap, onLongPress }
 
 class GrockMenuController {

@@ -2,12 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
-import 'package:flutter/rendering.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+/*
 extension ToBitDescription on Widget {
   Future<BitmapDescriptor> toGrockGoogleMapsMarkerWidget(
       {Size? logicalSize,
@@ -69,6 +65,7 @@ Future<Uint8List> createImageFromWidget(Widget widget,
 
   return byteData!.buffer.asUint8List();
 }
+*/
 
 extension WidgetExtension on Widget {
   Material material() => Material(type: MaterialType.transparency, child: this);

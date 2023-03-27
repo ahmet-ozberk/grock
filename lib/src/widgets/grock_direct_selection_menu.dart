@@ -116,7 +116,8 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onVerticalDragStart: (details) => onTapDown(details),
+      onTapDown: (details) => onTapDown(),
+      onVerticalDragStart: (details) => onTapDown(),
       onVerticalDragEnd: (details) => onTapUp(details),
       onVerticalDragUpdate: (details) => onDragUpdate(details),
       child: Container(
@@ -184,7 +185,7 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
     fontWeight: FontWeight.w400,
   );
 
-  void onTapDown(DragStartDetails details) {
+  void onTapDown() {
     _animationController.forward();
     _scrollController =
         FixedExtentScrollController(initialItem: widget.value ?? 0);
