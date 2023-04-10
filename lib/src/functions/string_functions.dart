@@ -1,4 +1,5 @@
-String grockTimeFormat(Duration time) {
+/// Time format [04:28:53]
+String grockHMSTimeFormat(Duration time) {
   late String result;
   if (time.inHours > 0) {
     result =
