@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 
+/// A widget that draws a gradient border around its child.
 class GrockGradientBorder extends StatelessWidget {
   final Gradient gradient;
   final Widget child;
   final double strokeWidth;
   final double borderRadius;
-  const GrockGradientBorder({super.key, required this.gradient, required this.child, this.strokeWidth = 1, this.borderRadius = 0});
+  const GrockGradientBorder(
+      {super.key,
+
+      /// The gradient to use when drawing the border.
+      required this.gradient,
+
+      /// The child to draw the border around.
+      required this.child,
+
+      /// The width of the border.
+      this.strokeWidth = 1,
+
+      /// The border radius.
+      this.borderRadius = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +32,12 @@ class GrockGradientBorder extends StatelessWidget {
   }
 }
 
-class GradientBorderPainter extends CustomPainter {
+class _GradientBorderPainter extends CustomPainter {
   final double strokeWidth;
   final Gradient gradient;
   final double borderRadius;
 
-  GradientBorderPainter({
+  _GradientBorderPainter({
     this.strokeWidth = 1,
     required this.gradient,
     this.borderRadius = 0,
@@ -61,16 +75,24 @@ class GradientBorderContainer extends StatelessWidget {
 
   GradientBorderContainer({
     Key? key,
+
+    /// The child to draw the border around.
     required this.child,
+
+    /// The width of the border.
     this.strokeWidth = 1,
+
+    /// The gradient to use when drawing the border.
     required this.gradient,
+
+    /// The border radius.
     this.borderRadius = 0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: GradientBorderPainter(
+      painter: _GradientBorderPainter(
         strokeWidth: strokeWidth,
         gradient: gradient,
         borderRadius: borderRadius,

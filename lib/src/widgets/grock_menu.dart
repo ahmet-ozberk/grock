@@ -24,7 +24,10 @@ class GrockMenuController {
 }
 
 class GrockMenu extends StatefulWidget {
+  /// The child is the widget that will be displayed when the menu is closed.
   final Widget child;
+
+  /// The items are the menu items that will be displayed when the menu is open.
   final BorderRadiusGeometry? borderRadius;
   final GrockMenuController? controller;
 
@@ -75,46 +78,126 @@ class GrockMenu extends StatefulWidget {
   final double backgroundBlur;
   final double spaceBlur;
   final Decoration? backgroundDecoration;
-  final Widget? divider;
+  final Widget Function(BuildContext context, int index)? divider;
+  final bool isTopSpace;
+  final bool isLeftSpace;
 
   const GrockMenu({
     Key? key,
+
+    /// The child is the widget that will be displayed when the menu is closed.
     required this.child,
+
+    /// The items are the menu items that will be displayed when the menu is open.
     required this.items,
+
+    /// The onTap is the callback that will be called when the menu item is tapped.
     this.onTap,
+
+    /// The controller is the controller that will be used to control the menu.
     this.controller,
+
+    /// The physics is the physics that will be used to control the menu.
     this.physics,
+
+    /// The maxHeight is the maximum height of the menu.
     this.maxHeight,
+
+    /// The minWidth is the minimum width of the menu.
     this.minWidth,
+
+    /// The borderRadius is the border radius of the menu.
     this.borderRadius,
+
+    /// The dividerColor is the color of the divider.
     this.dividerColor,
+
+    /// The dividerHeight is the height of the divider.
     this.dividerHeight = 1.0,
+
+    /// The tapType is the type of tap that will open the menu.
     this.tapType = GrockMenuTapType.onTap,
+
+    /// The textStyle is the text style of the menu item.
     this.textStyle,
+
+    /// The backgroundColor is the background color of the menu.
     this.backgroundColor,
+
+    /// The border is the border of the menu.
     this.border,
+
+    /// The pressColor is the color of the menu item when it is pressed.
     this.pressColor = Colors.white,
+
+    /// The maxLines is the maximum number of lines of the menu item.
     this.maxLines,
+
+    /// The textAlign is the text alignment of the menu item.
     this.textAlign,
+
+    /// The textOverflow is the text overflow of the menu item.
     this.textOverflow = TextOverflow.ellipsis,
+
+    /// The padding is the padding of the menu item.
     this.padding,
+
+    /// The onTapClose is the boolean that will be used to determine whether the menu will close when the menu item is tapped.
     this.onTapClose = true,
+
+    /// The spaceColor is the color of the space between the menu and the menu item.
     this.spaceColor = Colors.black26,
+
+    /// The openAnimationDuration is the duration of the open animation.
     this.openAnimationDuration = const Duration(milliseconds: 750),
+
+    /// The closeAnimationDuration is the duration of the close animation.
     this.closeAnimationDuration = const Duration(milliseconds: 450),
+
+    /// The openAnimation is the open animation.
     this.openAnimation = Curves.fastOutSlowIn,
+
+    /// The closeAnimation is the close animation.
     this.closeAnimation = Curves.linear,
+
+    /// The openAlignment is the alignment of the menu when it is open.
     this.openAlignment,
+
+    /// The backgroundBlur is the blur of the background when the menu is open.
     this.backgroundBlur = 40.0,
+
+    /// The spaceBlur is the blur of the space between the menu and the menu item.
     this.spaceBlur = 1.0,
+
+    /// The leftSpace is the left space between the menu and the menu item.
     this.leftSpace,
+
+    /// The rightSpace is the right space between the menu and the menu item.
     this.rightSpace,
+
+    /// The topSpace is the top space between the menu and the menu item.
     this.topSpace,
+
+    /// The bottomSpace is the bottom space between the menu and the menu item.
     this.bottomSpace,
+
+    /// The startTween is the start tween of the menu item.
     this.startTween,
+
+    /// The endTween is the end tween of the menu item.
     this.endTween,
+
+    /// The backgroundDecoration is the decoration of the background when the menu is open.
     this.backgroundDecoration,
+
+    /// The divider is the divider between the menu items.
     this.divider,
+
+    /// The isTopSpace is the boolean that will be used to determine whether the top space will be displayed.
+    this.isTopSpace = false,
+
+    /// The isLeftSpace is the boolean that will be used to determine whether the left space will be displayed.
+    this.isLeftSpace = false,
   }) : super(key: key);
 
   @override
@@ -126,7 +209,8 @@ class _GrockMenuState extends State<GrockMenu> {
   final key = GlobalKey();
   Size? childSize;
   void getOffset() {
-    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
     _tapPosition = position;
   }
@@ -151,7 +235,8 @@ class _GrockMenuState extends State<GrockMenu> {
                     items: widget.items,
                     onTap: widget.onTap,
                     maxHeight: widget.maxHeight,
-                    minWidth: widget.minWidth ?? MediaQuery.of(context).size.width * 0.55,
+                    minWidth: widget.minWidth ??
+                        MediaQuery.of(context).size.width * 0.55,
                     dividerColor: widget.dividerColor,
                     dividerHeight: widget.dividerHeight,
                     borderRadius: widget.borderRadius,
@@ -181,6 +266,8 @@ class _GrockMenuState extends State<GrockMenu> {
                     spaceBlur: widget.spaceBlur,
                     backgroundDecoration: widget.backgroundDecoration,
                     divider: widget.divider,
+                    isTopSpace: widget.isTopSpace,
+                    isLeftSpace: widget.isLeftSpace,
                   );
                 },
               );
@@ -202,7 +289,8 @@ class _GrockMenuState extends State<GrockMenu> {
                       items: widget.items,
                       onTap: widget.onTap,
                       maxHeight: widget.maxHeight,
-                      minWidth: widget.minWidth ?? MediaQuery.of(context).size.width * 0.55,
+                      minWidth: widget.minWidth ??
+                          MediaQuery.of(context).size.width * 0.55,
                       dividerColor: widget.dividerColor,
                       dividerHeight: widget.dividerHeight,
                       borderRadius: widget.borderRadius,
@@ -231,14 +319,17 @@ class _GrockMenuState extends State<GrockMenu> {
                       endTween: widget.endTween,
                       spaceBlur: widget.spaceBlur,
                       backgroundDecoration: widget.backgroundDecoration,
-                      divider: widget.divider);
+                      divider: widget.divider,
+                      isTopSpace: widget.isTopSpace,
+                      isLeftSpace: widget.isLeftSpace);
                 },
               );
               overlayState.insert(_menuOverlayEntry);
             }
           : null,
       child: GrockWidgetSize(
-          callback: (size, offset) => setState(() => childSize = size), child: widget.child),
+          callback: (size, offset) => setState(() => childSize = size),
+          child: widget.child),
     );
   }
 }
@@ -282,7 +373,9 @@ class _GrockMenuCore extends StatefulWidget {
   final Tween<double>? endTween;
   final double spaceBlur;
   final Decoration? backgroundDecoration;
-  final Widget? divider;
+  final Widget Function(BuildContext context, int index)? divider;
+  final bool isTopSpace;
+  final bool isLeftSpace;
 
   _GrockMenuCore({
     Key? key,
@@ -323,13 +416,16 @@ class _GrockMenuCore extends StatefulWidget {
     required this.spaceBlur,
     this.backgroundDecoration,
     this.divider,
+    required this.isTopSpace,
+    required this.isLeftSpace,
   }) : super(key: key);
 
   @override
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
 }
 
-class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProviderStateMixin {
+class _GrockMenuCoreState extends State<_GrockMenuCore>
+    with SingleTickerProviderStateMixin {
   Size widgetSize = Size.zero;
   late final AnimationController _controller = AnimationController(
     vsync: this,
@@ -360,7 +456,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
     _controller.addListener(() {
       setState(() {});
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _controller.forward());
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) => _controller.forward());
   }
 
   double sigmaValue() => _animation!.value * widget.spaceBlur;
@@ -380,10 +477,12 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
             onTap: () => closeMenu(),
             child: TweenAnimationBuilder(
               duration: _controller.duration!,
-              tween: ColorTween(begin: Colors.transparent, end: widget.spaceColor),
+              tween:
+                  ColorTween(begin: Colors.transparent, end: widget.spaceColor),
               builder: (context, Color? color, child) {
                 return BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: sigmaValue(), sigmaY: sigmaValue()),
+                  filter: ImageFilter.blur(
+                      sigmaX: sigmaValue(), sigmaY: sigmaValue()),
                   child: Container(
                     color: color,
                   ),
@@ -392,8 +491,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
             ),
           ),
           Positioned(
-            top: widget.topSpace ?? topSpace(),
-            left: widget.leftSpace ?? leftSpace(),
+            top: widget.isTopSpace ? widget.topSpace : topSpace(),
+            left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
             right: widget.rightSpace,
             bottom: widget.bottomSpace,
             child: Material(
@@ -412,7 +511,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
                           )
                         ]),
                     child: ClipRRect(
-                      borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
+                      borderRadius:
+                          widget.borderRadius ?? BorderRadius.circular(12),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(
                           sigmaX: widget.backgroundBlur,
@@ -426,12 +526,15 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
                             maxWidth: widget.minWidth,
                           ),
                           decoration: BoxDecoration(
-                            borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-                            color: widget.backgroundColor ?? Colors.grey.shade100,
+                            borderRadius: widget.borderRadius ??
+                                BorderRadius.circular(12),
+                            color:
+                                widget.backgroundColor ?? Colors.grey.shade100,
                             border: widget.border,
                           ),
                           child: ClipRRect(
-                            borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
+                            borderRadius: widget.borderRadius ??
+                                BorderRadius.circular(12),
                             child: SingleChildScrollView(
                               physics: widget.physics,
                               child: Column(
@@ -441,9 +544,12 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
                                     .mapIndexed<Widget>(
                                       (e, i) {
                                         return GestureDetector(
-                                          onTapDown: (_) => setState(() => e.isTapped = true),
-                                          onTapUp: (_) => setState(() => e.isTapped = false),
-                                          onTapCancel: () => setState(() => e.isTapped = false),
+                                          onTapDown: (_) =>
+                                              setState(() => e.isTapped = true),
+                                          onTapUp: (_) => setState(
+                                              () => e.isTapped = false),
+                                          onTapCancel: () => setState(
+                                              () => e.isTapped = false),
                                           onTap: () {
                                             if (widget.onTapClose) {
                                               closeMenu();
@@ -451,49 +557,60 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
                                             widget.onTap?.call(i);
                                             e.onTap?.call();
                                           },
-                                          child: Container(
-                                            width: double.maxFinite,
-                                            padding: widget.padding ??
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 12, vertical: 10),
-                                            decoration: BoxDecoration(
-                                              color: e.isTapped
-                                                  ? widget.pressColor
-                                                  : widget.backgroundColor,
-                                            ),
-                                            child: e.child ??
-                                                Row(
+                                          child: e.child ??
+                                              Container(
+                                                width: double.maxFinite,
+                                                padding: widget.padding ??
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 10),
+                                                decoration: BoxDecoration(
+                                                  color: e.isTapped
+                                                      ? widget.pressColor
+                                                      : widget.backgroundColor,
+                                                ),
+                                                child: Row(
                                                   children: [
-                                                    if (e.leading != null) e.leading!,
+                                                    if (e.leading != null)
+                                                      e.leading!,
                                                     Expanded(
                                                       child: e.body ??
                                                           Text(
                                                             e.text ?? "",
                                                             style: e.textStyle ??
                                                                 const TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
                                                                 ),
-                                                            textAlign: widget.textAlign,
-                                                            maxLines: widget.maxLines,
-                                                            overflow: widget.textOverflow,
+                                                            textAlign: widget
+                                                                .textAlign,
+                                                            maxLines:
+                                                                widget.maxLines,
+                                                            overflow: widget
+                                                                .textOverflow,
                                                           ),
                                                     ),
-                                                    if (e.trailing != null) e.trailing!,
+                                                    if (e.trailing != null)
+                                                      e.trailing!,
                                                   ],
                                                 ),
-                                          ),
+                                              ),
                                         );
                                       },
                                     )
                                     .toList()
                                     .seperatedWidget(widget.divider ??
-                                        Divider(
-                                          height: widget.dividerHeight ?? 1.0,
-                                          color: widget.dividerColor ??
-                                              CupertinoColors.separator.withOpacity(0.2),
-                                        )),
+                                        (context, index) => Divider(
+                                              height:
+                                                  widget.dividerHeight ?? 1.0,
+                                              color: widget.dividerColor ??
+                                                  CupertinoColors.separator
+                                                      .withOpacity(0.2),
+                                            )),
                               ),
                             ),
                           ),
@@ -545,7 +662,9 @@ class _GrockMenuCoreState extends State<_GrockMenuCore> with SingleTickerProvide
     if (childOffset.dx > widgetSize.width) {
       result = childOffset.dx - widgetSize.width + (childWidth / 2);
     } else {
-      result = (childOffset.dx - childWidth) < 0 ? childWidth / 2 : childOffset.dx - childWidth;
+      result = (childOffset.dx - childWidth) < 0
+          ? childWidth / 2
+          : childOffset.dx - childWidth;
     }
     return result;
   }

@@ -44,8 +44,6 @@ class GrockGlassMorphism extends StatelessWidget {
   }
 }
 
-
-
 class GrockBlurEffect extends StatelessWidget {
   double? blur;
   double? opacity;

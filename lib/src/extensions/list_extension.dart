@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grock/grock.dart';
 
 extension ExtendedIterable<E> on Iterable<E> {
   /// Like Iterable<T>.map but the callback has index as second argument
@@ -33,13 +34,15 @@ extension ExtendedIterable<E> on Iterable<E> {
 }
 
 extension ListWidgetExtension<Widget> on List<Widget> {
-  List<Widget> seperatedWidget(Widget widget) {
+  ///result builder for list
+  List<Widget> seperatedWidget(
+      Widget Function(BuildContext context, int index) builder) {
     final newList = <Widget>[];
     for (var i = 0; i < length; i++) {
       if (i == 0) {
         newList.add(this[i]);
       } else {
-        newList.add(widget);
+        newList.add(builder(Grock.context, i));
         newList.add(this[i]);
       }
     }
@@ -137,7 +140,8 @@ extension ListExtension<E> on List<E> {
 
   /// groupBy extension for List
   /// Grock GroupBy
-  Map<K, List<E>> groupByIndexedAndWhereNotNull<K>(K Function(E value, int index) f) {
+  Map<K, List<E>> groupByIndexedAndWhereNotNull<K>(
+      K Function(E value, int index) f) {
     final map = <K, List<E>>{};
     var i = 0;
     for (final element in this) {
@@ -151,7 +155,8 @@ extension ListExtension<E> on List<E> {
 
   /// groupBy extension for List
   /// Grock GroupBy
-  Map<K, List<E>> groupByIndexedAndWhereNotNullAndNotEmpty<K>(K Function(E value, int index) f) {
+  Map<K, List<E>> groupByIndexedAndWhereNotNullAndNotEmpty<K>(
+      K Function(E value, int index) f) {
     final map = <K, List<E>>{};
     var i = 0;
     for (final element in this) {
@@ -170,10 +175,14 @@ extension ListExtension<E> on List<E> {
 
   List<E> mapIndexedWhereNotNull<T>(T Function(E value, int index) f) {
     var i = 0;
-    return map((e) => f(e, i++)).whereType<E>().where((element) => element != null).toList();
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) => element != null)
+        .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmpty<T>(T Function(E value, int index) f) {
+  List<E> mapIndexedWhereNotNullAndNotEmpty<T>(
+      T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++))
         .whereType<E>()
@@ -181,33 +190,46 @@ extension ListExtension<E> on List<E> {
         .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZero<T>(T Function(E value, int index) f) {
-    var i = 0;
-    return map((e) => f(e, i++))
-        .whereType<E>()
-        .where((element) => element != null && element.toString().isNotEmpty && element != 0)
-        .toList();
-  }
-
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalse<T>(T Function(E value, int index) f) {
-    var i = 0;
-    return map((e) => f(e, i++))
-        .whereType<E>()
-        .where((element) => element != null && element.toString().isNotEmpty && element != 0 && element != false)
-        .toList();
-  }
-
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrue<T>(T Function(E value, int index) f) {
+  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZero<T>(
+      T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++))
         .whereType<E>()
         .where((element) =>
-            element != null && element.toString().isNotEmpty && element != 0 && element != false && element != true)
+            element != null && element.toString().isNotEmpty && element != 0)
         .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegative<T>(
+  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalse<T>(
       T Function(E value, int index) f) {
+    var i = 0;
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false)
+        .toList();
+  }
+
+  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrue<T>(
+      T Function(E value, int index) f) {
+    var i = 0;
+    return map((e) => f(e, i++))
+        .whereType<E>()
+        .where((element) =>
+            element != null &&
+            element.toString().isNotEmpty &&
+            element != 0 &&
+            element != false &&
+            element != true)
+        .toList();
+  }
+
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegative<
+          T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++))
         .whereType<E>()
@@ -221,8 +243,9 @@ extension ListExtension<E> on List<E> {
         .toList();
   }
 
-  List<E> mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroString<T>(
-      T Function(E value, int index) f) {
+  List<E>
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroString<
+          T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++))
         .whereType<E>()
@@ -238,8 +261,8 @@ extension ListExtension<E> on List<E> {
   }
 
   List<E>
-      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDouble<T>(
-          T Function(E value, int index) f) {
+      mapIndexedWhereNotNullAndNotEmptyAndNotZeroAndNotFalseAndNotTrueAndNotNegativeAndNotZeroStringAndNotZeroDouble<
+          T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++))
         .whereType<E>()
@@ -389,7 +412,10 @@ extension ListExtension<E> on List<E> {
   }
 
   List<E> mapFilteredWhereNotNull<T>(T Function(E value) f) {
-    return map((e) => f(e)).whereType<E>().where((element) => element != null).toList();
+    return map((e) => f(e))
+        .whereType<E>()
+        .where((element) => element != null)
+        .toList();
   }
 
   Widget toBuilder<T>(Widget Function(E value) f) {
@@ -412,8 +438,10 @@ extension ListExtension<E> on List<E> {
     );
   }
 
-  Widget listToBuilderWithPaddingAndScrollDirection<T>(Widget Function(E value) f,
-      {EdgeInsetsGeometry padding = const EdgeInsets.all(8), Axis scrollDirection = Axis.vertical}) {
+  Widget listToBuilderWithPaddingAndScrollDirection<T>(
+      Widget Function(E value) f,
+      {EdgeInsetsGeometry padding = const EdgeInsets.all(8),
+      Axis scrollDirection = Axis.vertical}) {
     return ListView(
       padding: padding,
       scrollDirection: scrollDirection,
@@ -421,7 +449,8 @@ extension ListExtension<E> on List<E> {
     );
   }
 
-  Widget listToBuilderWithPaddingAndScrollDirectionAndShrinkWrap<T>(Widget Function(E value) f,
+  Widget listToBuilderWithPaddingAndScrollDirectionAndShrinkWrap<T>(
+      Widget Function(E value) f,
       {EdgeInsetsGeometry padding = const EdgeInsets.all(8),
       Axis scrollDirection = Axis.vertical,
       bool shrinkWrap = true}) {

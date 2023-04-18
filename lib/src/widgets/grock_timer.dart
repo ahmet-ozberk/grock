@@ -22,19 +22,47 @@ class GrockTimer extends StatefulWidget {
 
   GrockTimer(
       {super.key,
+
+      /// The time to start the timer from.
       this.startTime = const Duration(seconds: 10),
+
+      /// The time to end the timer at.
       this.endTime = const Duration(seconds: 0),
+
+      /// The interval at which the timer ticks.
       this.interval = const Duration(seconds: 1),
+
+      /// The controller for the timer.
       this.controller,
+
+      /// The builder for the timer.
       this.builder,
+
+      /// The callback for when the timer ends.
       this.onTimerEnd,
+
+      /// The callback for when the timer starts.
       this.onTimerStart,
+
+      /// The callback for when the timer ticks.
       this.onTimerTick,
+
+      /// The initial state of the timer.
       this.isInitialStart = false,
+
+      /// The widget to display the seconds.
       this.isSecondsWidget = true,
+
+      /// The widget to display the minutes.
       this.isMinuteWidget = true,
+
+      /// The widget to display the hours.
       this.isHourWidget = true,
+
+      /// The widget to display the days.
       this.isDayWidget = false,
+
+      /// The text style for the timer.
       this.textStyle});
 
   @override
@@ -215,30 +243,39 @@ class GrockTimerController {
     _state = state;
   }
 
+  /// Start the timer
   void start() {
     _state.start();
   }
 
+  /// Stop the timer
   void stop() {
     _state.stop();
   }
 
+  /// Reset the timer
   void reset() {
     _state.reset();
   }
 
+  /// Set the start time
   void setStartTime(Duration time) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _state._time = time);
   }
 
+  /// Set the end time
   void setEndTime(Duration time) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.endTime = time);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _state.widget.endTime = time);
   }
 
+  /// Set the interval time
   void setInterval(Duration time) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _state.widget.interval = time);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _state.widget.interval = time);
   }
 
+  /// Get the current state of the timer
   GrockTimerState get state {
     if (_state._timer.isActive) {
       return GrockTimerState.running;
@@ -249,12 +286,15 @@ class GrockTimerController {
     }
   }
 
-  void addListener(void Function(Duration time, GrockTimerState state) listener) {
+  /// Add a listener to the timer
+  void addListener(
+      void Function(Duration time, GrockTimerState state) listener) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _state.widget.onTimerTick = listener;
     });
   }
 
+  /// Remove a listener from the timer
   Duration get time => _state._time;
 
   bool get isRunning => _state._timer.isActive;

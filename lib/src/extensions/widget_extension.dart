@@ -75,10 +75,12 @@ extension WidgetExtension on Widget {
         visible: val,
       );
 
-  Widget disabled([bool? disable]) => IgnorePointer(ignoring: disable ?? true, child: this);
+  Widget disabled([bool? disable]) =>
+      IgnorePointer(ignoring: disable ?? true, child: this);
 
   Widget disabledOpacity([bool? disable, double? opacity]) => IgnorePointer(
-      ignoring: disable ?? true, child: Opacity(opacity: opacity ?? 0.2, child: this));
+      ignoring: disable ?? true,
+      child: Opacity(opacity: opacity ?? 0.2, child: this));
 
   Widget expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
 
@@ -97,17 +99,24 @@ extension WidgetExtension on Widget {
           double? top,
           double? bottom}) =>
       Padding(
-        padding: EdgeInsets.fromLTRB(left ?? horizontal ?? all ?? 0, top ?? vertical ?? all ?? 0,
-            right ?? horizontal ?? all ?? 0, bottom ?? vertical ?? all ?? 0),
+        padding: EdgeInsets.fromLTRB(
+            left ?? horizontal ?? all ?? 0,
+            top ?? vertical ?? all ?? 0,
+            right ?? horizontal ?? all ?? 0,
+            bottom ?? vertical ?? all ?? 0),
         child: this,
       );
 
-  Widget paddingLTRB({double? left, double? right, double? top, double? bottom}) => Padding(
-        padding: EdgeInsets.fromLTRB(left ?? 0, top ?? 0, right ?? 0, bottom ?? 0),
+  Widget paddingLTRB(
+          {double? left, double? right, double? top, double? bottom}) =>
+      Padding(
+        padding:
+            EdgeInsets.fromLTRB(left ?? 0, top ?? 0, right ?? 0, bottom ?? 0),
         child: this,
       );
 
-  Widget paddingAll(double val) => Padding(padding: EdgeInsets.all(val), child: this);
+  Widget paddingAll(double val) =>
+      Padding(padding: EdgeInsets.all(val), child: this);
 
   Widget paddingOnly(
           {double? left,
@@ -125,11 +134,14 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingOnlyLeft(double val) => Padding(padding: EdgeInsets.only(left: val), child: this);
+  Widget paddingOnlyLeft(double val) =>
+      Padding(padding: EdgeInsets.only(left: val), child: this);
 
-  Widget paddingOnlyRight(double val) => Padding(padding: EdgeInsets.only(right: val), child: this);
+  Widget paddingOnlyRight(double val) =>
+      Padding(padding: EdgeInsets.only(right: val), child: this);
 
-  Widget paddingOnlyTop(double val) => Padding(padding: EdgeInsets.only(top: val), child: this);
+  Widget paddingOnlyTop(double val) =>
+      Padding(padding: EdgeInsets.only(top: val), child: this);
 
   Widget paddingOnlyBottom(double val) =>
       Padding(padding: EdgeInsets.only(bottom: val), child: this);
@@ -194,15 +206,16 @@ extension WidgetExtension on Widget {
 
   Widget get rotationRight =>
       RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
-  Widget get rotationUp =>
-      RotationTransition(turns: const AlwaysStoppedAnimation(0.25), child: this);
-  Widget get rotationBottom =>
-      RotationTransition(turns: const AlwaysStoppedAnimation(0.75), child: this);
+  Widget get rotationUp => RotationTransition(
+      turns: const AlwaysStoppedAnimation(0.25), child: this);
+  Widget get rotationBottom => RotationTransition(
+      turns: const AlwaysStoppedAnimation(0.75), child: this);
   Widget get rotationLeft =>
       RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
-  Widget rotate({double? value}) =>
-      RotationTransition(turns: AlwaysStoppedAnimation(value ?? 0), child: this);
-  Widget rotateBox({int? value}) => RotatedBox(quarterTurns: value ?? 0, child: this);
+  Widget rotate({double? value}) => RotationTransition(
+      turns: AlwaysStoppedAnimation(value ?? 0), child: this);
+  Widget rotateBox({int? value}) =>
+      RotatedBox(quarterTurns: value ?? 0, child: this);
 
   Widget alignment({AlignmentGeometry? align}) =>
       Align(alignment: align ?? Alignment.center, child: this);
@@ -233,7 +246,8 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget onTap(void Function() onTap, {bool isShowSplash = false, double? borderRadius}) =>
+  Widget onTap(void Function() onTap,
+          {bool isShowSplash = false, double? borderRadius}) =>
       isShowSplash
           ? InkWell(
               onTap: onTap,
@@ -245,8 +259,10 @@ extension WidgetExtension on Widget {
               onTap: onTap,
               child: this,
             );
-  Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: sigmaX ?? blurRadius, sigmaY: sigmaY ?? blurRadius),
+  Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) =>
+      BackdropFilter(
+        filter: ImageFilter.blur(
+            sigmaX: sigmaX ?? blurRadius, sigmaY: sigmaY ?? blurRadius),
         child: this,
       );
 
@@ -303,7 +319,8 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget widgetGradient(Gradient gradient, [BlendMode? blendMode]) => ShaderMask(
+  Widget widgetGradient(Gradient gradient, [BlendMode? blendMode]) =>
+      ShaderMask(
         shaderCallback: (Rect bounds) {
           return gradient.createShader(bounds);
         },
@@ -493,7 +510,8 @@ extension WidgetExtension on Widget {
 extension ExpansionTileExtension on ExpansionTile {
   Widget removeDivider() => Builder(builder: (context) {
         return Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent), child: this);
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: this);
       });
 }
 
@@ -517,7 +535,8 @@ class _GrockSizeAnimation extends StatefulWidget {
   State<_GrockSizeAnimation> createState() => __GrockSizeAnimationState();
 }
 
-class __GrockSizeAnimationState extends State<_GrockSizeAnimation> with TickerProviderStateMixin {
+class __GrockSizeAnimationState extends State<_GrockSizeAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -581,7 +600,8 @@ class _GrockSlideAnimation extends StatefulWidget {
   State<_GrockSlideAnimation> createState() => __GrockSlideAnimationState();
 }
 
-class __GrockSlideAnimationState extends State<_GrockSlideAnimation> with TickerProviderStateMixin {
+class __GrockSlideAnimationState extends State<_GrockSlideAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -645,7 +665,8 @@ class _GrockFadeAnimation extends StatefulWidget {
   State<_GrockFadeAnimation> createState() => __GrockFadeAnimationState();
 }
 
-class __GrockFadeAnimationState extends State<_GrockFadeAnimation> with TickerProviderStateMixin {
+class __GrockFadeAnimationState extends State<_GrockFadeAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -706,7 +727,8 @@ class _GrockScaleAnimation extends StatefulWidget {
   State<_GrockScaleAnimation> createState() => __GrockScaleAnimationState();
 }
 
-class __GrockScaleAnimationState extends State<_GrockScaleAnimation> with TickerProviderStateMixin {
+class __GrockScaleAnimationState extends State<_GrockScaleAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -764,7 +786,8 @@ class _GrockRotationAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_GrockRotationAnimation> createState() => __GrockRotationAnimationState();
+  State<_GrockRotationAnimation> createState() =>
+      __GrockRotationAnimationState();
 }
 
 class __GrockRotationAnimationState extends State<_GrockRotationAnimation>

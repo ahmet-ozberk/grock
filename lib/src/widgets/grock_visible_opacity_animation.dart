@@ -16,10 +16,12 @@ class GrockVisibleOpacityAnimation extends StatefulWidget {
   });
 
   @override
-  State<GrockVisibleOpacityAnimation> createState() => _GrockVisibleOpacityAnimationState();
+  State<GrockVisibleOpacityAnimation> createState() =>
+      _GrockVisibleOpacityAnimationState();
 }
 
-class _GrockVisibleOpacityAnimationState extends State<GrockVisibleOpacityAnimation> {
+class _GrockVisibleOpacityAnimationState
+    extends State<GrockVisibleOpacityAnimation> {
   bool isVisible = true;
   @override
   Widget build(BuildContext context) {

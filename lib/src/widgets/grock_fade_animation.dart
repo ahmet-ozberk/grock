@@ -28,7 +28,8 @@ class GrockFadeAnimation extends StatefulWidget {
   State<GrockFadeAnimation> createState() => _GrockFadeAnimationState();
 }
 
-class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProviderStateMixin {
+class _GrockFadeAnimationState extends State<GrockFadeAnimation>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Alignment> _animation;
 
@@ -40,9 +41,11 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProv
     if (widget.alignment == Alignment.centerLeft)
       return AlignmentTween(begin: Alignment.centerLeft, end: Alignment.center);
     if (widget.alignment == Alignment.centerRight)
-      return AlignmentTween(begin: Alignment.centerRight, end: Alignment.center);
+      return AlignmentTween(
+          begin: Alignment.centerRight, end: Alignment.center);
     if (widget.alignment == Alignment.bottomCenter)
-      return AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.center);
+      return AlignmentTween(
+          begin: Alignment.bottomCenter, end: Alignment.center);
     if (widget.alignment == Alignment.center)
       return AlignmentTween(begin: Alignment.center, end: Alignment.center);
     if (widget.alignment == Alignment.topLeft)
@@ -52,16 +55,22 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProv
     if (widget.alignment == Alignment.bottomLeft)
       return AlignmentTween(begin: Alignment.bottomLeft, end: Alignment.center);
     if (widget.alignment == Alignment.bottomRight)
-      return AlignmentTween(begin: Alignment.bottomRight, end: Alignment.center);
+      return AlignmentTween(
+          begin: Alignment.bottomRight, end: Alignment.center);
     return AlignmentTween(begin: Alignment.topCenter, end: Alignment.center);
   }
 
   Offset _offset() {
-    if (widget.alignment == Alignment.topCenter) return Offset(0.0, _animation.value.y);
-    if (widget.alignment == Alignment.centerLeft) return Offset(_animation.value.x, 0.0);
-    if (widget.alignment == Alignment.centerRight) return Offset(_animation.value.x, 0.0);
-    if (widget.alignment == Alignment.bottomCenter) return Offset(0.0, _animation.value.y);
-    if (widget.alignment == Alignment.center) return Offset(0.0, -_animation.value.y);
+    if (widget.alignment == Alignment.topCenter)
+      return Offset(0.0, _animation.value.y);
+    if (widget.alignment == Alignment.centerLeft)
+      return Offset(_animation.value.x, 0.0);
+    if (widget.alignment == Alignment.centerRight)
+      return Offset(_animation.value.x, 0.0);
+    if (widget.alignment == Alignment.bottomCenter)
+      return Offset(0.0, _animation.value.y);
+    if (widget.alignment == Alignment.center)
+      return Offset(0.0, -_animation.value.y);
     if (widget.alignment == Alignment.topLeft)
       return Offset(_animation.value.x, _animation.value.y);
     if (widget.alignment == Alignment.topRight)
@@ -80,8 +89,8 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation> with TickerProv
       vsync: this,
       duration: widget.duration,
     );
-    _animation = _tween()
-        .animate(CurvedAnimation(parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = _tween().animate(CurvedAnimation(
+        parent: _controller, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         if (widget.isOpacityAnimation) {
           if (_controller.status == AnimationStatus.completed ||

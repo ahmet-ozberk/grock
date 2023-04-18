@@ -24,6 +24,8 @@ class _GrockToastWidget extends StatefulWidget {
   final int? maxLines;
   const _GrockToastWidget({
     Key? key,
+
+    /// [OverlayEntry]
     required this.overlayEntry,
     this.onTap,
     this.text,
@@ -55,7 +57,8 @@ class _GrockToastWidget extends StatefulWidget {
   State<_GrockToastWidget> createState() => _GrockToastWidgetState();
 }
 
-class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerProviderStateMixin {
+class _GrockToastWidgetState extends State<_GrockToastWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -71,11 +74,13 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.02).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.02)
+              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.02, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.02, end: 1.0)
+              .chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],
@@ -118,7 +123,10 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
         alignment: widget.alignment,
         child: widget.widget ??
             Padding(
-              padding: widget.margin ?? EdgeInsets.symmetric(vertical: size.height * 0.1, horizontal: size.width * 0.1),
+              padding: widget.margin ??
+                  EdgeInsets.symmetric(
+                      vertical: size.height * 0.1,
+                      horizontal: size.width * 0.1),
               child: FadeTransition(
                 opacity: _animation,
                 child: ScaleTransition(
@@ -138,10 +146,14 @@ class _GrockToastWidgetState extends State<_GrockToastWidget> with SingleTickerP
                       isTapAnimation: false,
                       isKeyboardDismiss: false,
                       width: widget.width,
-                      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      padding: widget.padding ??
+                          const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 8),
                       decoration: BoxDecoration(
-                        color: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
-                        borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(16)),
+                        color: widget.backgroundColor ??
+                            Colors.black.withOpacity(0.8),
+                        borderRadius: widget.borderRadius ??
+                            const BorderRadius.all(Radius.circular(16)),
                         border: widget.border,
                         boxShadow: widget.boxShadow ??
                             [

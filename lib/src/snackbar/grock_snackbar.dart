@@ -43,7 +43,10 @@ class _GrockSnackbar {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: MediaQuery.of(Grock.navigationKey.currentState!.overlay!.context).size.width,
+              width: MediaQuery.of(
+                      Grock.navigationKey.currentState!.overlay!.context)
+                  .size
+                  .width,
               child: _SnackbarBody(
                 overlayEntry: overlayEntry!,
                 borderRadius: borderRadius,
@@ -174,7 +177,8 @@ class _SnackbarBody extends StatefulWidget {
   _SnackbarBodyState createState() => _SnackbarBodyState();
 }
 
-class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMixin {
+class _SnackbarBodyState extends State<_SnackbarBody>
+    with TickerProviderStateMixin {
   AnimationController? _controller;
   late Animation<double> _animation;
   //late Timer time;
@@ -198,8 +202,9 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
       duration: widget.openDuration,
       reverseDuration: widget.openDuration,
     );
-    _animation = Tween<double>(begin: -Grock.width, end: 0)
-        .animate(CurvedAnimation(parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
+    _animation = Tween<double>(begin: -Grock.width, end: 0).animate(
+        CurvedAnimation(
+            parent: _controller!, curve: Interval(0, 1, curve: widget.curve)))
       ..addListener(() {
         setState(() {});
       });
@@ -298,7 +303,9 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
   }
 
   Padding _leadingWidget() {
-    return Padding(padding: widget.leadingPadding ?? EdgeInsets.zero, child: widget.leading);
+    return Padding(
+        padding: widget.leadingPadding ?? EdgeInsets.zero,
+        child: widget.leading);
   }
 
   Expanded _bodyWidgets(BuildContext context) {
@@ -316,7 +323,9 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
   }
 
   Padding _trailingWidget() {
-    return Padding(padding: widget.trailingPadding ?? EdgeInsets.zero, child: widget.trailing);
+    return Padding(
+        padding: widget.trailingPadding ?? EdgeInsets.zero,
+        child: widget.trailing);
   }
 
   Padding _descriptionWidget(BuildContext context) {
@@ -324,10 +333,11 @@ class _SnackbarBodyState extends State<_SnackbarBody> with TickerProviderStateMi
       padding: widget.descriptionPadding ?? EdgeInsets.zero,
       child: Text(
         widget.description,
-        style: widget.descriptionStyle ?? Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: widget.descriptionColor,
-              fontSize: widget.descriptionSize,
-        ),
+        style: widget.descriptionStyle ??
+            Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: widget.descriptionColor,
+                  fontSize: widget.descriptionSize,
+                ),
       ),
     );
   }
@@ -399,7 +409,10 @@ class _GlassMorphism extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          decoration: BoxDecoration(color: color.withOpacity(opacity), borderRadius: borderRadius, border: border),
+          decoration: BoxDecoration(
+              color: color.withOpacity(opacity),
+              borderRadius: borderRadius,
+              border: border),
           child: child,
         ),
       ),

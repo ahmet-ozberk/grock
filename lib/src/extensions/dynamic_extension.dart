@@ -1,4 +1,4 @@
-extension DynamicExtension on dynamic{
+extension DynamicExtension on dynamic {
   bool get isNull => this == null;
   bool get isNotNull => this != null;
   bool get isNotEmpty => this != null && this != '';

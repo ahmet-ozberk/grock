@@ -13,7 +13,7 @@ Random random = Random();
 extension RandomImageExtension on int {
   String randomImage({int width = 1080, int height = 720}) =>
       "https://picsum.photos/$width/$height?random=$this";
-      
+
   String randomImg([int width = 1080, int height = 720]) =>
       "https://loremflickr.com/$width/$height?random=$this";
 
@@ -108,25 +108,28 @@ extension PaddingIntExtension on num {
       EdgeInsets.only(top: this.toDouble(), bottom: this.toDouble());
   EdgeInsetsGeometry get paddingOnlyLeftRight =>
       EdgeInsets.only(left: this.toDouble(), right: this.toDouble());
-  
+
   /// left and bottom and right
-  EdgeInsetsGeometry get paddingOnlyLeftBottomRight =>
-      EdgeInsets.only(left: this.toDouble(), bottom: this.toDouble(), right: this.toDouble());
+  EdgeInsetsGeometry get paddingOnlyLeftBottomRight => EdgeInsets.only(
+      left: this.toDouble(), bottom: this.toDouble(), right: this.toDouble());
 
   /// top and left and bottom
-  EdgeInsetsGeometry get paddingOnlyTopLeftBottom =>
-      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), bottom: this.toDouble());
+  EdgeInsetsGeometry get paddingOnlyTopLeftBottom => EdgeInsets.only(
+      top: this.toDouble(), left: this.toDouble(), bottom: this.toDouble());
 
   /// top and left and right
-  EdgeInsetsGeometry get paddingOnlyTopLeftRight =>
-      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), right: this.toDouble());
-  
-  /// top and right and bottom
-  EdgeInsetsGeometry get paddingOnlyTopRightBottom =>
-      EdgeInsets.only(top: this.toDouble(), right: this.toDouble(), bottom: this.toDouble());
+  EdgeInsetsGeometry get paddingOnlyTopLeftRight => EdgeInsets.only(
+      top: this.toDouble(), left: this.toDouble(), right: this.toDouble());
 
-  EdgeInsetsGeometry get paddingOnlyTopLeftBottomRight =>
-      EdgeInsets.only(top: this.toDouble(), left: this.toDouble(), bottom: this.toDouble(), right: this.toDouble());
+  /// top and right and bottom
+  EdgeInsetsGeometry get paddingOnlyTopRightBottom => EdgeInsets.only(
+      top: this.toDouble(), right: this.toDouble(), bottom: this.toDouble());
+
+  EdgeInsetsGeometry get paddingOnlyTopLeftBottomRight => EdgeInsets.only(
+      top: this.toDouble(),
+      left: this.toDouble(),
+      bottom: this.toDouble(),
+      right: this.toDouble());
 }
 
 extension RandomStringExtension on int {
@@ -146,8 +149,7 @@ extension RandomStringExtension on int {
   String get randomUppercase => getRandomString().toUpperCase();
 
   /// get random not number string
-  String get randomNotNumber =>
-      getRandomString().replaceAll(RegExp(r'\d'), '');
+  String get randomNotNumber => getRandomString().replaceAll(RegExp(r'\d'), '');
 
   /// get random not letter string
   String get randomNotLetter =>

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'int_extension.dart';
 
-extension TextThemeExtension on BuildContext{
+extension TextThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   TextStyle get displayLarge => Theme.of(this).textTheme.displayLarge!;
   TextStyle get displayMedium => Theme.of(this).textTheme.displayMedium!;
@@ -20,6 +20,29 @@ extension TextThemeExtension on BuildContext{
   TextStyle get titleSmall => Theme.of(this).textTheme.titleSmall!;
 }
 
+extension ThemeExtension on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  Color get primaryColor => Theme.of(this).primaryColor;
+  Color get accentColor => Theme.of(this).colorScheme.secondary;
+  Color get backgroundColor => Theme.of(this).colorScheme.background;
+  Color get canvasColor => Theme.of(this).canvasColor;
+  Color get cardColor => Theme.of(this).cardColor;
+  Color get dividerColor => Theme.of(this).dividerColor;
+  Color get focusColor => Theme.of(this).focusColor;
+  Color get hoverColor => Theme.of(this).hoverColor;
+  Color get highlightColor => Theme.of(this).highlightColor;
+  Color get splashColor => Theme.of(this).splashColor;
+  Color get unselectedWidgetColor => Theme.of(this).unselectedWidgetColor;
+  Color get disabledColor => Theme.of(this).disabledColor;
+  Color get buttonColor => Theme.of(this).buttonTheme.colorScheme!.primary;
+  Color get secondaryHeaderColor => Theme.of(this).secondaryHeaderColor;
+  Color get dialogBackgroundColor => Theme.of(this).dialogBackgroundColor;
+  Color get indicatorColor => Theme.of(this).indicatorColor;
+  Color get hintColor => Theme.of(this).hintColor;
+  Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
+  Brightness get brightness => Theme.of(this).brightness;
+}
+
 extension SizeExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
   Size get size => MediaQuery.of(this).size;
@@ -30,6 +53,7 @@ extension SizeExtension on BuildContext {
   double get top => MediaQuery.of(this).padding.top;
   double get bottom => MediaQuery.of(this).padding.bottom;
   bool get isKeyBoardOpen => MediaQuery.of(this).viewInsets.bottom > 0;
+  double get keyboardHeight => MediaQuery.of(this).viewInsets.bottom;
   double dynamicWidth(double value) => MediaQuery.of(this).size.width * value;
   double dynamicHeight(double value) => MediaQuery.of(this).size.height * value;
 
@@ -102,7 +126,8 @@ extension SizeExtension on BuildContext {
           {SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
       ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
 
-  void hideKeyboard() => FocusScope.of(this).unfocus();
+  void hideKeyboard() => FocusManager.instance.primaryFocus?.unfocus();
+  void openKeyboard() => FocusManager.instance.primaryFocus?.requestFocus();
 
   void openDrawer() => Scaffold.of(this).openDrawer();
 

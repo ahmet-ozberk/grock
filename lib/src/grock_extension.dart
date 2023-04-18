@@ -19,12 +19,15 @@ part 'snackbar/grock_snackbar.dart';
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
 
-  static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey => ScaffoldMessengerModel.scaffoldMessengerKey;
-  static GlobalKey<NavigatorState> get navigationKey => NavigationService.navigationKey;
+  static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey =>
+      ScaffoldMessengerModel.scaffoldMessengerKey;
+  static GlobalKey<NavigatorState> get navigationKey =>
+      NavigationService.navigationKey;
 
   /// [Context]
 
-  static BuildContext get context => NavigationService.navigationKey.currentContext!;
+  static BuildContext get context =>
+      NavigationService.navigationKey.currentContext!;
 
   /// [Device Information]
 
@@ -114,8 +117,10 @@ extension Grock on ScaffoldMessengerModel {
     NavigationService.back(result: result);
   }
 
-  static void hideKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
-  static void widgetBinding(Function function) => WidgetsBinding.instance.addPostFrameCallback((_) => function());
+  static void hideKeyboard() =>
+      FocusScope.of(context).requestFocus(FocusNode());
+  static void widgetBinding(Function function) =>
+      WidgetsBinding.instance.addPostFrameCallback((_) => function());
 
   /// [Snackbar]
 
@@ -133,7 +138,8 @@ extension Grock on ScaffoldMessengerModel {
     Duration openDuration = const Duration(milliseconds: 600),
     double? opacity,
     double? width,
-    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+    EdgeInsetsGeometry padding =
+        const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? leadingPadding,
     EdgeInsetsGeometry? trailingPadding,
@@ -183,7 +189,8 @@ extension Grock on ScaffoldMessengerModel {
       );
 
   static void fullScreenModal({
-    required Widget Function(BuildContext, Animation<double>, Animation<double>) builder,
+    required Widget Function(BuildContext, Animation<double>, Animation<double>)
+        builder,
     bool isSlideTransition = true,
     bool isScaleTransition = false,
     bool isFadeTranssition = true,
@@ -275,25 +282,64 @@ extension Grock on ScaffoldMessengerModel {
           routeSettings: routeSettings);
 
   static void toast({
+    /// [text] or [child] or [widget] must be required
     String? text,
+
+    /// [child] or [widget] must be required
     Widget? child,
+
+    /// [child] or [text] must be required
     Widget? widget,
+
+    /// toast position [Alignment.topCenter] or [Alignment.bottomCenter]
     AlignmentGeometry alignment = Alignment.bottomCenter,
+
+    ///toast curve [Curves.bounceOut]
     Curve curve = Curves.bounceOut,
+
+    /// toast tap event
     Function? onTap,
+
+    /// toast duration [Duration(seconds: 4)]
     Duration? duration,
+
+    /// toast open duration [Duration(milliseconds: 600)]
     Duration openDuration = const Duration(milliseconds: 600),
+
+    /// toast border radius [BorderRadius.circular(10)]
     BorderRadiusGeometry? borderRadius,
+
+    /// toast padding [EdgeInsets.all(10)]
     EdgeInsetsGeometry? padding,
+
+    /// toast margin [EdgeInsets.all(10)]
     EdgeInsetsGeometry? margin,
+
+    /// toast background color [Colors.black54]
     Color? backgroundColor,
+
+    /// toast text color [Colors.white]
     Color? textColor,
+
+    /// toast box shadow [BoxShadow(color: Colors.black54, blurRadius: 10)]
     List<BoxShadow>? boxShadow,
+
+    /// toast text style [TextStyle(fontSize: 14)]
     TextStyle? textStyle,
+
+    /// toast width [double.infinity]
     BoxBorder? border,
+
+    /// toast width [double.infinity]
     double? width,
+
+    /// toast text align [TextAlign.center]
     TextAlign textAlign = TextAlign.center,
+
+    /// toast text overflow [TextOverflow.clip]
     TextOverflow overflow = TextOverflow.clip,
+
+    /// toast text max lines [2]
     int? maxLines,
   }) {
     OverlayState overlayState = Grock.navigationKey.currentState!.overlay!;
@@ -328,21 +374,28 @@ extension Grock on ScaffoldMessengerModel {
     overlayState.insert(overlayEntry);
   }
 
+  /// [Grock Overlay] show and close
   static void showGrockOverlay({required Widget child}) {
     _GrockOverlay.show(child: child);
   }
 
+  /// [Grock Overlay] is open
   static bool isOpenGrockOverlay() => _GrockOverlay.isOpen;
+
+  /// [Grock Overlay] close
   static void closeGrockOverlay() => _GrockOverlay.close();
 
   /// [Empty Widget]
-
   static Widget get empty => SizedBox.shrink();
 
-  /// [Internet Check]
-  static Color rndColor() => Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  /// [Random Color] from [Colors.primaries]
+  static Color rndColor() =>
+      Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+
+  /// [Random Color] from [Colors.primaries]
   static Color randomColor() => Colors.primaries[17.randomNum];
 
+  /// [Grock Internet Checker] check internet
   static void checkInternet({
     Function()? onConnect,
     Function()? onDisconnect,

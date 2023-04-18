@@ -51,13 +51,15 @@ class _GrockFullScreenDialog extends StatefulWidget {
     this.isSlideOpacity = true,
     this.matrixRotateValue = 1000,
     super.key,
-  }) : assert(closureRate <= 0.5 && closureRate >= 0.1, "Closure rate max is 0.5 and min is 0.1");
+  }) : assert(closureRate <= 0.5 && closureRate >= 0.1,
+            "Closure rate max is 0.5 and min is 0.1");
 
   @override
   State<_GrockFullScreenDialog> createState() => _GrockFullScreenDialogState();
 }
 
-class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with TickerProviderStateMixin {
+class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog>
+    with TickerProviderStateMixin {
   double dy = 0;
   double dx = 0;
   double opacity = 1;
@@ -80,7 +82,9 @@ class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with Tic
         scale: _animation,
         alignment: alignment,
         child: Transform.scale(
-          scale: widget.isCloseScaleAnimation ? 1 - (dy / context.height).abs() : 1,
+          scale: widget.isCloseScaleAnimation
+              ? 1 - (dy / context.height).abs()
+              : 1,
           child: Transform.translate(
             offset: Offset(widget.isHorizontalSlideAnimation ? dx : 0, dy),
             child: Opacity(
@@ -114,11 +118,13 @@ class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with Tic
     _animation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.02).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          tween: Tween<double>(begin: 0.0, end: 1.02)
+              .chain(CurveTween(curve: Curves.fastOutSlowIn)),
           weight: 9,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.02, end: 1.0).chain(CurveTween(curve: Curves.linear)),
+          tween: Tween<double>(begin: 1.02, end: 1.0)
+              .chain(CurveTween(curve: Curves.linear)),
           weight: 3,
         ),
       ],
@@ -169,8 +175,8 @@ class _GrockFullScreenDialogState extends State<_GrockFullScreenDialog> with Tic
     final matrix = Matrix4.identity();
     matrix.setEntry(3, 2, 0.001);
     //if (widget.isMatrixAnimation) {
-      matrix.rotateX(-dy / widget.matrixRotateValue);
-      matrix.rotateY(dx / widget.matrixRotateValue);
+    matrix.rotateX(-dy / widget.matrixRotateValue);
+    matrix.rotateY(dx / widget.matrixRotateValue);
     //}
     return matrix;
   }

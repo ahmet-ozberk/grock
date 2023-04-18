@@ -45,9 +45,7 @@ class _GrockBounceAnimationState extends State<GrockBounceAnimation>
       animation: _animation,
       builder: (context, child) {
         return Transform.scale(
-          scale: 1 + (_animation.value * 0.2),
-          child: widget.child
-        );
+            scale: 1 + (_animation.value * 0.2), child: widget.child);
       },
     );
   }

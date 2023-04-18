@@ -22,22 +22,56 @@ class GrockSuperContainer extends StatelessWidget {
 
   const GrockSuperContainer({
     super.key,
+
+    /// The child contained by the container.
     this.child,
+
+    /// The height of the container.
     this.height,
+
+    /// The width of the container.
     this.width,
+
+    /// The color to paint behind the [child].
     this.color,
+
+    /// The border radius of the container.
     this.superBorderRadius,
+
+    /// The border of the container.
     this.isSuperBorderRadius = true,
+
+    /// The border of the container.
     this.border = BorderSide.none,
+
+    /// The duration of the animation of the container's properties.
     this.animationDuration = const Duration(milliseconds: 200),
+
+    /// The clip behavior when [Container.decoration] has a clip
     this.clipBehavior = Clip.none,
+
+    /// The z-coordinate at which to place this container. This controls the size
     this.elevation = 0.0,
+
+    /// The color to paint the shadow below the container.
     this.shadowColor,
+
+    /// The color to paint the shadow below the container.
     this.tintColor,
+
+    /// The color to paint the shadow below the container.
     this.defaultTextStyle,
+
+    /// The callback to invoke when the container is tapped.
     this.onTap,
+
+    /// The callback to invoke when the container is long-pressed.
     this.onLongPress,
+
+    /// The callback to invoke when the container is tapped.
     this.onTapDown,
+
+    /// The callback to invoke when the container is tapped.
     this.onTapUp,
   });
 
@@ -74,9 +108,6 @@ class GrockSuperContainer extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class GrockSuperShape extends ShapeBorder {
   const GrockSuperShape({
