@@ -1,3 +1,3 @@
-## 0.2.7 - 18-04-2023
+## 0.2.8 - 30-04-2023
 
-* Readme.md GrockMenu fixed.
+* Readme.md GrockMenuController new function 'open()'.
