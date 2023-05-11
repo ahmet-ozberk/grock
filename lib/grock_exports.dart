@@ -41,3 +41,4 @@ export 'src/widgets/grock_super_container.dart';
 export 'src/widgets/grock_bounce_animation.dart';
 export 'src/widgets/grock_visible_opacity_animation.dart';
 export 'src/widgets/grock_animated_blur.dart';
+export 'src/widgets/grock_focus.dart';
