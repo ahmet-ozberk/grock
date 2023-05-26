@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:grock/grock.dart';
 
 class ScaffoldMessengerModel {
   static GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  static Size size = WidgetsBinding.instance.window.physicalSize /
-      WidgetsBinding.instance.window.devicePixelRatio;
+  static Size size =
+      View.of(Grock.context).physicalSize / View.of(context).devicePixelRatio;
   static double get height => size.height;
   static double get width => size.width;
   static Offset get topCenter =>

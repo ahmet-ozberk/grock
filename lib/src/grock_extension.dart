@@ -40,9 +40,9 @@ extension Grock on ScaffoldMessengerModel {
 
   /// [Device Screen Size]
 
-  static double get deviceWidth => window.physicalSize.width;
-  static double get deviceHeight => window.physicalSize.height;
-  static Size get deviceSize => window.physicalSize;
+  static double get deviceWidth => View.of(context).physicalSize.width;
+  static double get deviceHeight => View.of(context).physicalSize.height;
+  static Size get deviceSize => View.of(context).physicalSize;
 
   static double get height => ScaffoldMessengerModel.height;
   static double get width => ScaffoldMessengerModel.width;
