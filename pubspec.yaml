@@ -1,17 +1,17 @@
 name: grock
 description: Snackbar, Toast, No Context Extension, Custom Widgets, Widget Extensions, Fast Tools, IOS Style Widget and Tools.
-version: 0.2.9
+version: 0.3.0
 # author: Ahmet Özberk <ahmet.ozberk.mrs@gmail.com>
 homepage: https://github.com/ahmet-ozberk/grock
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: '>=3.0.2 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  connectivity_plus: ^3.0.2
+  connectivity_plus: ^4.0.1
   page_transition: ^2.0.9
 
 dev_dependencies:

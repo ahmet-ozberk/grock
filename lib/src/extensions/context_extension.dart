@@ -110,7 +110,6 @@ extension SizeExtension on BuildContext {
 
   TextTheme get textTheme => Theme.of(this).textTheme;
 
-  Color get primaryColor => Theme.of(this).primaryColor;
 
   TargetPlatform get platform => Theme.of(this).platform;
 
