@@ -9,6 +9,7 @@ class GrockFadeAnimation extends StatefulWidget {
   final Curve curve;
   final double value;
   final bool isOpacityAnimation;
+  final Duration delay;
   final Function(AnimationController controller)? addListener;
 
   const GrockFadeAnimation({
@@ -22,6 +23,7 @@ class GrockFadeAnimation extends StatefulWidget {
     this.value = 100,
     this.addListener,
     this.isOpacityAnimation = true,
+    this.delay = Duration.zero,
   });
 
   @override
@@ -106,7 +108,9 @@ class _GrockFadeAnimationState extends State<GrockFadeAnimation>
         }
         setState(() {});
       });
-    _controller.forward();
+    Future.delayed(widget.delay,(){
+      _controller.forward();
+    });
   }
 
   @override

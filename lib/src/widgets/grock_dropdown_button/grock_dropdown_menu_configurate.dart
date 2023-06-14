@@ -647,9 +647,9 @@ class _ContextMenuRoute<T> extends PopupRoute<T> {
           onDismiss: _onDismiss,
           orientation: orientation,
           sheetGlobalKey: _sheetGlobalKey,
-          child: _builder!(context, animation),
           borderRadius: borderRadius,
           width: width,
+          child: _builder!(context, animation),
         );
       },
     );
@@ -1010,52 +1010,43 @@ class _ContextMenuSheet extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 13.0)),
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(), //ClampingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(borderRadius ?? 13),
-                      topRight: Radius.circular(borderRadius ?? 13),
-                    ),
-                    child: actions.first),
-                //for (Widget action in actions.skip(1))
-                for (int i = 1; i < actions.length; i++)
-                  if (actions[i] != actions.last)
-                    DecoratedBox(
+              children: actions
+                  .map(
+                    (e) => DecoratedBox(
                       decoration: BoxDecoration(
                         border: Border(
                           top: BorderSide(
-                            color: CupertinoDynamicColor.resolve(
-                                _borderColor, context),
                             width: 0.5,
+                            color: CupertinoDynamicColor.resolve(
+                              _borderColor,
+                              context,
+                            ),
                           ),
                         ),
                       ),
                       position: DecorationPosition.foreground,
-                      child: actions[i],
-                    ),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: CupertinoDynamicColor.resolve(
-                            _borderColor, context),
-                        width: 0.5,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: actions.last == e
+                                ? Radius.circular(borderRadius ?? 13)
+                                : Radius.zero,
+                            bottomRight: actions.last == e
+                                ? Radius.circular(borderRadius ?? 13)
+                                : Radius.zero,
+                            topLeft: actions.first == e
+                                ? Radius.circular(borderRadius ?? 13)
+                                : Radius.zero,
+                            topRight: actions.first == e
+                                ? Radius.circular(borderRadius ?? 13)
+                                : Radius.zero),
+                        child: e,
                       ),
                     ),
-                  ),
-                  position: DecorationPosition.foreground,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(borderRadius ?? 13),
-                      bottomRight: Radius.circular(borderRadius ?? 13),
-                    ),
-                    child: actions.last,
-                  ),
-                ),
-              ],
+                  )
+                  .toList(),
             ),
           ),
         ),

@@ -1,3 +1,3 @@
-## 0.3.1 - 26-05-2023
+## 0.3.2 - 14-06-2023
 
-* Readme.md GrockPopupMenu widget added
+* Readme.md GrockDropdownButton fixed and new functions.

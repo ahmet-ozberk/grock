@@ -88,6 +88,10 @@ extension BorderRadiusIntExtension on num {
 
 extension PaddingIntExtension on num {
   EdgeInsetsGeometry get padding => EdgeInsets.all(this.toDouble());
+  EdgeInsetsGeometry get paddingHorizontal =>
+      EdgeInsets.symmetric(horizontal: this.toDouble());
+  EdgeInsetsGeometry get paddingVertical =>
+      EdgeInsets.symmetric(vertical: this.toDouble());
   EdgeInsetsGeometry get paddingOnlyTop =>
       EdgeInsets.only(top: this.toDouble());
   EdgeInsetsGeometry get paddingOnlyBottom =>

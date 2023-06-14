@@ -41,6 +41,7 @@ extension ThemeExtension on BuildContext {
   Color get hintColor => Theme.of(this).hintColor;
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
   Brightness get brightness => Theme.of(this).brightness;
+  bool get isDarkTheme => brightness == Brightness.dark;
 }
 
 extension SizeExtension on BuildContext {

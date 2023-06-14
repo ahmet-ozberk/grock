@@ -262,6 +262,11 @@ extension Grock on ScaffoldMessengerModel {
   //   GrockSnackbar.overlayEntry?.remove();
   //   GrockSnackbar.overlayEntry = null;
   // }
+  static double normalizeValue(double value, double minValue, double maxValue) {
+    return (value - minValue) / (maxValue - minValue);
+  }
+
+  static bool isDarkTheme = Grock.context.isDarkTheme;
 
   static void dialog({
     required Widget Function(BuildContext grockContext) builder,
