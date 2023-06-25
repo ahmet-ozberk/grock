@@ -40,6 +40,7 @@ extension ThemeExtension on BuildContext {
   Color get indicatorColor => Theme.of(this).indicatorColor;
   Color get hintColor => Theme.of(this).hintColor;
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
+  Color get scaffoldDarkBackgroundColor => ThemeData.dark(useMaterial3: true).scaffoldBackgroundColor;
   Brightness get brightness => Theme.of(this).brightness;
   bool get isDarkTheme => brightness == Brightness.dark;
 }

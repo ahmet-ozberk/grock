@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum GrockPopupMenuStatus { init, dispose, widgetsBinding }
+
 class GrockPopupMenuStyle {
   final Color? splashColor;
   final Color? highlightColor;
@@ -22,26 +24,30 @@ class GrockPopupMenuStyle {
   final Alignment effectAlignment;
   final Curve effectCurve;
   final ScrollPhysics? listViewPhysics;
-  GrockPopupMenuStyle(
-      {this.splashColor,
-      this.highlightColor,
-      this.barrierColor = Colors.black12,
-      this.barrierDismissible = true,
-      this.useSafeArea = false,
-      this.width = .56,
-      this.blur = 0.8,
-      this.separatorBuilder = _separatorBuilder,
-      this.listViewPadding,
-      this.listViewScaleAnimation = false,
-      this.listViewScaleDuration = const Duration(milliseconds: 200),
-      this.listViewScaleAlignment = Alignment.centerRight,
-      this.listViewScaleCurve = Curves.decelerate,
-      this.effectType = PopupMenuEffectType.scaleIn,
-      this.effectDuration = const Duration(milliseconds: 150),
-      this.effectAlignment = Alignment.center,
-      this.effectCurve = Curves.fastOutSlowIn,
-      this.listViewPhysics = const BouncingScrollPhysics()})
-      : assert(0 <= width && width <= 1, "width must be between 0 and 1"),
+  final Function(
+          GrockPopupMenuStatus status, ScrollController scrollController)?
+      addListener;
+  GrockPopupMenuStyle({
+    this.splashColor,
+    this.highlightColor,
+    this.barrierColor = Colors.black12,
+    this.barrierDismissible = true,
+    this.useSafeArea = false,
+    this.width = .56,
+    this.blur = 0.8,
+    this.separatorBuilder = _separatorBuilder,
+    this.listViewPadding,
+    this.listViewScaleAnimation = false,
+    this.listViewScaleDuration = const Duration(milliseconds: 200),
+    this.listViewScaleAlignment = Alignment.centerRight,
+    this.listViewScaleCurve = Curves.decelerate,
+    this.effectType = PopupMenuEffectType.scaleIn,
+    this.effectDuration = const Duration(milliseconds: 150),
+    this.effectAlignment = Alignment.center,
+    this.effectCurve = Curves.fastOutSlowIn,
+    this.listViewPhysics = const BouncingScrollPhysics(),
+    this.addListener,
+  })  : assert(0 <= width && width <= 1, "width must be between 0 and 1"),
         assert(-1 < blur, "blur must be greater than 0");
 
   static Widget _separatorBuilder(BuildContext context, int index) =>
@@ -110,6 +116,7 @@ class _GrockPopupMenuDialog extends StatefulWidget {
 }
 
 class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
+  ScrollController scrollController = ScrollController();
   double left(double width, double x, double screenWidth) {
     final double left = x + width;
     if (left > screenWidth) {
@@ -130,7 +137,10 @@ class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
   bool _isScale = false;
 
   void init() {
+    widget.style.addListener?.call(GrockPopupMenuStatus.init, scrollController);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.style.addListener
+          ?.call(GrockPopupMenuStatus.widgetsBinding, scrollController);
       _isScale = widget.style.listViewScaleAnimation;
       setState(() {});
     });
@@ -143,7 +153,15 @@ class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
   }
 
   @override
+  void dispose() {
+    widget.style.addListener
+        ?.call(GrockPopupMenuStatus.dispose, scrollController);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    
     final size = MediaQuery.of(context).size;
     final safeArea = MediaQuery.of(context).padding;
 
@@ -179,10 +197,10 @@ class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
                       duration: widget.style.listViewScaleDuration,
                       alignment: widget.style.listViewScaleAlignment,
                       curve: widget.style.listViewScaleCurve,
-                      child: _listViewWidget(size, safeArea),
+                      child: _listViewWidget(size, safeArea, scrollController),
                     );
                   } else {
-                    return _listViewWidget(size, safeArea);
+                    return _listViewWidget(size, safeArea, scrollController);
                   }
                 }(),
               ),
@@ -193,8 +211,10 @@ class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
     );
   }
 
-  ListView _listViewWidget(Size size, EdgeInsets safeArea) {
+  ListView _listViewWidget(
+      Size size, EdgeInsets safeArea, ScrollController scrollController) {
     return ListView.separated(
+      controller: scrollController,
       itemCount: widget.children.length,
       shrinkWrap: true,
       physics: widget.style.listViewPhysics,
