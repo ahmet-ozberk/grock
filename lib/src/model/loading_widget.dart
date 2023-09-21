@@ -111,12 +111,12 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
                           padding: const EdgeInsets.only(top: 12),
                           child: Text(
                             widget.text!,
+                            textAlign: TextAlign.center,
                             style: widget.textStyle ??
                                 TextStyle(
                                   color: widget.color ?? Colors.white,
                                   fontSize: 14,
                                 ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                     ],

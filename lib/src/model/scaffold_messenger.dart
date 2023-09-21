@@ -6,8 +6,9 @@ class ScaffoldMessengerModel {
       GlobalKey<ScaffoldMessengerState>();
   static Size size =
       View.of(Grock.context).physicalSize / View.of(Grock.context).devicePixelRatio;
-  static double get height => size.height;
-  static double get width => size.width;
+
+  static double get height => MediaQuery.sizeOf(context).height;
+  static double get width => MediaQuery.sizeOf(context).width;
   static Offset get topCenter =>
       scaffoldMessengerKey.currentContext!.size!.topCenter(Offset.zero);
   static Offset get bottomCenter =>

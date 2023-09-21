@@ -8,4 +8,12 @@ extension FunctionExtension on Function() {
       SchedulerBinding.instance.addPostFrameCallback((_) => this());
   void widgetBindingWithDelay(Duration duration) => WidgetsBinding.instance
       .addPostFrameCallback((_) => Future.delayed(duration, this));
+
+  void catchAll(Function(Object error) onError) {
+    try {
+      this();
+    } catch (e) {
+      onError(e);
+    }
+  }
 }

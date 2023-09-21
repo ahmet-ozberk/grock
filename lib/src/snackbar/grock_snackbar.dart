@@ -87,7 +87,7 @@ class _GrockSnackbar {
     overlayState.insert(overlayEntry!);
   }
 
-  static void dialog({
+  static Future<T?> dialog<T>({
     required Widget Function(BuildContext grockContext) builder,
     bool barrierDismissible = true,
     Color? barrierColor = Colors.black54,
@@ -95,8 +95,8 @@ class _GrockSnackbar {
     bool useSafeArea = true,
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
-  }) {
-    showDialog(
+  })async {
+   return await showDialog(
       context: Grock.navigationKey.currentContext!,
       builder: builder,
       barrierDismissible: barrierDismissible,

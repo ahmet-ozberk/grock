@@ -4,7 +4,7 @@
 
 This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯
 
-## Firstly 🤫
+# Firstly 🤫
 ```dart
   return MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -15,8 +15,44 @@ This is an excellent Flutter package mate 💯💯💯💯💯💯💯💯💯�
   );
 ```
 
-## NO CONTEXT NAVİGATİONS 😱
-### Grock.to || toRemove || back()
+# Grock Restfull Api Services (Dio Helper)
+#### Check it out below and start using it, my friend!
+
+* ### Initialized
+```dart
+void main() {
+  GrockDioServices.instance.init(
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+    logger = GrockDioLogger.default(),
+  );
+  runApp(MyApp());
+}
+```
+
+* ### and use Api Request
+----------------- request example -----------------
+```dart
+final request = await GrockDioServices.request(
+ method: GrockDioType.get,
+ path: '/posts',
+ queryParameters: {"userId": 1},
+);
+```
+
+* ### and use grockResponseHandler for response
+```dart
+final response = await request.grockResponseHandler(
+  success: (response) => Model.fromJson(response.data),
+  error: (err) => Toast.show(err.toString()),
+  loading: () => print("loading"),
+  done: () => print("done"),
+);
+```
+
+# NO CONTEXT NAVIGATIONS 😱
+#### Grock.to || toRemove || back()
 ```dart
 GrockContainer(
   onTap: (){
@@ -35,7 +71,7 @@ GrockContainer(
 )
 ```
 
-## Widgets 👊 🚀
+# Widgets 👊 🚀
 
 ### GrockContainer
 ```dart
@@ -426,7 +462,7 @@ return GrockCustomLoadingWidget(
 ```
 
 
-## Snackbar and Dialog and Toast (BUT NO CONTEXT 😁)
+# Snackbar and Dialog and Toast (BUT NO CONTEXT 😁)
 
 ### Grock.snackBar [IOS Style]
 ![grock_snackbar](https://user-images.githubusercontent.com/83654764/204043338-b4611e9a-781f-4e23-923a-d6ad1e87b183.png)

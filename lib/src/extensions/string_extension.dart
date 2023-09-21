@@ -259,4 +259,10 @@ extension StringExtension on String {
   }
 
   Text get toTextWidget => Text(this);
+
+  List<String> get words => this.split(" ");
+
+  String get removePrefix => this.substring(1);
+
+  String get removeSuffix => this.substring(0, this.length - 1);
 }

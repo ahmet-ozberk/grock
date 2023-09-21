@@ -33,7 +33,7 @@ extension ExtendedIterable<E> on Iterable<E> {
   }
 }
 
-extension ListWidgetExtension<Widget> on List<Widget> {
+extension ListWidgetExtension on List<Widget> {
   ///result builder for list
   List<Widget> seperatedWidget(
       Widget Function(BuildContext context, int index) builder) {
@@ -51,6 +51,15 @@ extension ListWidgetExtension<Widget> on List<Widget> {
 }
 
 extension ListExtension<E> on List<E> {
+  List<E> containsWhere(bool Function(E e) f) {
+    return where((element) => f(element)).toList();
+  }
+
+  List<E> containsWhereIndexed(bool Function(E e, int index) f) {
+    var i = 0;
+    return where((element) => f(element, i++)).toList();
+  }
+
   List<T> mapIndexed<T>(T Function(E value, int index) f) {
     var i = 0;
     return map((e) => f(e, i++)).toList();
@@ -465,5 +474,43 @@ extension ListExtension<E> on List<E> {
   /// reverse list
   List<E> reverseList() {
     return reversed.toList();
+  }
+}
+
+extension MapExtension<K, V> on Map<K, V> {
+  Map<K, V> addIf(bool Function(K key, V value) f, K key, V value) {
+    if (f(key, value)) {
+      addEntries([MapEntry(key, value)]);
+    }
+    return this;
+  }
+
+  Map<K, V> addIndexIf(
+      bool Function(K key, V value, int index) f, K key, V value, int index) {
+    if (f(key, value, index)) {
+      addEntries([MapEntry(key, value)]);
+    }
+    return this;
+  }
+
+  Map<K, V> addIndexIfNotNull(
+      bool Function(K key, V value, int index) f, K key, V value, int index) {
+    if (f(key, value, index) && value != null) {
+      addEntries([MapEntry(key, value)]);
+    }
+    return this;
+  }
+
+  /// get where
+  Map<K, V> getWhere(bool Function(K key, V value) f) {
+    final map = <K, V>{};
+    for (final element in entries) {
+      final key = element.key;
+      final value = element.value;
+      if (f(key, value)) {
+        map.putIfAbsent(key, () => value);
+      }
+    }
+    return map;
   }
 }

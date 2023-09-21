@@ -11,21 +11,29 @@ import 'model/navigation_state.dart';
 import 'model/scaffold_messenger.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'services/uniq_number_id_services.dart';
+
 part 'widgets/grock_toast.dart';
 part 'components/grock_overlay.dart';
 part 'widgets/grock_fullscreen_dialog.dart';
 part 'snackbar/grock_snackbar.dart';
+part 'widgets/grock_adaptive_dialog_button.dart';
 
 extension Grock on ScaffoldMessengerModel {
   /// [Keys]
-
+  
+  /// ScaffoldMessengerKey for show snackbar
+  /// Added in MaterialApp => scaffoldMessengerKey: Grock.scaffoldMessengerKey,
   static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey =>
       ScaffoldMessengerModel.scaffoldMessengerKey;
+
+  /// NavigationKey for navigation
+  /// Added in MaterialApp => navigatorKey: Grock.navigationKey,
+  /// Grock Navigation, extensions, and more features are available in this key
   static GlobalKey<NavigatorState> get navigationKey =>
       NavigationService.navigationKey;
 
-  /// [Context]
-
+  /// [Context] for get context
   static BuildContext get context =>
       NavigationService.navigationKey.currentContext!;
 
@@ -57,7 +65,15 @@ extension Grock on ScaffoldMessengerModel {
   static Offset get centerRight => ScaffoldMessengerModel.centerRight;
 
   /// [Navigation]
-
+  /// ```dart
+  /// Grock.to(
+  ///  HomeScreen(),
+  ///  type: NavType.fade,
+  ///  curve: Curves.easeInOut,
+  ///  duration: Duration(milliseconds: 600),
+  ///  reverseDuration: Duration(milliseconds: 600),
+  ///  fullscreenDialog: false,
+  /// );
   static Future to(
     Widget page, {
     NavType? type,
@@ -85,6 +101,13 @@ extension Grock on ScaffoldMessengerModel {
         opaque: opaque);
   }
 
+  /// ```dart
+  /// Grock.toRemove(
+  ///  HomeScreen(),
+  ///  type: NavType.fade,
+  ///  curve: Curves.easeInOut,
+  ///  duration: Duration(milliseconds: 600),
+  /// );
   static Future toRemove(
     Widget page, {
     NavType? type,
@@ -112,18 +135,20 @@ extension Grock on ScaffoldMessengerModel {
         opaque: opaque);
   }
 
+  /// ```dart
+  /// Grock.back(result: "Result String Data");
   static void back({Object? result}) {
     log("Navigation back", name: "Grock");
     NavigationService.back(result: result);
   }
 
+  /// Hide keyboard function.
   static void hideKeyboard() =>
       FocusScope.of(context).requestFocus(FocusNode());
   static void widgetBinding(Function function) =>
       WidgetsBinding.instance.addPostFrameCallback((_) => function());
 
-  /// [Snackbar]
-
+  /// The best snackbar widget
   static void snackBar({
     required String title,
     required String description,
@@ -188,13 +213,58 @@ extension Grock on ScaffoldMessengerModel {
         titlePadding: titlePadding,
       );
 
-  static void fullScreenModal({
+  static void showMaterialBanner({
+    Key? key,
+    required Widget content,
+    TextStyle? contentTextStyle,
+    List<Widget>? actions,
+    double? elevation,
+    Widget? leading,
+    Color? backgroundColor,
+    Color? surfaceTintColor,
+    Color? shadowColor,
+    Color? dividerColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? leadingPadding,
+    bool forceActionsBelow = false,
+    OverflowBarAlignment overflowAlignment = OverflowBarAlignment.end,
+    Animation<double>? animation,
+    void Function()? onVisible,
+  }) {
+    scaffoldMessengerKey.currentState?.showMaterialBanner(MaterialBanner(
+      key: key,
+      content: content,
+      contentTextStyle: contentTextStyle,
+      actions: actions ?? [],
+      elevation: elevation,
+      leading: leading,
+      backgroundColor: backgroundColor,
+      surfaceTintColor: surfaceTintColor,
+      shadowColor: shadowColor,
+      dividerColor: dividerColor,
+      padding: padding,
+      margin: margin,
+      leadingPadding: leadingPadding,
+      forceActionsBelow: forceActionsBelow,
+      overflowAlignment: overflowAlignment,
+      animation: animation,
+      onVisible: onVisible,
+    ));
+  }
+
+  static void clearMaterialBanner() {
+    scaffoldMessengerKey.currentState?.clearMaterialBanners();
+  }
+
+  static Future<T?> fullScreenModal<T extends Object?>({
     required Widget Function(BuildContext, Animation<double>, Animation<double>)
         builder,
     bool isSlideTransition = true,
     bool isScaleTransition = false,
     bool isFadeTranssition = true,
     bool isRotateTransition = false,
+    bool isVerticalGestureClose = false,
     Alignment scaleAlignment = Alignment.topCenter,
     SlideTransitionType slideTransitionType = SlideTransitionType.fromTop,
     Duration openDuration = const Duration(milliseconds: 500),
@@ -203,25 +273,28 @@ extension Grock on ScaffoldMessengerModel {
     Color barrierColorValue = Colors.black54,
     String? barrierLabelValue,
     bool isMaintainState = true,
-  }) {
-    Navigator.push(
-        context,
-        GrockFullScreenModal(
-          builder: builder,
-          isSlideTransition: isSlideTransition,
-          isScaleTransition: isScaleTransition,
-          isFadeTranssition: isFadeTranssition,
-          isRotateTransition: isRotateTransition,
-          scaleAlignment: scaleAlignment,
-          slideTransitionType: slideTransitionType,
-          openDuration: openDuration,
-          isOpaque: isOpaque,
-          isBarrierDismissible: isBarrierDismissible,
-          barrierColorValue: barrierColorValue,
-          barrierLabelValue: barrierLabelValue,
-          isMaintainState: isMaintainState,
-        ));
+  }) async {
+    return await Navigator.push<T>(
+      context,
+      GrockFullScreenModal<T>(
+        builder: builder,
+        isSlideTransition: isSlideTransition,
+        isScaleTransition: isScaleTransition,
+        isFadeTranssition: isFadeTranssition,
+        isRotateTransition: isRotateTransition,
+        isVerticalGestureClose: isVerticalGestureClose,
+        scaleAlignment: scaleAlignment,
+        slideTransitionType: slideTransitionType,
+        openDuration: openDuration,
+        isOpaque: isOpaque,
+        isBarrierDismissible: isBarrierDismissible,
+        barrierColorValue: barrierColorValue,
+        barrierLabelValue: barrierLabelValue,
+        isMaintainState: isMaintainState,
+      ),
+    );
   }
+
 
   static void fullScreenDialog({
     required Widget child,
@@ -229,7 +302,7 @@ extension Grock on ScaffoldMessengerModel {
     Duration closeDuration = const Duration(milliseconds: 300),
     Tween<double>? closeTween,
     bool isCloseScaleAnimation = false,
-    //bool isMatrixAnimation = false,
+    bool isMatrixAnimation = false,
     bool isHorizontalSlideAnimation = true,
     double closureRate = 0.24,
     Alignment openAlignment = Alignment.bottomLeft,
@@ -245,7 +318,7 @@ extension Grock on ScaffoldMessengerModel {
         closeDuration: closeDuration,
         closeTween: closeTween,
         isCloseScaleAnimation: isCloseScaleAnimation,
-        //isMatrixAnimation: isMatrixAnimation,
+        isMatrixAnimation: isMatrixAnimation,
         isHorizontalSlideAnimation: isHorizontalSlideAnimation,
         closureRate: closureRate,
         openAlignment: openAlignment,
@@ -262,13 +335,15 @@ extension Grock on ScaffoldMessengerModel {
   //   GrockSnackbar.overlayEntry?.remove();
   //   GrockSnackbar.overlayEntry = null;
   // }
+
+  /// Grock.normalizeValue(10, 0, 100).printer; normalize value
   static double normalizeValue(double value, double minValue, double maxValue) {
     return (value - minValue) / (maxValue - minValue);
   }
 
   static bool isDarkTheme = Grock.context.isDarkTheme;
 
-  static void dialog({
+  static Future<T?> dialog<T>({
     required Widget Function(BuildContext grockContext) builder,
     bool barrierDismissible = true,
     Color? barrierColor = Colors.black54,
@@ -276,8 +351,8 @@ extension Grock on ScaffoldMessengerModel {
     bool useSafeArea = true,
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
-  }) =>
-      _GrockSnackbar.dialog(
+  }) async =>
+      await _GrockSnackbar.dialog(
           builder: builder,
           barrierDismissible: barrierDismissible,
           barrierColor: barrierColor,
@@ -286,6 +361,27 @@ extension Grock on ScaffoldMessengerModel {
           useRootNavigator: useRootNavigator,
           routeSettings: routeSettings);
 
+  /// Toast widget, no context required
+  /// ```dart
+  /// Grock.toast(
+  ///  text: "Hello World",
+  ///  alignment: Alignment.topCenter,
+  ///  curve: Curves.bounceOut,
+  ///  duration: Duration(seconds: 4),
+  ///  openDuration: Duration(milliseconds: 600),
+  ///  borderRadius: BorderRadius.circular(10),
+  ///  padding: EdgeInsets.all(10),
+  ///  margin: EdgeInsets.all(10),
+  ///  backgroundColor: Colors.black54,
+  ///  textColor: Colors.white,
+  ///  boxShadow: [
+  ///   BoxShadow(color: Colors.black54, blurRadius: 10)
+  ///  ],
+  ///  textStyle: TextStyle(fontSize: 14),
+  ///  width: double.infinity,
+  ///  border: Border.all(color: Colors.white),
+  /// );
+  /// ```
   static void toast({
     /// [text] or [child] or [widget] must be required
     String? text,
@@ -379,15 +475,15 @@ extension Grock on ScaffoldMessengerModel {
     overlayState.insert(overlayEntry);
   }
 
-  /// [Grock Overlay] show and close
+  /// [Grock Overlay] show overlay widget
   static void showGrockOverlay({required Widget child}) {
     _GrockOverlay.show(child: child);
   }
 
-  /// [Grock Overlay] is open
+  /// [Grock Overlay] is open or not
   static bool isOpenGrockOverlay() => _GrockOverlay.isOpen;
 
-  /// [Grock Overlay] close
+  /// [Grock Overlay] close overlay
   static void closeGrockOverlay() => _GrockOverlay.close();
 
   /// [Empty Widget]
@@ -400,7 +496,7 @@ extension Grock on ScaffoldMessengerModel {
   /// [Random Color] from [Colors.primaries]
   static Color randomColor() => Colors.primaries[17.randomNum];
 
-  /// [Grock Internet Checker] check internet
+  /// [Grock Internet Checker] check internet connection and show widget
   static void checkInternet({
     Function()? onConnect,
     Function()? onDisconnect,
@@ -463,5 +559,51 @@ extension Grock on ScaffoldMessengerModel {
         text: text,
         textStyle: style,
         gradient: gradient,
+      );
+
+  /// Grock.uniqId(length: 11).printer; generate uniq id
+  /// Response => ```dart 34576890876 ```
+  static String uniqId(
+          {int length = 11, GrockUniqIdType type = GrockUniqIdType.numbers}) =>
+      GrockUniqIdServices.generate(length: length);
+
+  /// ------ Grock Widget Extensions ------
+  /// * This widget function is available in [actions] in [AlertDialog.adaptive].
+  /// ```dart
+  /// showAdaptiveDialog(
+  ///   context: context,
+  ///   builder: (context) {
+  ///     return AlertDialog.adaptive(
+  ///       title: const Text("Please Confrm"),
+  ///       content: const Text("Do you agree with our terms?"),
+  ///       actions: [
+  ///        Grock.adaptiveDialogButton(
+  ///           onPressed: () => Navigator.of(context).pop(),
+  ///           isDefaultAction: true,
+  ///           isDestructiveAction: true,
+  ///           child: Text("No"),
+  ///         ),
+  ///         Grock.adaptiveDialogButton(
+  ///           onPressed: ...,
+  ///           child: Text("Yes"),
+  ///         )
+  ///       ],
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  static Widget adaptiveDialogButton({
+    Key? key,
+    required Widget child,
+    required VoidCallback onPressed,
+    bool isDefaultAction = false,
+    bool isDestructiveAction = false,
+  }) =>
+      GrockAdaptiveDialogButton(
+        key: key,
+        child: child,
+        onPressed: onPressed,
+        isDefaultAction: isDefaultAction,
+        isDestructiveAction: isDestructiveAction,
       );
 }

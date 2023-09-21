@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class GrockFullScreenModal extends ModalRoute {
+class GrockFullScreenModal<T> extends ModalRoute<T> {
   GrockFullScreenModal({
     required this.builder,
     this.isSlideTransition = true,
     this.isScaleTransition = false,
     this.isFadeTranssition = true,
     this.isRotateTransition = false,
+    this.isVerticalGestureClose = false,
     this.scaleAlignment = Alignment.topCenter,
     this.slideTransitionType = SlideTransitionType.fromTop,
     this.openDuration = const Duration(milliseconds: 500),
@@ -26,6 +27,7 @@ class GrockFullScreenModal extends ModalRoute {
   final bool isScaleTransition;
   final bool isFadeTranssition;
   final bool isRotateTransition;
+  final bool isVerticalGestureClose;
   final Alignment scaleAlignment;
   final Duration openDuration;
   final bool isOpaque;
@@ -51,6 +53,7 @@ class GrockFullScreenModal extends ModalRoute {
 
   @override
   bool get maintainState => isMaintainState;
+  
 
   @override
   Widget buildPage(
@@ -61,9 +64,53 @@ class GrockFullScreenModal extends ModalRoute {
     return builder(context, animation, secondaryAnimation);
   }
 
+  ValueNotifier<double> verticalGesturePosition = ValueNotifier<double>(0.0);
+
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
+    if (!isSlideTransition && !isScaleTransition && !isFadeTranssition) {
+      return child;
+    }
+    if (isVerticalGestureClose) {
+      return GestureDetector(
+        onVerticalDragUpdate: (details) => verticalGestureCalcaulation(details),
+        onVerticalDragEnd: (details) {
+          final height = MediaQuery.sizeOf(context).height;
+          verticalGestureCalcEnd(details, height, context);
+        },
+        child: ValueListenableBuilder(
+          valueListenable: verticalGesturePosition,
+          builder: (context, verticalGesturePositionValue, _) {
+            return Transform.translate(
+              offset: Offset(0, verticalGesturePositionValue),
+              child: _buildTransition(animation, child),
+            );
+          },
+        ),
+      );
+    }
+    return _buildTransition(animation, child);
+  }
+
+  void verticalGestureCalcEnd(
+    DragEndDetails details,
+    double height,
+    BuildContext context,
+  ) {
+    if (verticalGesturePosition.value >= height * 0.3) {
+      Navigator.of(context).pop();
+    } else if (verticalGesturePosition.value <= -height * 0.3) {
+      Navigator.of(context).pop();
+    }
+    verticalGesturePosition.value = 0.0;
+  }
+
+  void verticalGestureCalcaulation(DragUpdateDetails details) {
+    verticalGesturePosition.value += details.delta.dy;
+  }
+
+  Widget _buildTransition(Animation<double> animation, Widget child) {
     return RotationTransition(
       turns: isRotateTransition ? animation : const AlwaysStoppedAnimation(0.0),
       child: FadeTransition(
@@ -71,19 +118,25 @@ class GrockFullScreenModal extends ModalRoute {
             isFadeTranssition ? animation : const AlwaysStoppedAnimation(1.0),
         child: SlideTransition(
           position: isSlideTransition
-              ? Tween<Offset>(
-                  begin: slideTransitionType.offset,
-                  end: Offset.zero,
-                ).animate(animation)
+              ? slideAnimation(animation)
               : const AlwaysStoppedAnimation(Offset.zero),
-          child: ScaleTransition(
-            scale: isScaleTransition ? animation : AlwaysStoppedAnimation(1.0),
-            alignment: scaleAlignment,
-            child: child,
-          ),
+          child: isScaleTransition
+              ? ScaleTransition(
+                  scale: animation,
+                  alignment: scaleAlignment,
+                  child: child,
+                )
+              : child,
         ),
       ),
     );
+  }
+
+  Animation<Offset> slideAnimation(Animation<double> animation) {
+    return Tween<Offset>(
+      begin: slideTransitionType.offset,
+      end: Offset.zero,
+    ).animate(animation);
   }
 }
 

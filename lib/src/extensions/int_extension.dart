@@ -10,7 +10,7 @@ extension IntExtension on int {
 
 Random random = Random();
 
-extension RandomImageExtension on int {
+extension RandomImageExtension<T> on int {
   String randomImage({int width = 1080, int height = 720}) =>
       "https://picsum.photos/$width/$height?random=$this";
 
@@ -18,6 +18,26 @@ extension RandomImageExtension on int {
       "https://loremflickr.com/$width/$height?random=$this";
 
   String lorem() => loremIpsum(words: this);
+
+  List<T> repeat(T Function(int count) func) {
+    return [for (var i = 1; i <= abs(); i++) func(i)];
+  }
+
+  List<int> rangeTo([int? to]) {
+    if (to == null) {
+      return [for (var i = 1; i <= abs(); i++) i];
+    } else {
+      return [for (var i = this; i <= to; i++) i];
+    }
+  }
+
+  List<int> rangeDownTo([int? to]) {
+    if (to == null) {
+      return [for (var i = 1; i >= abs(); i--) i];
+    } else {
+      return [for (var i = this; i >= to; i--) i];
+    }
+  }
 }
 
 extension SizeBoxExtension on num {
@@ -162,4 +182,16 @@ extension RandomStringExtension on int {
   /// get random not letter and number string
   String get randomNotLetterAndNumber =>
       getRandomString().replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
+
+  /// Digits
+  String get twoDigits => this.toString().padLeft(2, '0');
+  String get threeDigits => this.toString().padLeft(3, '0');
+  String get fourDigits => this.toString().padLeft(4, '0');
+  String get fiveDigits => this.toString().padLeft(5, '0');
+  String get sixDigits => this.toString().padLeft(6, '0');
+  String get sevenDigits => this.toString().padLeft(7, '0');
+  String get eightDigits => this.toString().padLeft(8, '0');
+  String get nineDigits => this.toString().padLeft(9, '0');
+
+  
 }

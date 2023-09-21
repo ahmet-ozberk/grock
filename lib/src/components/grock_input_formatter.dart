@@ -8,11 +8,13 @@ enum GrockMaskAutoCompletionType {
 }
 
 /// Usage:
+/// ```dart
 /// final maskFormatter = GrockInputFormatter(
 ///   mask: '+# (###) ###-##-##',
 ///   filter: { "#": RegExp(r'[0-9]') },
 ///   type: GrockMaskAutoCompletionType.lazy
 /// );
+/// ```
 
 class GrockInputFormatter implements TextInputFormatter {
   final GrockMaskAutoCompletionType type;

@@ -22,4 +22,21 @@ extension DynamicExtension on dynamic {
 
   /// json to object
   T? toObject<T>() => this is T ? this : null;
+
+  /// is Map
+  bool get isMap => this is Map;
+
+  /// is List
+  bool get isList => this is List;
+
+  /// is String
+  bool get isString => this is String;
+
+  /// is Map or Null
+  bool get isMapOrNull => this is Map || this == null;
+
+  /// is List or Null
+  bool get isListOrNull => this is List || this == null;
+
+  bool isTypeOf<T>() => this is T;
 }
