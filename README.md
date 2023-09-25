@@ -38,12 +38,7 @@ final request = await GrockDioServices.request(
  method: GrockDioType.get,
  path: '/posts',
  queryParameters: {"userId": 1},
-);
-```
-
-* ### and use grockResponseHandler for response
-```dart
-final response = await request.grockResponseHandler(
+).grockResponseHandler(
   success: (response) => Model.fromJson(response.data),
   error: (err) => Toast.show(err.toString()),
   loading: () => print("loading"),

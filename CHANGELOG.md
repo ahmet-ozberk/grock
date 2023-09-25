@@ -1,3 +1,3 @@
-## 0.4.1 - 21-09-2023
+## 0.4.2 - 25-09-2023
 
-* Readme.md Added new api services.Meet GrockDioServices!
+* Readme.md Fixed sdk version.

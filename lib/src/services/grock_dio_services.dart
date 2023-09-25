@@ -58,6 +58,11 @@ class GrockDioLogger {
 ///     connectTimeout: 5000,
 ///     receiveTimeout: 3000,
 ///     logger = GrockDioLogger.default(),
+///     setAuthorizationToken: () async {
+///       final tokenValue = await getToken();
+///       final mapData = {"Authorization": "Bearer $tokenValue"};
+///       return mapData;
+///     },
 ///   );
 ///   runApp(MyApp());
 /// }
@@ -80,6 +85,11 @@ class GrockDioServices {
   ///     connectTimeout: 5000,
   ///     receiveTimeout: 3000,
   ///     logger = GrockDioLogger.default(),
+  ///     setAuthorizationToken: () async {
+  ///       final tokenValue = await getToken();
+  ///       final mapData = {"Authorization": "Bearer $tokenValue"};
+  ///       return mapData;
+  ///     },
   ///   );
   ///   runApp(MyApp());
   /// }
@@ -92,13 +102,7 @@ class GrockDioServices {
   ///  method: GrockDioType.get,
   ///  path: '/posts',
   ///  queryParameters: {"userId": 1},
-  /// );
-  /// ```
-  ///
-  /// and use grockResponseHandler for response
-  ///
-  /// ```dart
-  /// final response = await request.grockResponseHandler(
+  /// ).grockResponseHandler(
   ///   success: (response) => Model.fromJson(response.data),
   ///   error: (err) => Toast.show(err.toString()),
   ///   loading: () => print("loading"),
@@ -134,7 +138,7 @@ class GrockDioServices {
     ///  WidgetsFlutterBinding.ensureInitialized();
     ///  await GrockDioServices.instance.init(
     ///   baseUrl: 'https://jsonplaceholder.typicode.com',
-    ///   getToken: () async {
+    ///   setAuthorizationToken: () async {
     ///     final tokenValue = await getToken();
     ///     final mapData = {"Authorization": "Bearer $tokenValue"};
     ///     return mapData;
@@ -189,13 +193,7 @@ class GrockDioServices {
   ///  path: '/posts',
   ///  queryParameters: {"userId": 1},
   ///  isLogger: true,
-  /// );
-  /// ```
-  ///
-  /// and use grockResponseHandler for response
-  ///
-  /// ```dart
-  /// final response = await request.grockResponseHandler(
+  /// ).grockResponseHandler(
   ///   success: (response) => Model.fromJson(response.data),
   ///   error: (err) => Toast.show(err.toString()),
   ///   loading: () => print("loading"),
@@ -237,7 +235,7 @@ extension DioExtension on Future<Response> {
 
   /// ----------------- grockResponseHandler example -----------------
   /// ```dart
-  /// final response = await request.grockResponseHandler(
+  /// final response = await GrockDioServices.request().grockResponseHandler(
   ///  success: (response) => Model.fromJson(response.data),
   ///  error: (err) => Toast.show(err.toString()),
   ///  loading: () => print("loading"),
