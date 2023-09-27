@@ -1,6 +1,6 @@
 name: grock
 description: Api Services, Snackbar, Toast, No Context Extension, Custom Widgets, Widget Extensions, Fast Tools, IOS Style Widget and Tools.
-version: 0.4.2
+version: 0.4.3
 homepage: https://github.com/ahmet-ozberk/grock
 
 environment:
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  connectivity_plus: ^4.0.2
   page_transition: ^2.1.0
   dio: ^5.3.2
 

@@ -17,7 +17,6 @@ export 'src/widgets/grock_fade_animation.dart';
 export 'src/widgets/grock_button.dart';
 export 'src/widgets/grock_menu.dart';
 export 'src/extensions/string_extension.dart';
-export 'src/widgets/grock_internet_checker.dart';
 export 'src/extensions/list_extension.dart';
 export 'src/widgets/grock_info_widget.dart';
 export 'src/widgets/grock_horizontal_list.dart';

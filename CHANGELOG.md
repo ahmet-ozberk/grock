@@ -1,3 +1,3 @@
-## 0.4.2 - 25-09-2023
+## 0.4.3 - 27-09-2023
 
-* Readme.md Fixed sdk version.
+* Readme.md Removed connectivity_plus package.

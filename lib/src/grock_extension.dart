@@ -496,38 +496,38 @@ extension Grock on ScaffoldMessengerModel {
   /// [Random Color] from [Colors.primaries]
   static Color randomColor() => Colors.primaries[17.randomNum];
 
-  /// [Grock Internet Checker] check internet connection and show widget
-  static void checkInternet({
-    Function()? onConnect,
-    Function()? onDisconnect,
-    Color? connectBackgroundColor,
-    Color? connectIconColor,
-    Icon? connectIcon,
-    Widget? connectWidget,
-    Duration connectWidgetDuration = const Duration(seconds: 2),
-    Widget? disconnectWidget,
-    Color? disconnectBackgroundColor,
-    Color? disconnectIconColor,
-    Icon? disconnectIcon,
-    AlignmentGeometry? alignment,
-    BoxShape? shape,
-  }) {
-    GrockInternetChecker.internetCheckFunction(
-      onConnect: onConnect,
-      onDisconnect: onDisconnect,
-      connectBackgroundColor: connectBackgroundColor,
-      connectIconColor: connectIconColor,
-      connectIcon: connectIcon,
-      connectWidget: connectWidget,
-      connectWidgetDuration: connectWidgetDuration,
-      disconnectWidget: disconnectWidget,
-      disconnectBackgroundColor: disconnectBackgroundColor,
-      disconnectIconColor: disconnectIconColor,
-      disconnectIcon: disconnectIcon,
-      alignment: alignment,
-      shape: shape,
-    );
-  }
+  // /// [Grock Internet Checker] check internet connection and show widget
+  // static void checkInternet({
+  //   Function()? onConnect,
+  //   Function()? onDisconnect,
+  //   Color? connectBackgroundColor,
+  //   Color? connectIconColor,
+  //   Icon? connectIcon,
+  //   Widget? connectWidget,
+  //   Duration connectWidgetDuration = const Duration(seconds: 2),
+  //   Widget? disconnectWidget,
+  //   Color? disconnectBackgroundColor,
+  //   Color? disconnectIconColor,
+  //   Icon? disconnectIcon,
+  //   AlignmentGeometry? alignment,
+  //   BoxShape? shape,
+  // }) {
+  //   GrockInternetChecker.internetCheckFunction(
+  //     onConnect: onConnect,
+  //     onDisconnect: onDisconnect,
+  //     connectBackgroundColor: connectBackgroundColor,
+  //     connectIconColor: connectIconColor,
+  //     connectIcon: connectIcon,
+  //     connectWidget: connectWidget,
+  //     connectWidgetDuration: connectWidgetDuration,
+  //     disconnectWidget: disconnectWidget,
+  //     disconnectBackgroundColor: disconnectBackgroundColor,
+  //     disconnectIconColor: disconnectIconColor,
+  //     disconnectIcon: disconnectIcon,
+  //     alignment: alignment,
+  //     shape: shape,
+  //   );
+  // }
 
   static Widget loadingPopup(
           {Key? key,
