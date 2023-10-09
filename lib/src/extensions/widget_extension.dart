@@ -68,6 +68,12 @@ Future<Uint8List> createImageFromWidget(Widget widget,
 */
 
 extension WidgetExtension on Widget {
+  Theme get disableMaterial3 =>
+      Theme(data: ThemeData(useMaterial3: false), child: this);
+
+  Theme get enableMaterial3 =>
+      Theme(data: ThemeData(useMaterial3: true), child: this);
+
   Material material() => Material(type: MaterialType.transparency, child: this);
 
   Widget visible(bool val) => Visibility(
