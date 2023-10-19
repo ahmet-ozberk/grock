@@ -5,13 +5,12 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:grock/grock.dart';
 import 'package:grock/src/model/loading_widget.dart';
 import 'model/navigation_state.dart';
 import 'model/scaffold_messenger.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'services/uniq_number_id_services.dart';
 
 part 'widgets/grock_toast.dart';
 part 'components/grock_overlay.dart';
@@ -19,9 +18,9 @@ part 'widgets/grock_fullscreen_dialog.dart';
 part 'snackbar/grock_snackbar.dart';
 part 'widgets/grock_adaptive_dialog_button.dart';
 
-extension Grock on ScaffoldMessengerModel {
-  /// [Keys]
-  
+class Grock {
+  Grock._();
+
   /// ScaffoldMessengerKey for show snackbar
   /// Added in MaterialApp => scaffoldMessengerKey: Grock.scaffoldMessengerKey,
   static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey =>
@@ -54,15 +53,6 @@ extension Grock on ScaffoldMessengerModel {
 
   static double get height => ScaffoldMessengerModel.height;
   static double get width => ScaffoldMessengerModel.width;
-  static Offset get topCenter => ScaffoldMessengerModel.topCenter;
-  static Offset get bottomCenter => ScaffoldMessengerModel.bottomCenter;
-  static Offset get center => ScaffoldMessengerModel.center;
-  static Offset get topLeft => ScaffoldMessengerModel.topLeft;
-  static Offset get topRight => ScaffoldMessengerModel.topRight;
-  static Offset get bottomLeft => ScaffoldMessengerModel.bottomLeft;
-  static Offset get bottomRight => ScaffoldMessengerModel.bottomRight;
-  static Offset get centerLeft => ScaffoldMessengerModel.centerLeft;
-  static Offset get centerRight => ScaffoldMessengerModel.centerRight;
 
   /// [Navigation]
   /// ```dart
@@ -143,8 +133,7 @@ extension Grock on ScaffoldMessengerModel {
   }
 
   /// Hide keyboard function.
-  static void hideKeyboard() =>
-      FocusScope.of(context).requestFocus(FocusNode());
+  static void get hideKeyboard => FocusManager.instance.primaryFocus?.unfocus();
   static void widgetBinding(Function function) =>
       WidgetsBinding.instance.addPostFrameCallback((_) => function());
 
@@ -294,7 +283,6 @@ extension Grock on ScaffoldMessengerModel {
       ),
     );
   }
-
 
   static void fullScreenDialog({
     required Widget child,
@@ -565,7 +553,8 @@ extension Grock on ScaffoldMessengerModel {
   /// Response => ```dart 34576890876 ```
   static String uniqId(
           {int length = 11, GrockUniqIdType type = GrockUniqIdType.numbers}) =>
-      GrockUniqIdServices.generate(length: length);
+      GrockUniqIdServices.generate(
+          length: length, type: GrockUniqIdType.numbers);
 
   /// ------ Grock Widget Extensions ------
   /// * This widget function is available in [actions] in [AlertDialog.adaptive].

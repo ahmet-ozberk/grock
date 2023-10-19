@@ -3,70 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
-/*
-extension ToBitDescription on Widget {
-  Future<BitmapDescriptor> toGrockGoogleMapsMarkerWidget(
-      {Size? logicalSize,
-      Size? imageSize,
-      Duration waitToRender = const Duration(milliseconds: 300),
-      TextDirection textDirection = TextDirection.ltr}) async {
-    final widget = RepaintBoundary(
-      child: MediaQuery(
-          data: const MediaQueryData(),
-          child: Directionality(textDirection: TextDirection.ltr, child: this)),
-    );
-    final pngBytes = await createImageFromWidget(widget,
-        waitToRender: waitToRender, logicalSize: logicalSize, imageSize: imageSize);
-    return BitmapDescriptor.fromBytes(pngBytes);
-  }
-}
-
-Future<Uint8List> createImageFromWidget(Widget widget,
-    {Size? logicalSize, required Duration waitToRender, Size? imageSize}) async {
-  final RenderRepaintBoundary repaintBoundary = RenderRepaintBoundary();
-
-  logicalSize ??= ui.window.physicalSize / ui.window.devicePixelRatio;
-  imageSize ??= ui.window.physicalSize;
-
-  final RenderView renderView = RenderView(
-    window: WidgetsBinding.instance.window,
-    child: RenderPositionedBox(alignment: Alignment.center, child: repaintBoundary),
-    configuration: ViewConfiguration(
-      size: logicalSize,
-      devicePixelRatio: 1.0,
-    ),
-  );
-
-  final PipelineOwner pipelineOwner = PipelineOwner();
-  final BuildOwner buildOwner = BuildOwner(focusManager: FocusManager());
-
-  pipelineOwner.rootNode = renderView;
-  renderView.prepareInitialFrame();
-
-  final RenderObjectToWidgetElement<RenderBox> rootElement = RenderObjectToWidgetAdapter<RenderBox>(
-    container: repaintBoundary,
-    child: widget,
-  ).attachToRenderTree(buildOwner);
-
-  buildOwner.buildScope(rootElement);
-
-  await Future.delayed(waitToRender);
-
-  buildOwner.buildScope(rootElement);
-  buildOwner.finalizeTree();
-
-  pipelineOwner.flushLayout();
-  pipelineOwner.flushCompositingBits();
-  pipelineOwner.flushPaint();
-
-  final ui.Image image =
-      await repaintBoundary.toImage(pixelRatio: imageSize.width / logicalSize.width);
-  final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-  return byteData!.buffer.asUint8List();
-}
-*/
-
 extension WidgetExtension on Widget {
   Theme get disableMaterial3 =>
       Theme(data: ThemeData(useMaterial3: false), child: this);
@@ -74,7 +10,8 @@ extension WidgetExtension on Widget {
   Theme get enableMaterial3 =>
       Theme(data: ThemeData(useMaterial3: true), child: this);
 
-  Material material() => Material(type: MaterialType.transparency, child: this);
+  Material get material =>
+      Material(type: MaterialType.transparency, child: this);
 
   Widget visible(bool val) => Visibility(
         child: this,
@@ -212,19 +149,25 @@ extension WidgetExtension on Widget {
 
   Widget get rotationRight =>
       RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
+
   Widget get rotationUp => RotationTransition(
       turns: const AlwaysStoppedAnimation(0.25), child: this);
+
   Widget get rotationBottom => RotationTransition(
       turns: const AlwaysStoppedAnimation(0.75), child: this);
+
   Widget get rotationLeft =>
       RotationTransition(turns: const AlwaysStoppedAnimation(1), child: this);
+
   Widget rotate({double? value}) => RotationTransition(
       turns: AlwaysStoppedAnimation(value ?? 0), child: this);
+
   Widget rotateBox({int? value}) =>
       RotatedBox(quarterTurns: value ?? 0, child: this);
 
   Widget alignment({AlignmentGeometry? align}) =>
       Align(alignment: align ?? Alignment.center, child: this);
+
   Widget align({AlignmentGeometry? align}) =>
       Align(alignment: align ?? Alignment.center, child: this);
 
@@ -265,6 +208,7 @@ extension WidgetExtension on Widget {
               onTap: onTap,
               child: this,
             );
+
   Widget bgBlur({double blurRadius = 10, double? sigmaX, double? sigmaY}) =>
       BackdropFilter(
         filter: ImageFilter.blur(
@@ -457,6 +401,7 @@ extension WidgetExtension on Widget {
     double end = 1,
     Curve? curve,
     Duration? duration,
+    Alignment alignment = Alignment.center,
   }) =>
       _GrockScaleAnimation(
         child: this,
@@ -464,6 +409,7 @@ extension WidgetExtension on Widget {
         from: start,
         duration: duration,
         curve: curve,
+        alignment: alignment,
       );
 
   Widget animatedSlide({
@@ -528,6 +474,7 @@ class _GrockSizeAnimation extends StatefulWidget {
   Duration? duration;
   double from;
   double to;
+
   _GrockSizeAnimation({
     Key? key,
     required this.child,
@@ -593,6 +540,7 @@ class _GrockSlideAnimation extends StatefulWidget {
   Duration? duration;
   double from;
   double to;
+
   _GrockSlideAnimation({
     Key? key,
     required this.child,
@@ -658,6 +606,7 @@ class _GrockFadeAnimation extends StatefulWidget {
   Duration? duration;
   double from;
   double to;
+
   _GrockFadeAnimation({
     Key? key,
     required this.child,
@@ -716,10 +665,12 @@ class __GrockFadeAnimationState extends State<_GrockFadeAnimation>
 // ignore: must_be_immutable
 class _GrockScaleAnimation extends StatefulWidget {
   final Widget child;
-  Curve? curve;
-  Duration? duration;
-  double from;
-  double to;
+  final Curve? curve;
+  final Duration? duration;
+  final double from;
+  final double to;
+  final Alignment alignment;
+
   _GrockScaleAnimation({
     Key? key,
     required this.child,
@@ -727,6 +678,7 @@ class _GrockScaleAnimation extends StatefulWidget {
     this.duration,
     this.from = 0,
     this.to = 1,
+    this.alignment = Alignment.center,
   }) : super(key: key);
 
   @override
@@ -770,6 +722,7 @@ class __GrockScaleAnimationState extends State<_GrockScaleAnimation>
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: _animation,
+      alignment: widget.alignment,
       child: widget.child,
     );
   }
@@ -782,6 +735,7 @@ class _GrockRotationAnimation extends StatefulWidget {
   Duration? duration;
   double from;
   double to;
+
   _GrockRotationAnimation({
     Key? key,
     required this.child,

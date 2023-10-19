@@ -14,6 +14,15 @@ class GrockDioLogger {
   final bool error;
   final bool requestBody;
 
+  const GrockDioLogger({
+    this.responseBody = false,
+    this.request = false,
+    this.requestHeader = false,
+    this.responseHeader = false,
+    this.error = false,
+    this.requestBody = false,
+  });
+
   /// default all value false
   const GrockDioLogger.off()
       : responseBody = false,
@@ -49,9 +58,9 @@ class GrockDioLogger {
 /// Usefull Extensions
 /// -----------------
 /// ```dart
-/// 
+///
 /// import 'package:grock/grock.dart';
-/// 
+///
 /// void main() {
 ///   GrockDioServices.instance.init(
 ///     baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -174,8 +183,8 @@ class GrockDioServices {
                 validateStatus: (status) => status! < 500,
               ),
         );
-    
-    if (logger != null) {
+
+    if (logger != null && logger != GrockDioLogger.off()) {
       _dio.interceptors.add(LogInterceptor(
           responseBody: logger.requestBody,
           request: logger.request,
@@ -232,7 +241,6 @@ class GrockDioServices {
 }
 
 extension DioExtension on Future<Response> {
-
   /// ----------------- grockResponseHandler example -----------------
   /// ```dart
   /// final response = await GrockDioServices.request().grockResponseHandler(

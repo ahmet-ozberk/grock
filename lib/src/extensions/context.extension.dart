@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'int_extension.dart';
+import 'int.extension.dart';
 
 extension TextThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;

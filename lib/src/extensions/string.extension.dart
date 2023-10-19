@@ -1,38 +1,53 @@
 import 'package:flutter/material.dart';
 
 extension StringExtension on String {
+  String plus(String value) => this + value;
+
   String get capitalize => this[0].toUpperCase() + this.substring(1);
+
   String get trimAllRegex => this.replaceAll(RegExp(r"\s+\b|\b\s"), "");
+
   String get trimAll => this.replaceAll(" ", "");
+
   String get capitalizeEach =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get capitalizeEachFirst =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get capitalizeEachFirstLower => this
       .split(" ")
       .map((e) => e[0].toUpperCase() + e.substring(1))
       .join(" ")
       .toLowerCase();
+
   String get capitalizeEachLower =>
       this.split(" ").map((e) => e.toLowerCase()).join(" ");
+
   String get capitalizeEachLowerFirst =>
       this.split(" ").map((e) => e[0].toLowerCase() + e.substring(1)).join(" ");
+
   String get capitalizeEachLowerFirstUpper => this
       .split(" ")
       .map((e) => e[0].toUpperCase() + e.substring(1))
       .join(" ")
       .toLowerCase();
+
   String get capitalizeEachUpper =>
       this.split(" ").map((e) => e.toUpperCase()).join(" ");
+
   String get capitalizeEachUpperFirst =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get capitalizeEachUpperFirstLower => this
       .split(" ")
       .map((e) => e[0].toLowerCase() + e.substring(1))
       .join(" ")
       .toUpperCase();
+
   String get capitalizeEachUpperLower =>
       this.split(" ").map((e) => e.toLowerCase()).join(" ");
+
   String get capitalizeEachUpperLowerFirst => this
       .split(" ")
       .map((e) => e[0].toLowerCase() + e.substring(1))
@@ -42,53 +57,71 @@ extension StringExtension on String {
   DateTime get toDate => DateTime.parse(this);
 
   String get filter => this.replaceAll(RegExp(r"[^a-zA-Z0-9]"), "");
+
   String get filterNumber => this.replaceAll(RegExp(r"[^0-9]"), "");
+
   String get filterNumberDecimal => this.replaceAll(RegExp(r"[^0-9.]"), "");
+
   String get filterNumberDecimalComma =>
       this.replaceAll(RegExp(r"[^0-9,]"), "");
+
   String get filterNumberDecimalCommaDot =>
       this.replaceAll(RegExp(r"[^0-9.,]"), "");
+
   String get filterNumberDecimalCommaDotSpace =>
       this.replaceAll(RegExp(r"[^0-9., ]"), "");
+
   String get filterNumberDecimalCommaDotSpaceSpace =>
       this.replaceAll(RegExp(r"[^0-9., ] "), "");
+
   String get filterNumberDecimalCommaDotSpaceSpaceSpace =>
       this.replaceAll(RegExp(r"[^0-9., ]  "), "");
 
   String get forEach =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get forEachFirst =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get forEachFirstLower => this
       .split(" ")
       .map((e) => e[0].toUpperCase() + e.substring(1))
       .join(" ")
       .toLowerCase();
+
   String get forEachLower =>
       this.split(" ").map((e) => e.toLowerCase()).join(" ");
+
   String get forEachLowerFirst =>
       this.split(" ").map((e) => e[0].toLowerCase() + e.substring(1)).join(" ");
+
   String get forEachLowerFirstUpper => this
       .split(" ")
       .map((e) => e[0].toUpperCase() + e.substring(1))
       .join(" ")
       .toLowerCase();
+
   String get forEachUpper =>
       this.split(" ").map((e) => e.toUpperCase()).join(" ");
+
   String get forEachUpperFirst =>
       this.split(" ").map((e) => e[0].toUpperCase() + e.substring(1)).join(" ");
+
   String get forEachUpperFirstLower => this
       .split(" ")
       .map((e) => e[0].toLowerCase() + e.substring(1))
       .join(" ")
       .toUpperCase();
+
   String get forEachUpperLower =>
       this.split(" ").map((e) => e.toLowerCase()).join(" ");
+
   String get forEachUpperLowerFirst => this
       .split(" ")
       .map((e) => e[0].toLowerCase() + e.substring(1))
       .join(" ")
       .toUpperCase();
+
   String get forEachUpperLowerFirstUpper => this
       .split(" ")
       .map((e) => e[0].toUpperCase() + e.substring(1))
@@ -96,31 +129,40 @@ extension StringExtension on String {
       .toLowerCase();
 
   bool get isPhoneNumber => this.length == 11 && this.startsWith("0");
+
   bool get isPhoneNumberWithCountryCode =>
       this.length == 13 && this.startsWith("+");
+
   bool get isPhoneNumberWithCountryCodeAndSpace =>
       this.length == 14 && this.startsWith("+ ");
 
   bool get isPassword => this.length >= 8;
 
   String get lower => this.toLowerCase();
+
   String get lowerFirst => this[0].toLowerCase() + this.substring(1);
+
   String get lowerFirstUpper =>
       this[0].toUpperCase() + this.substring(1).toLowerCase();
+
   String get lowerFirstUpperLower =>
       this[0].toLowerCase() + this.substring(1).toLowerCase();
+
   String get lowerFirstUpperLowerFirst =>
       this[0].toLowerCase() +
       this.substring(1).toLowerCase() +
       this.substring(2);
+
   String get lowerFirstUpperLowerFirstUpper =>
       this[0].toUpperCase() +
       this.substring(1).toLowerCase() +
       this.substring(2).toLowerCase();
+
   String get lowerFirstUpperLowerFirstUpperLower =>
       this[0].toLowerCase() +
       this.substring(1).toLowerCase() +
       this.substring(2).toLowerCase();
+
   String get lowerFirstUpperLowerFirstUpperLowerFirst =>
       this[0].toLowerCase() +
       this.substring(1).toLowerCase() +
@@ -128,13 +170,17 @@ extension StringExtension on String {
       this.substring(3);
 
   bool get isTurkeyPhoneNumber => this.length == 10 && this.startsWith("5");
+
   bool get isTurkeyPhoneNumberWithCountryCode =>
       this.length == 13 && this.startsWith("+90");
+
   bool get isTurkeyPhoneNumberWithCountryCodeAndSpace =>
       this.length == 14 && this.startsWith("+90 ");
 
   bool get isEmail => this.contains("@") && this.contains(".");
+
   bool get isEmailWithSpace => this.contains(" @");
+
   bool get isEmailWithSpaceSpace => this.contains(" @ ");
 
   bool get isUrl =>
@@ -225,10 +271,12 @@ extension StringExtension on String {
 
   String get dateTimeFormat =>
       this.isDateTime ? this.dateTime.toString().split(" ")[0] : "";
+
   String get dateTimeFormatWithSpace =>
       this.isDateTime ? this.dateTime.toString().split(" ")[0] + " " : "";
 
   bool isNumericOnly() => RegExp(r'^\d+$').hasMatch(this);
+
   bool isAlphabetOnly() => RegExp(r'^[a-zA-Z]+$').hasMatch(this);
 
   bool isSearch(String search) =>
@@ -258,11 +306,19 @@ extension StringExtension on String {
     }
   }
 
-  Text get toTextWidget => Text(this);
+  Text get textWidget => Text(this);
 
   List<String> get words => this.split(" ");
 
   String get removePrefix => this.substring(1);
 
   String get removeSuffix => this.substring(0, this.length - 1);
+  Map<String, dynamic> get toBearerToken => {'Authorization': 'Bearer $this'};
+}
+
+extension NullableStringExtension on String?{
+  String get completeNullString => this ?? "";
+
+  bool search(String search) => this.completeNullString.trim().toLowerCase().contains(search.trim().toLowerCase());
+
 }

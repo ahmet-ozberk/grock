@@ -1,3 +1,3 @@
-## 0.4.3 - 27-09-2023
+## 0.4.4 - 19-19-2023
 
-* Readme.md Removed connectivity_plus package.
+* Readme.md Updated fixed package.

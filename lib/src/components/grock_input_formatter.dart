@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -329,4 +331,128 @@ class _TextMatcher {
       _symbolArray.add(text[i]);
     }
   }
+}
+
+class GrockFormatters {
+  static final TextInputFormatter number =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
+  static final TextInputFormatter numberWithDot =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'));
+  static final TextInputFormatter numberWithComma =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9,]'));
+  static final TextInputFormatter numberWithDotAndComma =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'));
+  static final TextInputFormatter numberAndMinus =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'));
+  static final TextInputFormatter numberAndUppercasedLetter =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9A-Z]'));
+  static final TextInputFormatter numberAndLowercasedLetter =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9a-z]'));
+  static final TextInputFormatter numberAndLetter =
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9A-Za-z]'));
+
+  /// Example: +7 (999) 999-99-99
+  static final TextInputFormatter phoneNumber = GrockInputFormatter(
+      mask: '+# (###) ###-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 9999 9999 9999 9999
+  static final TextInputFormatter creditCardNumber = GrockInputFormatter(
+      mask: '#### #### #### ####',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99/99
+  static final TextInputFormatter creditCardExpirationDate =
+      GrockInputFormatter(
+          mask: '##/##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 999
+  static final TextInputFormatter creditCardCVV = GrockInputFormatter(
+      mask: '###',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 9999
+  static final TextInputFormatter creditCardZipCode = GrockInputFormatter(
+      mask: '####',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99:99
+  static final TextInputFormatter time = GrockInputFormatter(
+      mask: '##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99:99:99
+  static final TextInputFormatter timeWithSeconds = GrockInputFormatter(
+      mask: '##:##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99.99
+  static final TextInputFormatter decimal = GrockInputFormatter(
+      mask: '##.##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99.99.9999
+  static final TextInputFormatter date = GrockInputFormatter(
+      mask: '##.##.####',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99.99.9999 99:99
+  static final TextInputFormatter dateTime = GrockInputFormatter(
+      mask: '##.##.#### ##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: 99.99.9999 99:99:99
+  static final TextInputFormatter dateTimeWithSeconds = GrockInputFormatter(
+      mask: '##.##.#### ##:##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: Money formatter with 2 decimal places // 999,999,999,999.99
+  static final TextInputFormatter money = GrockInputFormatter(
+      mask: '###,###,###,###.##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: iban formatter // AA99 9999 9999 9999 9999 9999 99
+  static final TextInputFormatter iban = GrockInputFormatter(
+      mask: '**## #### #### #### #### #### ##',
+      filter: {"#": RegExp(r'[0-9]'), "*": RegExp(r'[A-Z]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: tr iban formatter // TR99 9999 9999 9999 9999 9999 99
+  static final TextInputFormatter trIban = GrockInputFormatter(
+      mask: 'TR## #### #### #### #### #### ##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  static final trPhoneNumber = GrockInputFormatter(
+      mask: '+90 (###) ###-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  /// Example: tr identity number formatter // 99999999999
+  static final TextInputFormatter trIdentityNumber = GrockInputFormatter(
+      mask: '###########',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: GrockMaskAutoCompletionType.lazy);
+
+  static final TextInputFormatter email =
+      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._-]'));
+
+  /// Example: tr plate number formatter // 99 AAA 999
+  static final TextInputFormatter trPlateNumber = GrockInputFormatter(
+      mask: '## *** ###',
+      filter: {"#": RegExp(r'[0-9]'), "*": RegExp(r'[A-Z]')},
+      type: GrockMaskAutoCompletionType.lazy);
 }

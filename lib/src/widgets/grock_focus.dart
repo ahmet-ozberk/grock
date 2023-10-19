@@ -475,7 +475,7 @@ class __GrockFocusDetailState extends State<_GrockFocusDetail> {
           },
           trailing: item.trailing,
           focusColor: item.backgroundColor,
-        ).material();
+        ).material;
   }
 
   Alignment _fadeAlignment(bool menuPositionIsTop) {

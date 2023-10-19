@@ -599,42 +599,42 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
 
   /// [Keyboard hidden] method
   void hideKeyboard() {
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   /// [is keyboard open] method
   bool isKeyboardOpen() {
-    return MediaQuery.of(context).viewInsets.bottom > 0;
+    return MediaQuery.viewInsetsOf(context).bottom > 0;
   }
 
   /// [is keyboard open] method
   bool isKeyboardClosed() {
-    return MediaQuery.of(context).viewInsets.bottom == 0;
+    return MediaQuery.viewInsetsOf(context).bottom <= 0;
   }
 
   /// [safe area bottm] method
   double safeAreaBottom() {
-    return MediaQuery.of(context).padding.bottom;
+    return MediaQuery.paddingOf(context).bottom;
   }
 
   /// [safe area top] method
   double safeAreaTop() {
-    return MediaQuery.of(context).padding.top;
+    return MediaQuery.paddingOf(context).top;
   }
 
   /// [safe area left] method
   double safeAreaLeft() {
-    return MediaQuery.of(context).padding.left;
+    return MediaQuery.paddingOf(context).left;
   }
 
   /// [safe area right] method
   double safeAreaRight() {
-    return MediaQuery.of(context).padding.right;
+    return MediaQuery.paddingOf(context).right;
   }
 
   /// [safe area] method
   EdgeInsets safeArea() {
-    return MediaQuery.of(context).padding;
+    return MediaQuery.paddingOf(context);
   }
 
   /// [safe area] method
@@ -720,6 +720,24 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
       {required Widget child,
       required Function(Size size, Offset offset) callback}) {
     return GrockWidgetSize(child: child, callback: callback);
+  }
+
+  late final AppLifecycleListener appLifecycleListener;
+
+  @override
+  void initState() {
+    _setAppLifecycle();
+    super.initState();
+  }
+
+  void _setAppLifecycle() {
+    appLifecycleListener = AppLifecycleListener();
+  }
+
+  @override
+  void dispose() {
+    appLifecycleListener.dispose();
+    super.dispose();
   }
 }
 

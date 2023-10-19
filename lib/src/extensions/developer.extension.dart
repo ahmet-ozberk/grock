@@ -1,11 +1,9 @@
-import 'dart:developer';
+import 'dart:developer' as developer show log;
 
 import 'package:flutter/material.dart';
 
 extension DeveloperExtension on Object? {
-  void get logger {
-    return log(this.toString(), name: 'GrockLogger');
-  }
+  void get logger => developer.log(this.toString(), name: 'GrockLogger');
 
   void get printer {
     print(this.toString());

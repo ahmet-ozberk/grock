@@ -45,6 +45,10 @@ extension SizeBoxExtension on num {
   Widget get width => SizedBox(width: this.toDouble());
   Widget get heightWidth =>
       SizedBox(height: this.toDouble(), width: this.toDouble());
+  Widget get box => SizedBox(
+        height: this.toDouble(),
+        width: this.toDouble(),
+      );
 }
 
 extension WaitExtension on int {
@@ -161,27 +165,27 @@ extension RandomStringExtension on int {
   static const charactersModel =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
-  String getRandomString() => String.fromCharCodes(Iterable.generate(
+  String get getRandomString => String.fromCharCodes(Iterable.generate(
       this,
       (_) =>
           charactersModel.codeUnitAt(random.nextInt(charactersModel.length))));
 
   /// Get random lower case string
-  String get randomLowercase => getRandomString().toLowerCase();
+  String get randomLowercase => getRandomString.toLowerCase();
 
   /// Get random upper case string
-  String get randomUppercase => getRandomString().toUpperCase();
+  String get randomUppercase => getRandomString.toUpperCase();
 
   /// get random not number string
-  String get randomNotNumber => getRandomString().replaceAll(RegExp(r'\d'), '');
+  String get randomNotNumber => getRandomString.replaceAll(RegExp(r'\d'), '');
 
   /// get random not letter string
   String get randomNotLetter =>
-      getRandomString().replaceAll(RegExp(r'[a-zA-Z]'), '');
+      getRandomString.replaceAll(RegExp(r'[a-zA-Z]'), '');
 
   /// get random not letter and number string
   String get randomNotLetterAndNumber =>
-      getRandomString().replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
+      getRandomString.replaceAll(RegExp(r'[a-zA-Z0-9]'), '');
 
   /// Digits
   String get twoDigits => this.toString().padLeft(2, '0');
@@ -192,6 +196,4 @@ extension RandomStringExtension on int {
   String get sevenDigits => this.toString().padLeft(7, '0');
   String get eightDigits => this.toString().padLeft(8, '0');
   String get nineDigits => this.toString().padLeft(9, '0');
-
-  
 }
