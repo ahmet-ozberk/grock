@@ -11,7 +11,7 @@ class GrockWidgetSize extends StatefulWidget {
 }
 
 class _GrockWidgetSizeState extends State<GrockWidgetSize> {
-  final _key = GlobalKey();
+  final _key = GlobalKey(debugLabel: "GrockWidgetSizeKey");
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {

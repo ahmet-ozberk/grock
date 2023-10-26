@@ -1,3 +1,3 @@
-## 0.4.6 - 26-10-2023
+## 0.4.7 - 26-10-2023
 
-* Readme.md Updated fixed package.
+* Readme.md Popup Menu fixed.

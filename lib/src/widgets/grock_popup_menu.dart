@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grock/grock.dart';
 
 enum GrockPopupMenuStatus { init, dispose, widgetsBinding }
 
@@ -54,7 +55,7 @@ class GrockPopupMenuStyle {
       const SizedBox(height: 2);
 }
 
-class GrockPopupMenu extends StatelessWidget {
+class GrockPopupMenu extends StatefulWidget {
   final Widget child;
   final GrockPopupMenuStyle? style;
   final List<GrockPopupMenuItem> children;
@@ -65,23 +66,19 @@ class GrockPopupMenu extends StatelessWidget {
     required this.children,
   });
 
-  static final _key = GlobalKey();
+  @override
+  State<GrockPopupMenu> createState() => _GrockPopupMenuState();
+}
 
-  static (Offset, Size) _getKey() {
-    final RenderBox renderBox =
-        _key.currentContext!.findRenderObject() as RenderBox;
-    final offset = renderBox.localToGlobal(Offset.zero);
-    final size = renderBox.size;
-    return (offset, size);
-  }
-
+class _GrockPopupMenuState extends State<GrockPopupMenu> {
+  Size? size;
+  Offset? offset;
   @override
   Widget build(BuildContext context) {
-    final menuStyle = style ?? GrockPopupMenuStyle();
+    final menuStyle = widget.style ?? GrockPopupMenuStyle();
     return Theme(
       data: ThemeData(useMaterial3: true),
       child: InkWell(
-        key: _key,
         splashColor: menuStyle.splashColor,
         highlightColor: menuStyle.highlightColor,
         onTap: () => showDialog(
@@ -90,12 +87,20 @@ class GrockPopupMenu extends StatelessWidget {
           barrierDismissible: menuStyle.barrierDismissible,
           useSafeArea: menuStyle.useSafeArea,
           builder: (context) => _GrockPopupMenuDialog(
-            position: _getKey(),
+            position: (offset!, size!),
             style: menuStyle,
-            children: children,
+            children: widget.children,
           ),
         ),
-        child: child,
+        child: GrockWidgetSize(
+          callback: (s, o) {
+            setState(() {
+              size = s;
+              offset = o;
+            });
+          },
+          child: widget.child,
+        ),
       ),
     );
   }
@@ -161,7 +166,6 @@ class _GrockPopupMenuDialogState extends State<_GrockPopupMenuDialog> {
 
   @override
   Widget build(BuildContext context) {
-    
     final size = MediaQuery.of(context).size;
     final safeArea = MediaQuery.of(context).padding;
 
