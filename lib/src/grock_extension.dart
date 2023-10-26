@@ -7,8 +7,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 import 'package:grock/src/model/loading_widget.dart';
-import 'model/navigation_state.dart';
-import 'model/scaffold_messenger.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'widgets/grock_toast.dart';
@@ -23,17 +21,17 @@ class Grock {
   /// ScaffoldMessengerKey for show snackbar
   /// Added in MaterialApp => scaffoldMessengerKey: Grock.scaffoldMessengerKey,
   static GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey =>
-      ScaffoldMessengerModel.scaffoldMessengerKey;
+      GrockScaffoldMessengerService.scaffoldMessengerKey;
 
   /// NavigationKey for navigation
   /// Added in MaterialApp => navigatorKey: Grock.navigationKey,
   /// Grock Navigation, extensions, and more features are available in this key
   static GlobalKey<NavigatorState> get navigationKey =>
-      NavigationService.navigationKey;
+      GrockNavigationService.navigationKey;
 
   /// [Context] for get context
   static BuildContext get context =>
-      NavigationService.navigationKey.currentContext!;
+      GrockNavigationService.navigationKey.currentContext!;
 
   /// [Device Information]
 
@@ -50,8 +48,8 @@ class Grock {
   static double get deviceHeight => View.of(context).physicalSize.height;
   static Size get deviceSize => View.of(context).physicalSize;
 
-  static double get height => ScaffoldMessengerModel.height;
-  static double get width => ScaffoldMessengerModel.width;
+  static double get height => GrockScaffoldMessengerService.height;
+  static double get width => GrockScaffoldMessengerService.width;
 
   /// [Navigation]
   /// ```dart
@@ -77,17 +75,20 @@ class Grock {
     bool opaque = false,
   }) {
     log("Navigation to $page", name: "Grock");
-    return NavigationService.to(page,
-        type: type,
-        childCurrent: childCurrent,
-        ctx: ctx,
-        inheritTheme: inheritTheme,
-        curve: curve,
-        alignment: alignment,
-        duration: duration,
-        reverseDuration: reverseDuration,
-        fullscreenDialog: fullscreenDialog,
-        opaque: opaque);
+    return GrockNavigationService.to(page,
+            type: type,
+            childCurrent: childCurrent,
+            ctx: ctx,
+            inheritTheme: inheritTheme,
+            curve: curve,
+            alignment: alignment,
+            duration: duration,
+            reverseDuration: reverseDuration,
+            fullscreenDialog: fullscreenDialog,
+            opaque: opaque)
+        .catchError((err) {
+      log("$err", name: "Grock.to($page) error!", error: err);
+    });
   }
 
   /// ```dart
@@ -111,24 +112,27 @@ class Grock {
     bool opaque = false,
   }) {
     log("Navigation toRemove $page", name: "Grock");
-    return NavigationService.toRemove(page,
-        type: type,
-        childCurrent: childCurrent,
-        ctx: ctx,
-        inheritTheme: inheritTheme,
-        curve: curve,
-        alignment: alignment,
-        duration: duration,
-        reverseDuration: reverseDuration,
-        fullscreenDialog: fullscreenDialog,
-        opaque: opaque);
+    return GrockNavigationService.toRemove(page,
+            type: type,
+            childCurrent: childCurrent,
+            ctx: ctx,
+            inheritTheme: inheritTheme,
+            curve: curve,
+            alignment: alignment,
+            duration: duration,
+            reverseDuration: reverseDuration,
+            fullscreenDialog: fullscreenDialog,
+            opaque: opaque)
+        .catchError((err) {
+      log("$err", name: "Grock.to($page) error!", error: err);
+    });
   }
 
   /// ```dart
   /// Grock.back(result: "Result String Data");
   static void back({Object? result}) {
     log("Navigation back", name: "Grock");
-    NavigationService.back(result: result);
+    GrockNavigationService.back(result: result);
   }
 
   /// Hide keyboard function.

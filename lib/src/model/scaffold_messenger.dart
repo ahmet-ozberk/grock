@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
-class ScaffoldMessengerModel {
+class GrockScaffoldMessengerService {
   static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   static Size size =

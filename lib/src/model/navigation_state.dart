@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:grock/src/enum/nav_type.dart';
 import 'package:page_transition/page_transition.dart';
 
-class NavigationService {
+class GrockNavigationService {
   static final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>(debugLabel: "Grock Navigation Key");
 
   static Future to(
