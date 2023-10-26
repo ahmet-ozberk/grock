@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
 class ScaffoldMessengerModel {
-  static GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   static Size size =
       View.of(Grock.context).physicalSize / View.of(Grock.context).devicePixelRatio;

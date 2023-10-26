@@ -45,3 +45,4 @@ export 'src/extensions/date_time.extension.dart';
 export 'src/extensions/generic.extension.dart';
 export 'src/services/grock_dio_services.dart';
 export 'src/services/uniq_number_id_services.dart';
+export 'src/widgets/grock_adaptive_bottom_navigation.dart';

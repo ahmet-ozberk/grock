@@ -158,6 +158,24 @@ extension PaddingIntExtension on num {
       left: this.toDouble(),
       bottom: this.toDouble(),
       right: this.toDouble());
+
+  /// If 'this' is less than the given value, the value 'this' is returned, but if not, the value 'value' is returned. 
+  double maxEqual(double value) {
+    if (this <= value) {
+      return toDouble();
+    } else {
+      return value;
+    }
+  }
+
+  /// If 'this' is greater than the given value, the value 'this' is returned, but if not, the value 'value' is returned.
+  double minEqual(double value) {
+    if (this >= value) {
+      return toDouble();
+    } else {
+      return value;
+    }
+  }
 }
 
 extension RandomStringExtension on int {

@@ -20,26 +20,32 @@ class GrockGlassMorphism extends StatelessWidget {
       this.borderRadius,
       this.border})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.circular(0),
+      borderRadius: borderRadius ?? BorderRadius.zero,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur ?? 10, sigmaY: blur ?? 10),
         child: Container(
-          decoration: BoxDecoration(
-            color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
-            borderRadius: borderRadius ?? BorderRadius.circular(0),
-            border: border ??
-                Border.all(
-                  color: (color ?? Colors.white).withOpacity(0.1),
-                  width: 0.5,
-                ),
-          ),
+          decoration: _decoration(),
           child: child,
         ),
       ),
+    );
+  }
+
+  BoxDecoration _decoration() {
+    return BoxDecoration(
+      color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
+      borderRadius: borderRadius,
+      border: border ?? _border(),
+    );
+  }
+
+  Border _border() {
+    return Border.all(
+      color: (color ?? Colors.white).withOpacity(0.1),
+      width: 0.5,
     );
   }
 }
@@ -64,22 +70,29 @@ class GrockBlurEffect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.circular(0),
+      borderRadius: borderRadius ?? BorderRadius.zero,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur ?? 10, sigmaY: blur ?? 10),
         child: Container(
-          decoration: BoxDecoration(
-            color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
-            borderRadius: borderRadius ?? BorderRadius.circular(0),
-            border: border ??
-                Border.all(
-                  color: (color ?? Colors.white).withOpacity(0.1),
-                  width: 0.5,
-                ),
-          ),
+          decoration: _decoration(),
           child: child,
         ),
       ),
+    );
+  }
+
+  BoxDecoration _decoration() {
+    return BoxDecoration(
+      color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
+      borderRadius: borderRadius,
+      border: border ?? _border(),
+    );
+  }
+
+  Border _border() {
+    return Border.all(
+      color: (color ?? Colors.white).withOpacity(0.1),
+      width: 0.5,
     );
   }
 }
