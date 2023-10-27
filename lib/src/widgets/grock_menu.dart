@@ -527,16 +527,10 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
           left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
           right: widget.rightSpace,
           bottom: widget.bottomSpace,
-          child: Material(
-            type: MaterialType.transparency,
-            child: GrockWidgetSize(
-              callback: (size, offset) => setState(() => widgetSize = size),
-              child: animationWidget(SafeArea(
-                  top: widget.useTopSafeArea,
-                  bottom: widget.useBottomSafeArea,
-                  child: _body(context))),
-            ),
-          ),
+          child: GrockWidgetSize(
+            callback: (size, offset) => setState(() => widgetSize = size),
+            child: animationWidget(_body(context)),
+          ).material,
         ),
       ],
     );
@@ -576,102 +570,111 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
     };
   }
 
-  DecoratedBox _body(BuildContext context) {
-    return DecoratedBox(
-      decoration: widget.backgroundDecoration ??
-          BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.16),
-              blurRadius: 25,
-            )
-          ]),
-      child: ClipRRect(
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: widget.backgroundBlur,
-            sigmaY: widget.backgroundBlur,
-          ),
-          child: Container(
-            constraints: BoxConstraints(
-              maxHeight: widget.maxHeight?.toDouble() ??
-                  MediaQuery.of(context).size.height * 0.35,
-              minWidth: widget.minWidth,
-              maxWidth: widget.minWidth,
+  Widget _body(BuildContext context) {
+    return SafeArea(
+      top: widget.useTopSafeArea,
+      bottom: widget.useBottomSafeArea,
+      child: Container(
+        decoration: widget.backgroundDecoration ??
+            BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.16),
+                  blurRadius: 25,
+                )
+              ],
             ),
-            decoration: BoxDecoration(
-              borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-              color: widget.backgroundColor ?? Colors.grey.shade100,
-              border: widget.border,
+        child: ClipRRect(
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: widget.backgroundBlur,
+              sigmaY: widget.backgroundBlur,
             ),
-            child: ClipRRect(
-              borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-              child: SingleChildScrollView(
-                physics: widget.physics,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: widget.items
-                      .mapIndexed<Widget>(
-                        (e, i) {
-                          return GestureDetector(
-                            onTapDown: (_) => setState(() => e.isTapped = true),
-                            onTapUp: (_) => setState(() => e.isTapped = false),
-                            onTapCancel: () =>
-                                setState(() => e.isTapped = false),
-                            onTap: () {
-                              if (widget.onTapClose) {
-                                closeMenu();
-                              }
-                              widget.onTap?.call(i);
-                              e.onTap?.call();
-                            },
-                            child: e.child ??
-                                Container(
-                                  width: double.maxFinite,
-                                  padding: widget.padding ??
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: e.isTapped
-                                        ? widget.pressColor
-                                        : widget.backgroundColor,
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: widget.maxHeight?.toDouble() ??
+                    MediaQuery.of(context).size.height * 0.35,
+                minWidth: widget.minWidth,
+                maxWidth: widget.minWidth,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
+                color: widget.backgroundColor ?? Colors.grey.shade100,
+                border: widget.border,
+              ),
+              child: ClipRRect(
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
+                child: SingleChildScrollView(
+                  physics: widget.physics,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: widget.items
+                        .mapIndexed<Widget>(
+                          (e, i) {
+                            return GestureDetector(
+                              onTapDown: (_) =>
+                                  setState(() => e.isTapped = true),
+                              onTapUp: (_) =>
+                                  setState(() => e.isTapped = false),
+                              onTapCancel: () =>
+                                  setState(() => e.isTapped = false),
+                              onTap: () {
+                                if (widget.onTapClose) {
+                                  closeMenu();
+                                }
+                                widget.onTap?.call(i);
+                                e.onTap?.call();
+                              },
+                              child: e.child ??
+                                  Container(
+                                    width: double.maxFinite,
+                                    padding: widget.padding ??
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: e.isTapped
+                                          ? widget.pressColor
+                                          : widget.backgroundColor,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        if (e.leading != null) e.leading!,
+                                        Expanded(
+                                          child: e.body ??
+                                              Text(
+                                                e.text ?? "",
+                                                style: e.textStyle ??
+                                                    const TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                textAlign: widget.textAlign,
+                                                maxLines: widget.maxLines,
+                                                overflow: widget.textOverflow,
+                                              ),
+                                        ),
+                                        if (e.trailing != null) e.trailing!,
+                                      ],
+                                    ),
                                   ),
-                                  child: Row(
-                                    children: [
-                                      if (e.leading != null) e.leading!,
-                                      Expanded(
-                                        child: e.body ??
-                                            Text(
-                                              e.text ?? "",
-                                              style: e.textStyle ??
-                                                  const TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                              textAlign: widget.textAlign,
-                                              maxLines: widget.maxLines,
-                                              overflow: widget.textOverflow,
-                                            ),
-                                      ),
-                                      if (e.trailing != null) e.trailing!,
-                                    ],
+                            );
+                          },
+                        )
+                        .toList()
+                        .seperatedWidget(
+                          widget.divider ??
+                              (context, index) => Divider(
+                                    height: widget.dividerHeight ?? 1.0,
+                                    color: widget.dividerColor ??
+                                        CupertinoColors.separator
+                                            .withOpacity(0.2),
                                   ),
-                                ),
-                          );
-                        },
-                      )
-                      .toList()
-                      .seperatedWidget(
-                        widget.divider ??
-                            (context, index) => Divider(
-                                  height: widget.dividerHeight ?? 1.0,
-                                  color: widget.dividerColor ??
-                                      CupertinoColors.separator
-                                          .withOpacity(0.2),
-                                ),
-                      ),
+                        ),
+                  ),
                 ),
               ),
             ),
