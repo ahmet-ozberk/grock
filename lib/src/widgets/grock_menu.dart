@@ -11,6 +11,8 @@ import 'package:grock/grock.dart';
 
 enum GrockMenuTapType { onTap, onLongPress }
 
+enum GrockMenuAnimationType { scale, slide, fade, fadeScale, fadeSlide, none }
+
 class GrockMenuController {
   late _GrockMenuCoreState _state;
   late _GrockMenuState _menuState;
@@ -123,7 +125,8 @@ class GrockMenu extends StatefulWidget {
   final Widget Function(BuildContext context, int index)? divider;
   final bool isTopSpace;
   final bool isLeftSpace;
-  final bool isScaleTransition;
+  final GrockMenuAnimationType animationType;
+  final Tween<Offset>? slideTween;
   const GrockMenu({
     Key? key,
 
@@ -241,8 +244,11 @@ class GrockMenu extends StatefulWidget {
     /// The isLeftSpace is the boolean that will be used to determine whether the left space will be displayed.
     this.isLeftSpace = false,
 
-    /// The isScaleTransition is the boolean that will be used to determine whether the menu will be scaled when it is open.
-    this.isScaleTransition = true,
+    /// GrockMenuAnimationType is the animation type of the menu.
+    this.animationType = GrockMenuAnimationType.fadeSlide,
+
+    /// The slideTween is the slide tween of the menu.
+    this.slideTween,
   }) : super(key: key);
 
   @override
@@ -312,7 +318,9 @@ class _GrockMenuState extends State<GrockMenu> {
           divider: widget.divider,
           isTopSpace: widget.isTopSpace,
           isLeftSpace: widget.isLeftSpace,
-          isScaleTransition: widget.isScaleTransition,
+          animationType: widget.animationType,
+          slideTween: widget.slideTween ??
+              Tween<Offset>(begin: Offset(0, -1), end: Offset.zero),
         );
       },
     );
@@ -378,51 +386,52 @@ class _GrockMenuCore extends StatefulWidget {
   final Widget Function(BuildContext context, int index)? divider;
   final bool isTopSpace;
   final bool isLeftSpace;
-  final bool isScaleTransition;
+  final GrockMenuAnimationType animationType;
+  final Tween<Offset> slideTween;
 
-  _GrockMenuCore({
-    Key? key,
-    required this.overlayEntry,
-    required this.offset,
-    required this.items,
-    this.controller,
-    this.onTap,
-    this.physics,
-    this.maxHeight,
-    required this.minWidth,
-    this.borderRadius,
-    this.backgroundColor,
-    this.dividerColor,
-    this.textStyle,
-    this.dividerHeight,
-    this.border,
-    this.pressColor,
-    this.maxLines,
-    this.textAlign,
-    this.textOverflow,
-    this.padding,
-    this.onTapClose = true,
-    required this.spaceColor,
-    required this.openAnimationDuration,
-    required this.closeAnimationDuration,
-    required this.openAnimation,
-    required this.closeAnimation,
-    required this.childSize,
-    this.openAlignment,
-    this.backgroundBlur = 5.0,
-    this.leftSpace,
-    this.rightSpace,
-    this.topSpace,
-    this.bottomSpace,
-    this.startTween,
-    this.endTween,
-    required this.spaceBlur,
-    this.backgroundDecoration,
-    this.divider,
-    required this.isTopSpace,
-    required this.isLeftSpace,
-    required this.isScaleTransition,
-  }) : super(key: key);
+  _GrockMenuCore(
+      {super.key,
+      required this.overlayEntry,
+      required this.offset,
+      required this.items,
+      this.controller,
+      this.onTap,
+      this.physics,
+      this.maxHeight,
+      required this.minWidth,
+      this.borderRadius,
+      this.backgroundColor,
+      this.dividerColor,
+      this.textStyle,
+      this.dividerHeight,
+      this.border,
+      this.pressColor,
+      this.maxLines,
+      this.textAlign,
+      this.textOverflow,
+      this.padding,
+      this.onTapClose = true,
+      required this.spaceColor,
+      required this.openAnimationDuration,
+      required this.closeAnimationDuration,
+      required this.openAnimation,
+      required this.closeAnimation,
+      required this.childSize,
+      this.openAlignment,
+      this.backgroundBlur = 5.0,
+      this.leftSpace,
+      this.rightSpace,
+      this.topSpace,
+      this.bottomSpace,
+      this.startTween,
+      this.endTween,
+      required this.spaceBlur,
+      this.backgroundDecoration,
+      this.divider,
+      required this.isTopSpace,
+      required this.isLeftSpace,
+      required this.animationType,
+      required this.slideTween});
 
   @override
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
@@ -439,7 +448,8 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
   Animation<double>? _animation;
   final grockMenuController = GrockMenuController();
 
-  double endValue() => widget.isScaleTransition ? 1.05 : 1.0;
+  double endValue() =>
+      widget.animationType == GrockMenuAnimationType.scale ? 1.05 : 1.0;
 
   void openMenu() {
     _animation = TweenSequence<double>(
@@ -493,7 +503,9 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
               builder: (context, Color? color, child) {
                 return BackdropFilter(
                   filter: ImageFilter.blur(
-                      sigmaX: sigmaValue(), sigmaY: sigmaValue()),
+                    sigmaX: sigmaValue(),
+                    sigmaY: sigmaValue(),
+                  ),
                   child: Container(
                     color: color,
                   ),
@@ -506,11 +518,13 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
             left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
             right: widget.rightSpace,
             bottom: widget.bottomSpace,
-            child: Material(
-              type: MaterialType.transparency,
-              child: GrockWidgetSize(
-                callback: (size, offset) => setState(() => widgetSize = size),
-                child: animationWidget(_body(context)),
+            child: SafeArea(
+              child: Material(
+                type: MaterialType.transparency,
+                child: GrockWidgetSize(
+                  callback: (size, offset) => setState(() => widgetSize = size),
+                  child: animationWidget(_body(context)),
+                ),
               ),
             ),
           ),
@@ -520,18 +534,37 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
   }
 
   Widget animationWidget(Widget child) {
-    if (widget.isScaleTransition) {
-      return ScaleTransition(
-        scale: _animation!,
-        alignment: alignmentAnimation(),
-        child: child,
-      );
-    } else {
-      return FadeTransition(
-        opacity: _animation!,
-        child: child,
-      );
-    }
+    return switch (widget.animationType) {
+      GrockMenuAnimationType.fade => FadeTransition(
+          opacity: _animation!,
+          child: child,
+        ),
+      GrockMenuAnimationType.scale => ScaleTransition(
+          scale: _animation!,
+          alignment: alignmentAnimation(),
+          child: child,
+        ),
+      GrockMenuAnimationType.slide => SlideTransition(
+          position: widget.slideTween.animate(_controller),
+          child: child,
+        ),
+      GrockMenuAnimationType.fadeScale => ScaleTransition(
+          scale: _animation!,
+          alignment: alignmentAnimation(),
+          child: FadeTransition(
+            opacity: _animation!,
+            child: child,
+          ),
+        ),
+      GrockMenuAnimationType.fadeSlide => SlideTransition(
+          position: widget.slideTween.animate(_controller),
+          child: FadeTransition(
+            opacity: _animation!,
+            child: child,
+          ),
+        ),
+      GrockMenuAnimationType.none => child,
+    };
   }
 
   DecoratedBox _body(BuildContext context) {
