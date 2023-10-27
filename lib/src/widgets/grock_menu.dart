@@ -127,6 +127,8 @@ class GrockMenu extends StatefulWidget {
   final bool isLeftSpace;
   final GrockMenuAnimationType animationType;
   final Tween<Offset>? slideTween;
+  final bool useTopSafeArea;
+  final bool useBottomSafeArea;
   const GrockMenu({
     Key? key,
 
@@ -249,6 +251,12 @@ class GrockMenu extends StatefulWidget {
 
     /// The slideTween is the slide tween of the menu.
     this.slideTween,
+
+    /// The useTopSafeArea is the boolean that will be used to determine whether the top safe area will be used.
+    this.useTopSafeArea = true,
+
+    /// The useBottomSafeArea is the boolean that will be used to determine whether the bottom safe area will be used.
+    this.useBottomSafeArea = true,
   }) : super(key: key);
 
   @override
@@ -321,6 +329,8 @@ class _GrockMenuState extends State<GrockMenu> {
           animationType: widget.animationType,
           slideTween: widget.slideTween ??
               Tween<Offset>(begin: Offset(0, -1), end: Offset.zero),
+          useTopSafeArea: widget.useTopSafeArea,
+          useBottomSafeArea: widget.useBottomSafeArea,
         );
       },
     );
@@ -388,6 +398,8 @@ class _GrockMenuCore extends StatefulWidget {
   final bool isLeftSpace;
   final GrockMenuAnimationType animationType;
   final Tween<Offset> slideTween;
+  final useTopSafeArea;
+  final useBottomSafeArea;
 
   _GrockMenuCore(
       {super.key,
@@ -431,7 +443,9 @@ class _GrockMenuCore extends StatefulWidget {
       required this.isTopSpace,
       required this.isLeftSpace,
       required this.animationType,
-      required this.slideTween});
+      required this.slideTween,
+      this.useTopSafeArea = true,
+      this.useBottomSafeArea = true});
 
   @override
   State<_GrockMenuCore> createState() => _GrockMenuCoreState();
@@ -491,45 +505,48 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: () => closeMenu(),
-            child: TweenAnimationBuilder(
-              duration: _controller.duration!,
-              tween:
-                  ColorTween(begin: Colors.transparent, end: widget.spaceColor),
-              builder: (context, Color? color, child) {
-                return BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: sigmaValue(),
-                    sigmaY: sigmaValue(),
-                  ),
-                  child: Container(
-                    color: color,
-                  ),
-                );
-              },
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        GestureDetector(
+          onTap: () => closeMenu(),
+          child: TweenAnimationBuilder(
+            duration: _controller.duration!,
+            tween: ColorTween(
+              begin: Colors.transparent,
+              end: widget.spaceColor,
             ),
-          ),
-          Positioned(
-            top: widget.isTopSpace ? widget.topSpace : topSpace(),
-            left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
-            right: widget.rightSpace,
-            bottom: widget.bottomSpace,
-            child: SafeArea(
-              child: Material(
-                type: MaterialType.transparency,
-                child: GrockWidgetSize(
-                  callback: (size, offset) => setState(() => widgetSize = size),
-                  child: animationWidget(_body(context)),
+            builder: (context, Color? color, child) {
+              return BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: sigmaValue(),
+                  sigmaY: sigmaValue(),
                 ),
+                child: Container(
+                  color: color,
+                ),
+              );
+            },
+          ),
+        ),
+        Positioned(
+          top: widget.isTopSpace ? widget.topSpace : topSpace(),
+          left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
+          right: widget.rightSpace,
+          bottom: widget.bottomSpace,
+          child: SafeArea(
+            top: widget.useTopSafeArea,
+            bottom: widget.useBottomSafeArea,
+            child: Material(
+              type: MaterialType.transparency,
+              child: GrockWidgetSize(
+                callback: (size, offset) => setState(() => widgetSize = size),
+                child: animationWidget(_body(context)),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
