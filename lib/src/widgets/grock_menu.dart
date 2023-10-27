@@ -74,10 +74,7 @@ class GrockMenu extends StatefulWidget {
   final double? bottomSpace;
 
   /// Default Tween<double>(begin: 0.0, end: 1.1)
-  final Tween<double>? startTween;
-
-  /// Default Tween<double>(begin: 1.1, end: 1.0)
-  final Tween<double>? endTween;
+  final Tween<double>? tween;
 
   /// ScrollPhysics parent physics or null
   final ScrollPhysics? physics;
@@ -196,10 +193,10 @@ class GrockMenu extends StatefulWidget {
     this.spaceColor = Colors.black26,
 
     /// The openAnimationDuration is the duration of the open animation.
-    this.openAnimationDuration = const Duration(milliseconds: 750),
+    this.openAnimationDuration = const Duration(milliseconds: 300),
 
     /// The closeAnimationDuration is the duration of the close animation.
-    this.closeAnimationDuration = const Duration(milliseconds: 450),
+    this.closeAnimationDuration = const Duration(milliseconds: 250),
 
     /// The openAnimation is the open animation.
     this.openAnimation = Curves.fastOutSlowIn,
@@ -229,10 +226,7 @@ class GrockMenu extends StatefulWidget {
     this.bottomSpace,
 
     /// The startTween is the start tween of the menu item.
-    this.startTween,
-
-    /// The endTween is the end tween of the menu item.
-    this.endTween,
+    this.tween,
 
     /// The backgroundDecoration is the decoration of the background when the menu is open.
     this.backgroundDecoration,
@@ -253,7 +247,7 @@ class GrockMenu extends StatefulWidget {
     this.slideTween,
 
     /// The useTopSafeArea is the boolean that will be used to determine whether the top safe area will be used.
-    this.useTopSafeArea = true,
+    this.useTopSafeArea = false,
 
     /// The useBottomSafeArea is the boolean that will be used to determine whether the bottom safe area will be used.
     this.useBottomSafeArea = true,
@@ -265,7 +259,7 @@ class GrockMenu extends StatefulWidget {
 
 class _GrockMenuState extends State<GrockMenu> {
   Offset _tapPosition = Offset.zero;
-  final key = GlobalKey();
+  final key = GlobalKey(debugLabel: "GrockMenu GlobalKey");
   Size? _childSize;
   void getOffset() {
     final RenderBox renderBox =
@@ -319,8 +313,7 @@ class _GrockMenuState extends State<GrockMenu> {
           rightSpace: widget.rightSpace,
           topSpace: widget.topSpace,
           bottomSpace: widget.bottomSpace,
-          startTween: widget.startTween,
-          endTween: widget.endTween,
+          tween: widget.tween,
           spaceBlur: widget.spaceBlur,
           backgroundDecoration: widget.backgroundDecoration,
           divider: widget.divider,
@@ -328,7 +321,7 @@ class _GrockMenuState extends State<GrockMenu> {
           isLeftSpace: widget.isLeftSpace,
           animationType: widget.animationType,
           slideTween: widget.slideTween ??
-              Tween<Offset>(begin: Offset(0, -1), end: Offset.zero),
+              Tween<Offset>(begin: const Offset(0, -0.26), end: Offset.zero),
           useTopSafeArea: widget.useTopSafeArea,
           useBottomSafeArea: widget.useBottomSafeArea,
         );
@@ -389,8 +382,7 @@ class _GrockMenuCore extends StatefulWidget {
   final double? rightSpace;
   final double? topSpace;
   final double? bottomSpace;
-  final Tween<double>? startTween;
-  final Tween<double>? endTween;
+  final Tween<double>? tween;
   final double spaceBlur;
   final Decoration? backgroundDecoration;
   final Widget Function(BuildContext context, int index)? divider;
@@ -435,8 +427,7 @@ class _GrockMenuCore extends StatefulWidget {
       this.rightSpace,
       this.topSpace,
       this.bottomSpace,
-      this.startTween,
-      this.endTween,
+      this.tween,
       required this.spaceBlur,
       this.backgroundDecoration,
       this.divider,
@@ -466,21 +457,23 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
       widget.animationType == GrockMenuAnimationType.scale ? 1.05 : 1.0;
 
   void openMenu() {
-    _animation = TweenSequence<double>(
-      <TweenSequenceItem<double>>[
-        TweenSequenceItem<double>(
-          tween:
-              (widget.startTween ?? Tween<double>(begin: 0.0, end: endValue()))
-                  .chain(CurveTween(curve: widget.openAnimation)),
-          weight: 12,
-        ),
-        TweenSequenceItem<double>(
-          tween: (widget.endTween ?? Tween<double>(begin: endValue(), end: 1.0))
-              .chain(CurveTween(curve: widget.closeAnimation)),
-          weight: 3,
-        ),
-      ],
-    ).animate(_controller);
+    _animation = (widget.tween ?? Tween<double>(begin: 0.0, end: 1.0))
+        .animate(_controller);
+    // _animation = TweenSequence<double>(
+    //   <TweenSequenceItem<double>>[
+    //     TweenSequenceItem<double>(
+    //       tween:
+    //           (widget.startTween ?? Tween<double>(begin: 0.0, end: endValue()))
+    //               .chain(CurveTween(curve: widget.openAnimation)),
+    //       weight: 12,
+    //     ),
+    //     TweenSequenceItem<double>(
+    //       tween: (widget.endTween ?? Tween<double>(begin: endValue(), end: 1.0))
+    //           .chain(CurveTween(curve: widget.closeAnimation)),
+    //       weight: 3,
+    //     ),
+    //   ],
+    // ).animate(_controller);
     _controller.addListener(() {
       setState(() {});
     });
@@ -534,15 +527,14 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
           left: widget.isLeftSpace ? widget.leftSpace : leftSpace(),
           right: widget.rightSpace,
           bottom: widget.bottomSpace,
-          child: SafeArea(
-            top: widget.useTopSafeArea,
-            bottom: widget.useBottomSafeArea,
-            child: Material(
-              type: MaterialType.transparency,
-              child: GrockWidgetSize(
-                callback: (size, offset) => setState(() => widgetSize = size),
-                child: animationWidget(_body(context)),
-              ),
+          child: Material(
+            type: MaterialType.transparency,
+            child: GrockWidgetSize(
+              callback: (size, offset) => setState(() => widgetSize = size),
+              child: animationWidget(SafeArea(
+                  top: widget.useTopSafeArea,
+                  bottom: widget.useBottomSafeArea,
+                  child: _body(context))),
             ),
           ),
         ),
@@ -650,17 +642,18 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                       if (e.leading != null) e.leading!,
                                       Expanded(
                                         child: e.body ??
-                                            Text(e.text ?? "",
-                                                style: e.textStyle ??
-                                                    const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                textAlign: widget.textAlign,
-                                                maxLines: widget.maxLines,
-                                                overflow: widget.textOverflow),
+                                            Text(
+                                              e.text ?? "",
+                                              style: e.textStyle ??
+                                                  const TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                              textAlign: widget.textAlign,
+                                              maxLines: widget.maxLines,
+                                              overflow: widget.textOverflow,
+                                            ),
                                       ),
                                       if (e.trailing != null) e.trailing!,
                                     ],
