@@ -33,7 +33,7 @@ extension ExtendedIterable<E> on Iterable<E> {
   }
 }
 
-extension ListWidgetExtension on List<Widget> {
+extension ListWidgetExtension<T> on List<Widget> {
   ///result builder for list
   List<Widget> seperatedWidget(
       Widget Function(BuildContext context, int index) builder) {
@@ -45,6 +45,66 @@ extension ListWidgetExtension on List<Widget> {
         newList.add(builder(Grock.context, i));
         newList.add(this[i]);
       }
+    }
+    return newList;
+  }
+
+  List<Widget> animatedFadeEffectList(
+      {Duration duration = const Duration(milliseconds: 400)}) {
+    final newList = <Widget>[];
+    for (var i = 0; i < length; i++) {
+      newList.add(elementAt(i).animatedFade(duration: duration * (i + 1)));
+    }
+    return newList;
+  }
+
+  List<Widget> animatedSlideFadeEffectList(
+      {Duration duration = const Duration(milliseconds: 400),
+      Duration delay = Duration.zero,
+      Alignment alignment = Alignment.topCenter,
+      Curve curve = Curves.easeIn}) {
+    final newList = <Widget>[];
+    for (var i = 0; i < length; i++) {
+      newList.add(GrockFadeAnimation(
+        child: elementAt(i),
+        duration: duration * (i + 1),
+        delay: delay * (i + 1),
+        alignment: alignment,
+        opacityDuration: duration * (i + 1),
+        curve: curve,
+      ));
+    }
+    return newList;
+  }
+
+  List<Widget> animatedScaleEffectList(
+      {Duration duration = const Duration(milliseconds: 400),
+      Duration delay = Duration.zero,
+      Alignment alignment = Alignment.topCenter,
+      Curve curve = Curves.easeIn,
+      double? scaleX,
+      double? scaleY}) {
+    final newList = <Widget>[];
+    for (var i = 0; i < length; i++) {
+      newList.add(GrockScaleAnimation(
+        child: elementAt(i),
+        duration: duration * (i + 1),
+        delay: delay * (i + 1),
+        alignment: alignment,
+        curve: curve,
+        reverseCurve: curve,
+        scaleX: scaleX,
+        scaleY: scaleY,
+      ));
+    }
+    return newList;
+  }
+
+  List<Widget> animatedRotateEffectList(
+      {Duration duration = const Duration(milliseconds: 400)}) {
+    final newList = <Widget>[];
+    for (var i = 0; i < length; i++) {
+      newList.add(elementAt(i).animatedRotation(duration: duration * (i + 1)));
     }
     return newList;
   }

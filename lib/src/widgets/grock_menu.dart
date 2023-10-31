@@ -610,19 +610,24 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
                                     children: [
                                       if (e.leading != null) e.leading!,
                                       Expanded(
-                                        child: e.body ??
-                                            Text(
-                                              e.text ?? "",
-                                              style: e.textStyle ??
-                                                  const TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                              textAlign: widget.textAlign,
-                                              maxLines: widget.maxLines,
-                                              overflow: widget.textOverflow,
-                                            ),
+                                        child: DefaultTextStyle(
+                                          style: widget.textStyle ??
+                                              context.bodyMedium,
+                                          child: e.body ??
+                                              Text(
+                                                e.text ?? "",
+                                                style: e.textStyle ??
+                                                    const TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                textAlign: widget.textAlign,
+                                                maxLines: widget.maxLines,
+                                                overflow: widget.textOverflow,
+                                              ),
+                                        ),
                                       ),
                                       if (e.trailing != null) e.trailing!,
                                     ],

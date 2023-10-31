@@ -1,3 +1,3 @@
-## 0.5.2 - 27-10-2023
+## 0.5.3 - 31-10-2023
 
-* Readme.md GrockMenu fixed.
+* Readme.md Animated Widget List extension
