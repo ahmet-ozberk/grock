@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const GrockApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GrockApp extends StatelessWidget {
+  const GrockApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +12,19 @@ class MyApp extends StatelessWidget {
       navigatorKey: Grock.navigationKey, // added this line
       scaffoldMessengerKey: Grock.scaffoldMessengerKey, // added this line
       title: 'GROCK',
-      home: const Home(),
+      home: const GrockHome(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class GrockHome extends StatefulWidget {
+  const GrockHome({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<GrockHome> createState() => _GrockHomeState();
 }
 
-class _HomeState extends State<Home> {
+class _GrockHomeState extends State<GrockHome> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold();

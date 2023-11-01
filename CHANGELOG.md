@@ -1,3 +1,3 @@
-## 0.5.3 - 31-10-2023
+## 0.5.4 - 02-11-2023
 
-* Readme.md Animated Widget List extension
+* Readme.md GrockXMenu Widget published.

@@ -240,7 +240,7 @@ class GrockMenu extends StatefulWidget {
     this.isLeftSpace = false,
 
     /// GrockMenuAnimationType is the animation type of the menu.
-    this.animationType = GrockMenuAnimationType.fadeSlide,
+    this.animationType = GrockMenuAnimationType.none,
 
     /// The slideTween is the slide tween of the menu.
     this.slideTween,
@@ -438,6 +438,7 @@ class _GrockMenuCoreState extends State<_GrockMenuCore>
     duration: widget.openAnimationDuration,
     reverseDuration: widget.closeAnimationDuration,
   );
+  Animation? translationAnimation;
   Animation<double>? _animation;
   final grockMenuController = GrockMenuController();
 
