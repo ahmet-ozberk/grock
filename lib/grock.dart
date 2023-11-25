@@ -53,3 +53,4 @@ export 'src/model/scaffold_messenger.dart';
 export 'src/widgets/grock_x_menu/grock_x_menu.dart';
 export 'src/widgets/grock_x_menu/grock_x_menu_item.dart';
 export 'src/widgets/grock_x_menu/grock_x_menu_style.dart';
+export 'src/widgets/grock_image_viewer.dart';
