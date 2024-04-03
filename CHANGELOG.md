@@ -1,3 +1,3 @@
-## 0.5.5 - 25-11-2023
+## 0.5.6 - 03-04-2024
 
-* Readme.md GrockImageViewer widget added. Instagram image viewer alternative.
+* Readme.md ScrollbarDisableWidget add, fix extensions and fix widgets.

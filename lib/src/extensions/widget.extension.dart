@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
 extension WidgetExtension on Widget {
+  SizedBox width(double width) => SizedBox(width: width, child: this);
+  SizedBox height(double height) => SizedBox(height: height, child: this);
+
+
+
   Theme get disableMaterial3 =>
       Theme(data: ThemeData(useMaterial3: false), child: this);
 
@@ -13,27 +18,29 @@ extension WidgetExtension on Widget {
   Material get material =>
       Material(type: MaterialType.transparency, child: this);
 
-  Widget visible(bool val) => Visibility(
+  Visibility visible(bool val) => Visibility(
         child: this,
         visible: val,
       );
 
-  Widget disabled([bool? disable]) =>
+  IgnorePointer disabled([bool? disable]) =>
       IgnorePointer(ignoring: disable ?? true, child: this);
 
-  Widget disabledOpacity([bool? disable, double? opacity]) => IgnorePointer(
+  IgnorePointer disabledOpacity([bool? disable, double? opacity]) => IgnorePointer(
       ignoring: disable ?? true,
       child: Opacity(opacity: opacity ?? 0.2, child: this));
 
-  Widget expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
+  Expanded expanded({int? flex}) => Expanded(child: this, flex: flex ?? 1);
 
-  Widget size({double? height, double? width}) => SizedBox(
+  Expanded get expand => Expanded(child: this);
+
+  SizedBox size({double? height, double? width}) => SizedBox(
         height: height,
         width: width,
         child: this,
       );
 
-  Widget padding(
+  Padding padding(
           {double? all,
           double? horizontal,
           double? vertical,
@@ -50,7 +57,7 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingLTRB(
+  Padding paddingLTRB(
           {double? left, double? right, double? top, double? bottom}) =>
       Padding(
         padding:
@@ -58,10 +65,10 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingAll(double val) =>
+  Padding paddingAll(double val) =>
       Padding(padding: EdgeInsets.all(val), child: this);
 
-  Widget paddingOnly(
+  Padding paddingOnly(
           {double? left,
           double? right,
           double? top,
@@ -77,80 +84,80 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget paddingOnlyLeft(double val) =>
+  Padding paddingOnlyLeft(double val) =>
       Padding(padding: EdgeInsets.only(left: val), child: this);
 
-  Widget paddingOnlyRight(double val) =>
+  Padding paddingOnlyRight(double val) =>
       Padding(padding: EdgeInsets.only(right: val), child: this);
 
-  Widget paddingOnlyTop(double val) =>
+  Padding paddingOnlyTop(double val) =>
       Padding(padding: EdgeInsets.only(top: val), child: this);
 
-  Widget paddingOnlyBottom(double val) =>
+  Padding paddingOnlyBottom(double val) =>
       Padding(padding: EdgeInsets.only(bottom: val), child: this);
 
-  Widget paddingHorizontal(double val) =>
+  Padding paddingHorizontal(double val) =>
       Padding(padding: EdgeInsets.symmetric(horizontal: val), child: this);
 
-  Widget paddingVertical(double val) =>
+  Padding paddingVertical(double val) =>
       Padding(padding: EdgeInsets.symmetric(vertical: val), child: this);
 
-  Widget paddingTopLeft(double top, double left) => Padding(
+  Padding paddingTopLeft(double top, double left) => Padding(
         padding: EdgeInsets.only(top: top, left: left),
         child: this,
       );
 
-  Widget paddingTopRight(double top, double right) => Padding(
+  Padding paddingTopRight(double top, double right) => Padding(
         padding: EdgeInsets.only(top: top, right: right),
         child: this,
       );
 
-  Widget paddingBottomLeft(double bottom, double left) => Padding(
+  Padding paddingBottomLeft(double bottom, double left) => Padding(
         padding: EdgeInsets.only(bottom: bottom, left: left),
         child: this,
       );
 
-  Widget paddingBottomRight(double bottom, double right) => Padding(
+  Padding paddingBottomRight(double bottom, double right) => Padding(
         padding: EdgeInsets.only(bottom: bottom, right: right),
         child: this,
       );
 
-  Widget paddingLeftVertical(double value) => Padding(
+  Padding paddingLeftVertical(double value) => Padding(
         padding: EdgeInsets.only(left: value, top: value, bottom: value),
         child: this,
       );
 
-  Widget paddingRightVertical(double value) => Padding(
+  Padding paddingRightVertical(double value) => Padding(
         padding: EdgeInsets.only(right: value, top: value, bottom: value),
         child: this,
       );
 
-  Widget paddingTopHorizontal(double value) => Padding(
+  Padding paddingTopHorizontal(double value) => Padding(
         padding: EdgeInsets.only(right: value, top: value, left: value),
         child: this,
       );
 
-  Widget paddingBottomHorizontal(double value) => Padding(
+  Padding paddingBottomHorizontal(double value) => Padding(
         padding: EdgeInsets.only(right: value, bottom: value, left: value),
         child: this,
       );
 
-  Widget margin({double? l, double? t, double? r, double? b}) => Padding(
+  Padding margin({double? l, double? t, double? r, double? b}) => Padding(
         padding: EdgeInsets.fromLTRB(l ?? 0, t ?? 0, r ?? 0, b ?? 0),
         child: this,
       );
 
-  Widget marginAll(double val) => Padding(
+  Padding marginAll(double val) => Padding(
         padding: EdgeInsets.all(val),
         child: this,
       );
 
   /// Border Gradient
 
-  Widget get rotationRight =>
+  RotationTransition get rotationRight =>
       RotationTransition(turns: const AlwaysStoppedAnimation(0.5), child: this);
 
-  Widget get rotationUp => RotationTransition(
+  RotationTransition get rotationUp => RotationTransition(
       turns: const AlwaysStoppedAnimation(0.25), child: this);
 
   Widget get rotationBottom => RotationTransition(
@@ -220,6 +227,14 @@ extension WidgetExtension on Widget {
         borderRadius: BorderRadius.circular(radius ?? 0),
         child: this,
       );
+
+  Align get left => Align(alignment: Alignment.centerLeft, child: this);
+
+  Align get right => Align(alignment: Alignment.centerRight, child: this);
+
+  Align get top => Align(alignment: Alignment.topCenter, child: this);
+
+  Align get bottom => Align(alignment: Alignment.bottomCenter, child: this);
 
   Widget get center => Center(child: this);
 
@@ -317,16 +332,22 @@ extension WidgetExtension on Widget {
       );
 
   Widget red() => ColoredBox(color: Colors.red, child: this);
+  ColoredBox get redBox => ColoredBox(color: Colors.red, child: this);
 
   Widget green() => ColoredBox(color: Colors.green, child: this);
+  ColoredBox get greenBox => ColoredBox(color: Colors.green, child: this);
 
   Widget blue() => ColoredBox(color: Colors.blue, child: this);
+  ColoredBox get blueBox => ColoredBox(color: Colors.blue, child: this);
 
   Widget yellow() => ColoredBox(color: Colors.yellow, child: this);
+  ColoredBox get yellowBox => ColoredBox(color: Colors.yellow, child: this);
 
   Widget orange() => ColoredBox(color: Colors.orange, child: this);
+  ColoredBox get orangeBox => ColoredBox(color: Colors.orange, child: this);
 
   Widget purple() => ColoredBox(color: Colors.purple, child: this);
+  ColoredBox get purpleBox => ColoredBox(color: Colors.purple, child: this);
 
   Widget shadow({
     Color? color,

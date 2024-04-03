@@ -17,7 +17,7 @@ extension RandomImageExtension<T> on int {
   String randomImg([int width = 1080, int height = 720]) =>
       "https://loremflickr.com/$width/$height?random=$this";
 
-  String lorem() => loremIpsum(words: this);
+  String get lorem => loremIpsum(words: this);
 
   List<T> repeat(T Function(int count) func) {
     return [for (var i = 1; i <= abs(); i++) func(i)];

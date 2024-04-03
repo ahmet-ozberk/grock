@@ -710,10 +710,6 @@ mixin GrockMixin<T extends StatefulWidget> on State<T> {
     return MediaQuery.of(context).size.width * width;
   }
 
-  /// Dynbamic text scale factor
-  double dTSF(double textScaleFactor) {
-    return MediaQuery.of(context).textScaleFactor * textScaleFactor;
-  }
 
   /// Grock Get Widget Size
   Widget WidgetSize(

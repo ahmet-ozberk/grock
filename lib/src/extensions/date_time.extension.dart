@@ -11,7 +11,7 @@ extension DateTimeScrewdriver on DateTime {
   DateTime get dateOnly => DateTime(year, month, day);
 
   /// Returns Duration difference between [this] and current time
-  Duration fromNow() => difference(now());
+  Duration get fromNow => difference(now);
 
   /// Returns true if the date of [this] occurs before the date of [other].
   ///
@@ -259,7 +259,7 @@ extension DateTimeScrewdriver on DateTime {
 }
 
 /// shot for [DateTime.now]
-DateTime now() => DateTime.now();
+DateTime get now => DateTime.now();
 
 /// Returns current date without time information.
 DateTime get today => DateTime.now().dateOnly;

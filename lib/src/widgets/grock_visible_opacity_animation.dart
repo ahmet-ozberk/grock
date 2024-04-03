@@ -3,16 +3,27 @@ import 'package:flutter/material.dart';
 class GrockVisibleOpacityAnimation extends StatefulWidget {
   final Widget child;
   final Duration duration;
-  final double begin;
-  final double end;
-  final bool visible;
+
+  /// Use:
+  /// ```dart
+  /// ValueNotifier<bool> onVisible = ValueNotifier(false);
+  ///
+  /// Future.delayed(Duration(seconds: 2), () {
+  ///  // Change value
+  ///  onVisible.value = true;
+  /// });
+  ///
+  /// GrockVisibleOpacityAnimation(
+  ///   onVisible: ValueNotifier(true),
+  ///   child: child..
+  /// ),
+  /// ```
+  final ValueNotifier<bool>? onVisible;
   const GrockVisibleOpacityAnimation({
     super.key,
     required this.child,
     this.duration = const Duration(milliseconds: 400),
-    this.begin = 0.0,
-    this.end = 1.0,
-    this.visible = true,
+    this.onVisible,
   });
 
   @override
@@ -21,23 +32,56 @@ class GrockVisibleOpacityAnimation extends StatefulWidget {
 }
 
 class _GrockVisibleOpacityAnimationState
-    extends State<GrockVisibleOpacityAnimation> {
-  bool isVisible = true;
+    extends State<GrockVisibleOpacityAnimation>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+  bool isVisible = false;
+
+  void init() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
+    _animation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(_controller);
+    widget.onVisible?.addListener(() {
+      if (widget.onVisible?.value ?? false) {
+        _animation.addListener(() {
+          setState(() {});
+        });
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: isVisible,
-      child: AnimatedOpacity(
-        opacity: widget.visible ? widget.end : widget.begin,
-        duration: widget.duration,
-        child: widget.child,
-        onEnd: () {
-          if (widget.visible == false) {
-            setState(() {
-              isVisible = false;
-            });
-          }
-        },
+    return AnimatedSize(
+      duration: widget.duration,
+      child: SizedBox(
+        height: isVisible ? 0 : null,
+        width: isVisible ? 0 : null,
+        child: AnimatedOpacity(
+          opacity: _animation.value,
+          duration: widget.duration,
+          onEnd: () => setState(() => isVisible = true),
+          child: widget.child,
+        ),
       ),
     );
   }

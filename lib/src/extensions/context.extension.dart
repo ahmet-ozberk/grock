@@ -9,7 +9,7 @@ extension TextThemeExtension on BuildContext {
   TextStyle get headlineLarge => Theme.of(this).textTheme.headlineLarge!;
   TextStyle get headlineMedium => Theme.of(this).textTheme.headlineMedium!;
   TextStyle get headlineSmall => Theme.of(this).textTheme.headlineSmall!;
-  TextStyle get subtitlabelLargele1 => Theme.of(this).textTheme.labelLarge!;
+  TextStyle get labelLarge => Theme.of(this).textTheme.labelLarge!;
   TextStyle get labelMedium => Theme.of(this).textTheme.labelMedium!;
   TextStyle get labelSmall => Theme.of(this).textTheme.labelSmall!;
   TextStyle get bodyLarge => Theme.of(this).textTheme.bodyLarge!;
@@ -94,21 +94,17 @@ extension SizeExtension on BuildContext {
 
   Brightness get platformBrightness => MediaQuery.of(this).platformBrightness;
 
-  double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
-
   double get mediaQueryShortestSide => size.shortestSide;
 
-  /// True if the current device is Phone
   bool get isPhone => (mediaQueryShortestSide < 600);
 
-  /// 600dp: a 7” tablet (600x1024 mdpi).
   bool get isSmallTablet => (mediaQueryShortestSide >= 600);
 
-  /// 720dp: a 10” tablet (720x1280 mdpi, 800x1280 mdpi, etc).
   bool get isLargeTablet => (mediaQueryShortestSide >= 720);
 
-  /// True if the current device is Tablet
   bool get isTablet => isSmallTablet || isLargeTablet;
+
+  bool get isDesktop => (mediaQueryShortestSide >= 900);
 
   TextTheme get textTheme => Theme.of(this).textTheme;
 

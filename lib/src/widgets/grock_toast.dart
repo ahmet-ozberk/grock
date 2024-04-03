@@ -151,14 +151,14 @@ class _GrockToastWidgetState extends State<_GrockToastWidget>
                               horizontal: 15, vertical: 8),
                       decoration: BoxDecoration(
                         color: widget.backgroundColor ??
-                            Colors.black.withOpacity(0.8),
+                            context.scaffoldBackgroundColor,
                         borderRadius: widget.borderRadius ??
                             const BorderRadius.all(Radius.circular(16)),
                         border: widget.border,
                         boxShadow: widget.boxShadow ??
                             [
                               BoxShadow(
-                                color: CupertinoColors.black.withOpacity(0.05),
+                                color: Colors.black.withOpacity(0.2),
                                 blurRadius: 15,
                               ),
                             ],
