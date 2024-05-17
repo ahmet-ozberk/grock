@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 
 import '../grock_extension.dart';
 
+enum GrockDirectionPressStyle {
+  tap,
+  swipe,
+}
+
 class GrockDirectSelectionMenu extends StatefulWidget {
   final int? value;
   final List<Widget> items;
@@ -31,6 +36,7 @@ class GrockDirectSelectionMenu extends StatefulWidget {
   final Widget? centerItem;
   final double itemExtent;
   final double centerItemOpacity;
+  final GrockDirectionPressStyle pressStyle;
   const GrockDirectSelectionMenu({
     super.key,
     this.child,
@@ -57,6 +63,7 @@ class GrockDirectSelectionMenu extends StatefulWidget {
     this.margin,
     this.itemExtent = 50.0,
     this.centerItemOpacity = 0.3,
+    this.pressStyle = GrockDirectionPressStyle.swipe,
   })  : assert(backgroundColorOpacity >= 0 && backgroundColorOpacity <= 1,
             "The backgroundColorOpacity value must be at least 0, and at most 1 (backgroundColorOpacity değeri en az 0, en fazla 1 olmalıdır)"),
         assert(centerItemOpacity >= 0 && centerItemOpacity <= 1,
@@ -115,11 +122,14 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
 
   @override
   Widget build(BuildContext context) {
+    final tapStyle = widget.pressStyle == GrockDirectionPressStyle.tap;
     return GestureDetector(
-      onTapDown: (details) => onTapDown(),
-      onVerticalDragStart: (details) => onTapDown(),
-      onVerticalDragEnd: (details) => onTapUp(details),
-      onVerticalDragUpdate: (details) => onDragUpdate(details),
+      onTap: tapStyle ? () => onTapDown() : null,
+      onTapDown: !tapStyle ? (details) => onTapDown() : null,
+      onVerticalDragStart: !tapStyle ? (details) => onTapDown() : null,
+      onVerticalDragEnd: !tapStyle ? (details) => onTapUp(details) : null,
+      onVerticalDragUpdate:
+          !tapStyle ? (details) => onDragUpdate(details) : null,
       child: Container(
         key: widget.key,
         alignment: widget.alignment,
@@ -195,32 +205,37 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
         child: SizedBox.expand(
           child: AnimatedBuilder(
             animation: _animationController,
-            builder: (context, child) => ColoredBox(
-              color:
-                  widget.backgroundColor!.withOpacity(_opacityAnimation.value),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                    sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
-                child: ScaleTransition(
-                  scale: _animation,
-                  alignment: widget.alignment!,
-                  child: CupertinoPicker.builder(
-                    itemExtent: widget.itemExtent,
-                    selectionOverlay: widget.centerItem ??
-                        CupertinoPickerDefaultSelectionOverlay(
-                            background: Colors.white
-                                .withOpacity(widget.centerItemOpacity)),
-                    scrollController: _scrollController,
-                    childCount: widget.items.length,
-                    onSelectedItemChanged: (value) =>
-                        widget.onChanged?.call(value),
-                    itemBuilder: (context, index) {
-                      final item = widget.items[index];
-                      if (widget.isItemCenter) {
-                        return Center(child: item);
-                      }
-                      return item;
-                    },
+            builder: (context, child) => GestureDetector(
+              onTap: widget.pressStyle == GrockDirectionPressStyle.tap
+                  ? () => onTapUp(DragEndDetails())
+                  : null,
+              child: ColoredBox(
+                color:
+                    widget.backgroundColor!.withOpacity(_opacityAnimation.value),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                      sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
+                  child: ScaleTransition(
+                    scale: _animation,
+                    alignment: widget.alignment!,
+                    child: CupertinoPicker.builder(
+                      itemExtent: widget.itemExtent,
+                      selectionOverlay: widget.centerItem ??
+                          CupertinoPickerDefaultSelectionOverlay(
+                              background: Colors.white
+                                  .withOpacity(widget.centerItemOpacity)),
+                      scrollController: _scrollController,
+                      childCount: widget.items.length,
+                      onSelectedItemChanged: (value) =>
+                          widget.onChanged?.call(value),
+                      itemBuilder: (context, index) {
+                        final item = widget.items[index];
+                        if (widget.isItemCenter) {
+                          return Center(child: item);
+                        }
+                        return item;
+                      },
+                    ),
                   ),
                 ),
               ),

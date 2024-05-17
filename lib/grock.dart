@@ -55,3 +55,4 @@ export 'src/widgets/grock_x_menu/grock_x_menu_item.dart';
 export 'src/widgets/grock_x_menu/grock_x_menu_style.dart';
 export 'src/widgets/grock_image_viewer.dart';
 export 'src/components/scroll_bar_disable.dart';
+export 'src/widgets/grock_gradient_text.dart';

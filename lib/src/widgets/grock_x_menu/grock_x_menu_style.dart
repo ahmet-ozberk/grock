@@ -9,7 +9,7 @@ class XMenuInkStyle {
   final Color? focusColor;
   final Color? hoverColor;
   final Color? highlightColor;
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
   final Color? splashColor;
   final InteractiveInkFeatureFactory? splashFactory;
   final double? radius;
@@ -20,7 +20,7 @@ class XMenuInkStyle {
   final bool canRequestFocus;
   final void Function(bool)? onFocusChange;
   final bool? autofocus;
-  final MaterialStatesController? statesController;
+  final WidgetStatesController? statesController;
   final XMenuInkType inkType;
 
   const XMenuInkStyle(

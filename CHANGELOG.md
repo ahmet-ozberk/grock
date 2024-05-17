@@ -1,3 +1,3 @@
-## 0.5.6 - 03-04-2024
+## 0.5.7 - 17-05-2024
 
-* Readme.md ScrollbarDisableWidget add, fix extensions and fix widgets.
+* Readme.md ScrollbarDisableWidget add, GrockDirectSelectionMenu pressTap add, fix extensions and fix widgets.

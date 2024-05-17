@@ -24,7 +24,7 @@ extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
   Color get primaryColor => Theme.of(this).primaryColor;
   Color get accentColor => Theme.of(this).colorScheme.secondary;
-  Color get backgroundColor => Theme.of(this).colorScheme.background;
+  Color get backgroundColor => Theme.of(this).colorScheme.surface;
   Color get canvasColor => Theme.of(this).canvasColor;
   Color get cardColor => Theme.of(this).cardColor;
   Color get dividerColor => Theme.of(this).dividerColor;
