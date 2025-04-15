@@ -335,7 +335,7 @@ class __GrockFocusDetailState extends State<_GrockFocusDetail> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: style.blurSize, sigmaY: style.blurSize),
             child: Container(
-              color: style.blurBackgroundColor.withOpacity(
+              color: style.blurBackgroundColor.withValues(alpha:
                 style.blurBackgroundColorOpacity,
               ),
             ),

@@ -36,7 +36,7 @@ class GrockGlassMorphism extends StatelessWidget {
 
   BoxDecoration _decoration() {
     return BoxDecoration(
-      color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
+      color: (color ?? Colors.white).withValues(alpha:opacity ?? 0.2),
       borderRadius: borderRadius,
       border: border ?? _border(),
     );
@@ -44,7 +44,7 @@ class GrockGlassMorphism extends StatelessWidget {
 
   Border _border() {
     return Border.all(
-      color: (color ?? Colors.white).withOpacity(0.1),
+      color: (color ?? Colors.white).withValues(alpha:0.1),
       width: 0.5,
     );
   }
@@ -83,7 +83,7 @@ class GrockBlurEffect extends StatelessWidget {
 
   BoxDecoration _decoration() {
     return BoxDecoration(
-      color: (color ?? Colors.white).withOpacity(opacity ?? 0.2),
+      color: (color ?? Colors.white).withValues(alpha:opacity ?? 0.2),
       borderRadius: borderRadius,
       border: border ?? _border(),
     );
@@ -91,7 +91,7 @@ class GrockBlurEffect extends StatelessWidget {
 
   Border _border() {
     return Border.all(
-      color: (color ?? Colors.white).withOpacity(0.1),
+      color: (color ?? Colors.white).withValues(alpha:0.1),
       width: 0.5,
     );
   }

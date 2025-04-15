@@ -55,7 +55,7 @@ class GrockImageViewer extends StatelessWidget {
             context,
             PageRouteBuilder(
               opaque: false,
-              barrierColor: Colors.transparent.withOpacity(0),
+              barrierColor: Colors.transparent.withValues(alpha:0),
               pageBuilder: (BuildContext context, _, __) {
                 return _FullScreenViewer(
                   tag: tag,
@@ -197,7 +197,7 @@ class _FullScreenViewerState extends State<_FullScreenViewer> {
                 sigmaY: _opacity * widget.blurOpacity,
               ),
               child: Container(
-                color: widget.backgroundColor?.withOpacity(_opacity),
+                color: widget.backgroundColor?.withValues(alpha:_opacity),
               ),
             ),
             AnimatedPositioned(

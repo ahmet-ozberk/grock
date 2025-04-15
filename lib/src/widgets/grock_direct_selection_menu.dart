@@ -211,7 +211,7 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
                   : null,
               child: ColoredBox(
                 color:
-                    widget.backgroundColor!.withOpacity(_opacityAnimation.value),
+                    widget.backgroundColor!.withValues(alpha: _opacityAnimation.value),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
                       sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
@@ -223,7 +223,7 @@ class _GrockDirectSelectionMenuState extends State<GrockDirectSelectionMenu>
                       selectionOverlay: widget.centerItem ??
                           CupertinoPickerDefaultSelectionOverlay(
                               background: Colors.white
-                                  .withOpacity(widget.centerItemOpacity)),
+                                  .withValues(alpha:widget.centerItemOpacity)),
                       scrollController: _scrollController,
                       childCount: widget.items.length,
                       onSelectedItemChanged: (value) =>

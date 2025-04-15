@@ -85,8 +85,6 @@ class _GrockXMenuState extends State<GrockXMenu> {
       case XMenuInkType.doubleTap:
         widget.onChildDoubleTap?.call();
         break;
-      default:
-        break;
     }
     Grock.showGrockOverlay(
       child: GrockXMenuOverlay(

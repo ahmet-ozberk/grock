@@ -1,21 +1,41 @@
 name: grock
 description: Api Services, Snackbar, Toast, No Context Extension, Custom Widgets, Widget Extensions, Fast Tools, IOS Style Widget and Tools.
-version: 0.5.7
+version: 0.6.0
 homepage: https://github.com/ahmet-ozberk/grock
+repository: https://github.com/ahmet-ozberk/grock
+issue_tracker: https://github.com/ahmet-ozberk/grock/issues
+
+
+topics:
+  - extension
+  - widgets
+  - navigation
+  - animation
+  - snackbar
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.7.2
   flutter: ">=1.17.0"
-
+  
 dependencies:
   flutter:
     sdk: flutter
-  page_transition: ^2.1.0
-  dio: ^5.3.2
+  dio: ^5.8.0+1
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
-flutter: null
+flutter: 
+  uses-material-design: true
+
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:

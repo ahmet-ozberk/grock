@@ -157,9 +157,9 @@ class _GrockShimmerState extends State<GrockShimmer>
                   ? Alignment(_animation.value + 0.5, 0.0)
                   : Alignment(0.0, _animation.value + 0.5),
               colors: [
-                widget.color.withOpacity(widget.opacity),
-                widget.color.withOpacity(widget.opacity * 0.5),
-                widget.color.withOpacity(widget.opacity),
+                widget.color.withValues(alpha:widget.opacity),
+                widget.color.withValues(alpha:widget.opacity * 0.5),
+                widget.color.withValues(alpha:widget.opacity),
               ],
               stops: const [0.0, 0.5, 1.0],
             ).createShader(rect);

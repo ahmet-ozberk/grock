@@ -86,7 +86,7 @@ class _GrockCustomLoadingWidgetState extends State<GrockCustomLoadingWidget>
           width: widget.width ?? size.width * 0.25,
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
-            color: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
+            color: widget.backgroundColor ?? Colors.black.withValues(alpha: .8),
             gradient: widget.gradient,
           ),
           child: widget.child ??

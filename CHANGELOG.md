@@ -1,3 +1,3 @@
-## 0.5.7 - 17-05-2024
+## 0.6.0 - 15-04-2025
 
-* Readme.md ScrollbarDisableWidget add, GrockDirectSelectionMenu pressTap add, fix extensions and fix widgets.
+* Update package to Flutter latest version.

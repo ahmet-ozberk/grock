@@ -56,37 +56,22 @@ class Grock {
   /// Grock.to(
   ///  HomeScreen(),
   ///  type: NavType.fade,
-  ///  curve: Curves.easeInOut,
   ///  duration: Duration(milliseconds: 600),
-  ///  reverseDuration: Duration(milliseconds: 600),
   ///  fullscreenDialog: false,
   /// );
   static Future to(
     Widget page, {
     NavType? type,
-    Widget? childCurrent,
-    BuildContext? ctx,
-    bool inheritTheme = false,
-    Curve curve = Curves.linear,
-    Alignment? alignment,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration = const Duration(milliseconds: 300),
     bool fullscreenDialog = false,
-    bool opaque = false,
   }) {
     log("Navigation to $page", name: "Grock");
-    return GrockNavigationService.to(page,
-            type: type,
-            childCurrent: childCurrent,
-            ctx: ctx,
-            inheritTheme: inheritTheme,
-            curve: curve,
-            alignment: alignment,
-            duration: duration,
-            reverseDuration: reverseDuration,
-            fullscreenDialog: fullscreenDialog,
-            opaque: opaque)
-        .catchError((err) {
+    return GrockNavigationService.to(
+      page,
+      type: type,
+      duration: duration,
+      fullscreenDialog: fullscreenDialog,
+    ).catchError((err) {
       log("$err", name: "Grock.to($page) error!", error: err);
     });
   }
@@ -95,35 +80,21 @@ class Grock {
   /// Grock.toRemove(
   ///  HomeScreen(),
   ///  type: NavType.fade,
-  ///  curve: Curves.easeInOut,
   ///  duration: Duration(milliseconds: 600),
   /// );
   static Future toRemove(
     Widget page, {
     NavType? type,
-    Widget? childCurrent,
-    BuildContext? ctx,
-    bool inheritTheme = false,
-    Curve curve = Curves.linear,
-    Alignment? alignment,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration = const Duration(milliseconds: 300),
     bool fullscreenDialog = false,
-    bool opaque = false,
   }) {
     log("Navigation toRemove $page", name: "Grock");
-    return GrockNavigationService.toRemove(page,
-            type: type,
-            childCurrent: childCurrent,
-            ctx: ctx,
-            inheritTheme: inheritTheme,
-            curve: curve,
-            alignment: alignment,
-            duration: duration,
-            reverseDuration: reverseDuration,
-            fullscreenDialog: fullscreenDialog,
-            opaque: opaque)
-        .catchError((err) {
+    return GrockNavigationService.toRemove(
+      page,
+      type: type,
+      duration: duration,
+      fullscreenDialog: fullscreenDialog,
+    ).catchError((err) {
       log("$err", name: "Grock.to($page) error!", error: err);
     });
   }
@@ -155,8 +126,10 @@ class Grock {
     Duration openDuration = const Duration(milliseconds: 600),
     double? opacity,
     double? width,
-    EdgeInsetsGeometry padding =
-        const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(
+      horizontal: 15,
+      vertical: 15,
+    ),
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? leadingPadding,
     EdgeInsetsGeometry? trailingPadding,
@@ -172,38 +145,37 @@ class Grock {
     TextStyle? titleStyle,
     TextStyle? descriptionStyle,
     BoxBorder? border,
-  }) =>
-      _GrockSnackbar.showSnackbar(
-        borderRadius: borderRadius,
-        duration: duration,
-        onTap: onTap,
-        position: position,
-        curve: curve,
-        blur: blur,
-        body: body,
-        openDuration: openDuration,
-        opacity: opacity,
-        color: color,
-        width: width,
-        padding: padding,
-        margin: margin,
-        leadingPadding: leadingPadding,
-        trailingPadding: trailingPadding,
-        leading: leading,
-        trailing: trailing,
-        itemSpaceHeight: itemSpaceHeight,
-        title: title,
-        description: description,
-        titleColor: titleColor,
-        descriptionColor: descriptionColor,
-        titleSize: titleSize,
-        descriptionSize: descriptionSize,
-        titleStyle: titleStyle,
-        descriptionStyle: descriptionStyle,
-        border: border,
-        descriptionPadding: descriptionPadding,
-        titlePadding: titlePadding,
-      );
+  }) => _GrockSnackbar.showSnackbar(
+    borderRadius: borderRadius,
+    duration: duration,
+    onTap: onTap,
+    position: position,
+    curve: curve,
+    blur: blur,
+    body: body,
+    openDuration: openDuration,
+    opacity: opacity,
+    color: color,
+    width: width,
+    padding: padding,
+    margin: margin,
+    leadingPadding: leadingPadding,
+    trailingPadding: trailingPadding,
+    leading: leading,
+    trailing: trailing,
+    itemSpaceHeight: itemSpaceHeight,
+    title: title,
+    description: description,
+    titleColor: titleColor,
+    descriptionColor: descriptionColor,
+    titleSize: titleSize,
+    descriptionSize: descriptionSize,
+    titleStyle: titleStyle,
+    descriptionStyle: descriptionStyle,
+    border: border,
+    descriptionPadding: descriptionPadding,
+    titlePadding: titlePadding,
+  );
 
   static void showMaterialBanner({
     Key? key,
@@ -224,25 +196,27 @@ class Grock {
     Animation<double>? animation,
     void Function()? onVisible,
   }) {
-    scaffoldMessengerKey.currentState?.showMaterialBanner(MaterialBanner(
-      key: key,
-      content: content,
-      contentTextStyle: contentTextStyle,
-      actions: actions ?? [],
-      elevation: elevation,
-      leading: leading,
-      backgroundColor: backgroundColor,
-      surfaceTintColor: surfaceTintColor,
-      shadowColor: shadowColor,
-      dividerColor: dividerColor,
-      padding: padding,
-      margin: margin,
-      leadingPadding: leadingPadding,
-      forceActionsBelow: forceActionsBelow,
-      overflowAlignment: overflowAlignment,
-      animation: animation,
-      onVisible: onVisible,
-    ));
+    scaffoldMessengerKey.currentState?.showMaterialBanner(
+      MaterialBanner(
+        key: key,
+        content: content,
+        contentTextStyle: contentTextStyle,
+        actions: actions ?? [],
+        elevation: elevation,
+        leading: leading,
+        backgroundColor: backgroundColor,
+        surfaceTintColor: surfaceTintColor,
+        shadowColor: shadowColor,
+        dividerColor: dividerColor,
+        padding: padding,
+        margin: margin,
+        leadingPadding: leadingPadding,
+        forceActionsBelow: forceActionsBelow,
+        overflowAlignment: overflowAlignment,
+        animation: animation,
+        onVisible: onVisible,
+      ),
+    );
   }
 
   static void clearMaterialBanner() {
@@ -251,7 +225,7 @@ class Grock {
 
   static Future<T?> fullScreenModal<T extends Object?>({
     required Widget Function(BuildContext, Animation<double>, Animation<double>)
-        builder,
+    builder,
     bool isSlideTransition = true,
     bool isScaleTransition = false,
     bool isFadeTranssition = true,
@@ -342,15 +316,15 @@ class Grock {
     bool useSafeArea = true,
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
-  }) async =>
-      await _GrockSnackbar.dialog(
-          builder: builder,
-          barrierDismissible: barrierDismissible,
-          barrierColor: barrierColor,
-          barrierLabel: barrierLabel,
-          useSafeArea: useSafeArea,
-          useRootNavigator: useRootNavigator,
-          routeSettings: routeSettings);
+  }) async => await _GrockSnackbar.dialog(
+    builder: builder,
+    barrierDismissible: barrierDismissible,
+    barrierColor: barrierColor,
+    barrierLabel: barrierLabel,
+    useSafeArea: useSafeArea,
+    useRootNavigator: useRootNavigator,
+    routeSettings: routeSettings,
+  );
 
   /// Toast widget, no context required
   /// ```dart
@@ -482,7 +456,7 @@ class Grock {
 
   /// [Random Color] from [Colors.primaries]
   static Color rndColor() =>
-      Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+      Color((random.nextDouble() * 0xFFFFFF).toInt()).withValues(alpha: .0);
 
   /// [Random Color] from [Colors.primaries]
   static Color randomColor() => Colors.primaries[17.randomNum];
@@ -520,44 +494,47 @@ class Grock {
   //   );
   // }
 
-  static Widget loadingPopup(
-          {Key? key,
-          Color? backgroundColor,
-          String? text,
-          Widget? child,
-          TextStyle? style,
-          Color? color,
-          double? height,
-          double? width,
-          BorderRadiusGeometry? borderRadius,
-          bool isScale = true,
-          double strokeWidth = 4,
-          double startScale = 1.0,
-          double endScale = 0.6,
-          Gradient? gradient}) =>
-      GrockCustomLoadingWidget(
-        backgroundColor: backgroundColor,
-        child: child,
-        startScale: startScale,
-        isScale: isScale,
-        height: height,
-        width: width,
-        key: key,
-        strokeWidth: strokeWidth,
-        endScale: endScale,
-        color: color,
-        borderRadius: borderRadius,
-        text: text,
-        textStyle: style,
-        gradient: gradient,
-      );
+  static Widget loadingPopup({
+    Key? key,
+    Color? backgroundColor,
+    String? text,
+    Widget? child,
+    TextStyle? style,
+    Color? color,
+    double? height,
+    double? width,
+    BorderRadiusGeometry? borderRadius,
+    bool isScale = true,
+    double strokeWidth = 4,
+    double startScale = 1.0,
+    double endScale = 0.6,
+    Gradient? gradient,
+  }) => GrockCustomLoadingWidget(
+    backgroundColor: backgroundColor,
+    child: child,
+    startScale: startScale,
+    isScale: isScale,
+    height: height,
+    width: width,
+    key: key,
+    strokeWidth: strokeWidth,
+    endScale: endScale,
+    color: color,
+    borderRadius: borderRadius,
+    text: text,
+    textStyle: style,
+    gradient: gradient,
+  );
 
   /// Grock.uniqId(length: 11).printer; generate uniq id
   /// Response => ```dart 34576890876 ```
-  static String uniqId(
-          {int length = 11, GrockUniqIdType type = GrockUniqIdType.numbers}) =>
-      GrockUniqIdServices.generate(
-          length: length, type: GrockUniqIdType.numbers);
+  static String uniqId({
+    int length = 11,
+    GrockUniqIdType type = GrockUniqIdType.numbers,
+  }) => GrockUniqIdServices.generate(
+    length: length,
+    type: GrockUniqIdType.numbers,
+  );
 
   /// ------ Grock Widget Extensions ------
   /// * This widget function is available in [actions] in [AlertDialog.adaptive].
@@ -590,12 +567,11 @@ class Grock {
     required VoidCallback onPressed,
     bool isDefaultAction = false,
     bool isDestructiveAction = false,
-  }) =>
-      GrockAdaptiveDialogButton(
-        key: key,
-        child: child,
-        onPressed: onPressed,
-        isDefaultAction: isDefaultAction,
-        isDestructiveAction: isDestructiveAction,
-      );
+  }) => GrockAdaptiveDialogButton(
+    key: key,
+    child: child,
+    onPressed: onPressed,
+    isDefaultAction: isDefaultAction,
+    isDestructiveAction: isDestructiveAction,
+  );
 }

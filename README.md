@@ -53,7 +53,7 @@ GrockContainer(
   onTap: (){
     // for Navigator.push(...)
     Grock.to(Nextpage());
-    Grock.to(NextPage(), type: NavType.bottomToTop); // optional navigate animation
+    Grock.to(NextPage(), type: NavType.slideUp); // optional navigate animation
 
     // for Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
     Grock.toRemove(NextPage());

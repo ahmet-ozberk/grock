@@ -36,7 +36,6 @@ extension ThemeExtension on BuildContext {
   Color get disabledColor => Theme.of(this).disabledColor;
   Color get buttonColor => Theme.of(this).buttonTheme.colorScheme!.primary;
   Color get secondaryHeaderColor => Theme.of(this).secondaryHeaderColor;
-  Color get dialogBackgroundColor => Theme.of(this).dialogBackgroundColor;
   Color get indicatorColor => Theme.of(this).indicatorColor;
   Color get hintColor => Theme.of(this).hintColor;
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;

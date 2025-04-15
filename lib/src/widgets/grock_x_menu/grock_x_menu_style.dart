@@ -15,7 +15,7 @@ class XMenuInkStyle {
   final double? radius;
   final BorderRadius? borderRadius;
   final ShapeBorder? customBorder;
-  final bool? enableFeedback;
+  final bool enableFeedback;
   final FocusNode? focusNode;
   final bool canRequestFocus;
   final void Function(bool)? onFocusChange;
@@ -33,7 +33,7 @@ class XMenuInkStyle {
       this.radius,
       this.borderRadius,
       this.customBorder,
-      this.enableFeedback,
+      this.enableFeedback = true,
       this.focusNode,
       this.canRequestFocus = true,
       this.onFocusChange,
@@ -161,7 +161,7 @@ class XMenuPopupStyle {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(-10, 14),
           ),

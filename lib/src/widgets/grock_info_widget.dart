@@ -46,7 +46,7 @@ class GrockInfoWidget extends StatelessWidget {
       excludeFromSemantics: excludeFromSemantics,
       decoration: decoration ??
           BoxDecoration(
-            color: Colors.black.withOpacity(0.8),
+            color: Colors.black.withValues(alpha:0.8),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(4),
               topRight: Radius.circular(12),

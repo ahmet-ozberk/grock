@@ -317,8 +317,8 @@ class __GrockPopupMenuItemState extends State<_GrockPopupMenuItem> {
       boxShadow: [
         BoxShadow(
           color: isDarkTheme
-              ? Colors.white.withOpacity(.02)
-              : Colors.black.withOpacity(.1),
+              ? Colors.white.withValues(alpha:.02)
+              : Colors.black.withValues(alpha:.1),
           blurRadius: 8,
           offset: const Offset(0, 2),
         ),
